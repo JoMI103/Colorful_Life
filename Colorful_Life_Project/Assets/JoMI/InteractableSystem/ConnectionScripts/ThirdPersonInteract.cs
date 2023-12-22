@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using jomi.interactableSystem;
 using UnityEngine;
-using UnityEngine.LowLevel;
 
 namespace jomi.CharController3D {
     public class ThirdPersonInteract : MonoBehaviour
     {
         private PlayerInput.OnFootActions _onFoot;
-        private Interactable currentLookingInteractable;
+        private IInteractable currentLookingInteractable;
 
         public LayerMask interactableMask;
         public float interactableDistance;
@@ -22,26 +18,28 @@ namespace jomi.CharController3D {
 
         void Interact()
         {
-            currentLookingInteractable?.BaseInteract(this.gameObject);
+            currentLookingInteractable?.Interact(this.gameObject);
         }
 
         void Update()
         {
-            Interactable hitedInteractable = null;
+            IInteractable hitedInteractable = null;
 
 
             Ray ray = new(transform.position, transform.forward);
 
             if (Physics.Raycast(ray, out RaycastHit hit, interactableDistance, interactableMask))
             {
-                hitedInteractable = hit.collider.GetComponent<Interactable>();
-
+              
+                MonoBehaviour[] allScripts = hit.collider.gameObject.GetComponentsInChildren<MonoBehaviour>();
+                for (int i = 0; i < allScripts.Length; i++)
+                {
+                    if (allScripts[i] is IInteractable)
+                        hitedInteractable = allScripts[i] as IInteractable;
+                }
             }
 
-            if (hitedInteractable != currentLookingInteractable)
-            {
-                currentLookingInteractable?.startLooking();
-                hitedInteractable?.stopLooking();
+            if (hitedInteractable != currentLookingInteractable) {
                 currentLookingInteractable = hitedInteractable;
             }
         }
