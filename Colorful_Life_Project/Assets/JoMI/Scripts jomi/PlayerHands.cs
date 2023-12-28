@@ -8,8 +8,8 @@ public class PlayerHands : MonoBehaviour
 
     private void Update()
     {
-        _LeftHand.updateTarget(transform.localRotation * _HandDefaultPosition + transform.position, transform.localRotation);
-        _RightHand.updateTarget(transform.localRotation * new Vector3(-_HandDefaultPosition.x, _HandDefaultPosition.y, _HandDefaultPosition.z) + transform.position,transform.localRotation);
+        _LeftHand.updateTarget(transform.localRotation * _HandDefaultPosition + transform.position, transform.localRotation, transform.position);
+        _RightHand.updateTarget(transform.localRotation * new Vector3(-_HandDefaultPosition.x, _HandDefaultPosition.y, _HandDefaultPosition.z) + transform.position,transform.localRotation, transform.position);
     }
 
 
