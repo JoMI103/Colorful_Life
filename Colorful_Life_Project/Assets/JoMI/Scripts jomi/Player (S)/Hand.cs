@@ -18,6 +18,8 @@ public class Hand : MonoBehaviour
     public PlayerHands _hands;
     [SerializeField] bool left;
 
+    public bool grabbing = false;
+
     private void Start()
     {
 
@@ -25,10 +27,13 @@ public class Hand : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    public void updateTarget(Vector3 tPos, Quaternion tRot ) {
+    public void updateTarget(Vector3 tPos, Quaternion tRot , bool tryGrab = false) {
 
-        _targetPos = tPos; _targetRotation = tRot; 
+        _targetPos = tPos; _targetRotation = tRot; grabbing = tryGrab;
     }
+
+  
+
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Z)) stop = !stop;
@@ -46,7 +51,7 @@ public class Hand : MonoBehaviour
         {
         }
             this.transform.position += Vector3.Lerp(_bodyPos - _lastBodyPos,Vector3.zero , Mathf.Lerp(0,1, currentDistance - 0.3f));
-            if (left) Debug.Log(Mathf.Lerp(0, 1, currentDistance - 0.3f));
+//            if (left) Debug.Log(Mathf.Lerp(0, 1, currentDistance - 0.3f));
         _lastBodyPos = _bodyPos;
     }
 
@@ -79,9 +84,11 @@ public class Hand : MonoBehaviour
         if (Vector3.Distance(transform.position, nextPos) > currentDistance ) 
         {
             _currentVelocity = Vector3.zero; _bodyInfluence = Vector3.zero;
-            transform.position = _targetPos; 
+            transform.position = _targetPos;
+            grabbing = false;
             return; 
         }
+        
         
         transform.position = nextPos;
     }

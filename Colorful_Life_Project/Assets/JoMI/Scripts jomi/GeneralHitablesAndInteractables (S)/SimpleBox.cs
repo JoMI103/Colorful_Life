@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleBox : MonoBehaviour, IHittable, IInteractable
+public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 {
     //[SerializeField] private int weight;
 
@@ -8,16 +8,18 @@ public class SimpleBox : MonoBehaviour, IHittable, IInteractable
 
     private void Start()
     {
+        leftHandPos = leftT; rightHandPos = rightT;
         _rb = GetComponent<Rigidbody>();
     }
 
 
     #region Interfaces
-    public string PromptMessage => "Pegar";
-    public GameObject PlayerGO { get; set; }
     public string Name { get; set; }
     public GameObject coisoQueAtacou { get; set; }
 
+    public Transform leftHandPos { get; set; }
+    public Transform rightHandPos { get; set; }
+    public Transform leftT, rightT;
 
     public void Hit(GameObject coisoQueAtacou, Vector3 inpactPos, int damage)
     {
@@ -25,11 +27,14 @@ public class SimpleBox : MonoBehaviour, IHittable, IInteractable
         _rb.AddForce(direction * 10, ForceMode.Impulse);
     }
 
-    public void Interact(GameObject player)
-    {
-  
-    }
+ 
 
     public void Killed() => Destroy(this.gameObject);
+
+    public (Transform, Transform) Grab()
+    {
+//        Debug.LogError("okok");
+        return (leftHandPos, rightHandPos);
+    }
     #endregion
 }
