@@ -6,7 +6,7 @@ public class ChangeColor2 : MonoBehaviour, IInteractable
 {
 
     [SerializeField] private string _promptMessage;
-    public string promptMessage { get; set; }
+    public string PromptMessage { get; set; }
 
     public GameObject PlayerGO { get; set; }
 
@@ -20,7 +20,7 @@ public class ChangeColor2 : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        promptMessage = _promptMessage;
+        PromptMessage = _promptMessage;
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 

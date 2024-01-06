@@ -13,5 +13,7 @@ public class FollowSomething : MonoBehaviour
 
     private void Update() {
         this.transform.position = follow.transform.position + offSet;
+
+        offSet.y += Input.mouseScrollDelta.y * Time.deltaTime *20;
     }
 }
