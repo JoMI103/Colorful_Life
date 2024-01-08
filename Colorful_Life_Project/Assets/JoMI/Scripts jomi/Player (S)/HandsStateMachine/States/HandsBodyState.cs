@@ -29,7 +29,16 @@ public class HandsBodyState : HandsBaseState
     public override void GrabAction() {
         if (!_ctx.CurrentIGrabbable) return;
         _ctx.GrabbedObject = _ctx.CurrentIGrabbable;
-        _ctx.GrabbleLeftRightTransform = (_ctx.CurrentIGrabbable as IGrabbable).Grab();
+        (Quaternion, Quaternion, Vector2) data = (_ctx.CurrentIGrabbable as IGrabbable).Grab();
+        GameObject g = _ctx.CurrentIGrabbable.gameObject;
+        _ctx.GrabbleLeftRightTransform.Item1.rotation = data.Item1;
+        _ctx.GrabbleLeftRightTransform.Item2.rotation = data.Item2;
+        _ctx.GrabbleLeftRightTransform.Item1.position = _ctx.transform.rotation * new Vector3(-0.5f, -data.Item3.x, -data.Item3.y)
+            + g.transform.position;
+        _ctx.GrabbleLeftRightTransform.Item2.position = _ctx.transform.rotation * new Vector3(+0.5f, -data.Item3.x, -data.Item3.y)
+            + g.transform.position;
+        _ctx.GrabbedOffset = new Vector3(0, data.Item3.x, data.Item3.y);
+
         SwitchState(_factory.Grabbing()); 
     
     }

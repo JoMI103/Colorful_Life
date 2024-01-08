@@ -12,6 +12,7 @@ public class HandsStateMachine : MonoBehaviour
     MonoBehaviour _grabbedObject;
     bool _grabbed;
     private bool _isPressingAttackMode;
+    private Vector3 _grabbedOffset;
 
 
     [SerializeField] private Hand leftHand, rightHand;
@@ -20,6 +21,7 @@ public class HandsStateMachine : MonoBehaviour
     private (Transform, Transform) _baseLeftRightTransform;
     private (Quaternion, Quaternion) _baseDefaultRotations;
 
+    [SerializeField] private Transform leftGrabbleTransform, righGrabbleTransform;
     private (Transform, Transform) _grabbleLeftRightTransform;
 
     //State Machine Vars
@@ -41,6 +43,7 @@ public class HandsStateMachine : MonoBehaviour
     public MonoBehaviour CurrentIGrabbable { get => _currentIGrabbable; }
     public (Quaternion, Quaternion) BaseDefaultRotations { get => _baseDefaultRotations;  }
     public bool IsPressingAttackMode { get => _isPressingAttackMode;  }
+    public Vector3 GrabbedOffset { get => _grabbedOffset; set => _grabbedOffset = value; }
 
     private void Awake()
     {
@@ -48,6 +51,7 @@ public class HandsStateMachine : MonoBehaviour
 
         _leftRightHands = (leftHand, rightHand);
         _baseLeftRightTransform = (leftBaseTransform, righBaseTransform);
+        _grabbleLeftRightTransform = (leftGrabbleTransform, righGrabbleTransform);
         _baseDefaultRotations = (_baseLeftRightTransform.Item1.rotation, _baseLeftRightTransform.Item2.rotation);
         
         _states = new HandsStateFactory(this); 

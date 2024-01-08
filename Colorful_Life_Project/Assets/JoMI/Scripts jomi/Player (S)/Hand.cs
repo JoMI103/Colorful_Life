@@ -55,6 +55,7 @@ public class Hand : MonoBehaviour
             case handState.Attacking:
                 if (_isAttacking)
                 {
+                    
                     BurstMove();
                     FastRotate();
                 }
@@ -112,9 +113,38 @@ public class Hand : MonoBehaviour
         {
             _currentVelocity = Vector3.zero; _bodyInfluence = Vector3.zero;
             transform.position = _targetTransform.position;
+            if(checkHits(_targetTransform.position)) _isAttacking = false;
             return;
         }
+
+        if (checkHits(nextPos)) { _targetTransform.position = transform.position; return; }
+        
+
+
         transform.position = nextPos;
+    }
+
+    [SerializeField] private float punchForce;
+
+    private bool checkHits(Vector3 nextpos)
+    {
+        Vector3 dir = nextpos - transform.position;
+
+
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.2f, dir, Vector3.Distance(transform.position, nextpos));
+        foreach (RaycastHit hit in hits)
+        {
+            MonoBehaviour[] allScripts = hit.collider.gameObject.GetComponentsInChildren<MonoBehaviour>();
+            foreach (MonoBehaviour mono in allScripts)
+            {
+                if (mono is IHittable)
+                {
+                    (mono as IHittable).Hit(this.gameObject, dir * punchForce, hit.point, 10);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void Move()

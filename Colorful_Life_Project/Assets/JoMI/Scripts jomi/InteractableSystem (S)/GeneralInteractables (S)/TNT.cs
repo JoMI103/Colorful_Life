@@ -29,7 +29,7 @@ public class TNT : MonoBehaviour, IInteractable
             {
                 if(mono is IHittable)
                 {
-                    (mono as IHittable).Hit(this.gameObject,this.transform.position, 10);
+                    (mono as IHittable).Hit(this.gameObject,this.transform.position - mono.transform.position, mono.transform.position, 10);
                 }
             }
         }

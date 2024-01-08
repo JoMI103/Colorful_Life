@@ -37,7 +37,7 @@ public class PlayerHands : MonoBehaviour
             if (currentIGrabbable != null)
             {
                 _grabbedObject = currentIGrabbable.gameObject;
-                (Transform, Transform) coiso = (currentIGrabbable as IGrabbable).Grab();
+//                (Transform, Transform) coiso = (currentIGrabbable as IGrabbable).Grab();
                // _LeftHand.updateTarget(coiso.Item1.position, coiso.Item1.rotation, true);
                // _RightHand.updateTarget(coiso.Item2.position, coiso.Item2.rotation, true);
             }

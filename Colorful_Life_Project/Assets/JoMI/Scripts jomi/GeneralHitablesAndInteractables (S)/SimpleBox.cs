@@ -8,6 +8,7 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 
     private void Start()
     {
+        Offset = _offset;
         leftHandPos = leftT; rightHandPos = rightT;
         _rb = GetComponent<Rigidbody>();
     }
@@ -17,24 +18,28 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
     public string Name { get; set; }
     public GameObject coisoQueAtacou { get; set; }
 
+    public Vector2 _offset;
+    public Vector2 Offset { get; set; }
     public Transform leftHandPos { get; set; }
     public Transform rightHandPos { get; set; }
     public Transform leftT, rightT;
 
-    public void Hit(GameObject coisoQueAtacou, Vector3 inpactPos, int damage)
+    public void Hit(GameObject coisoQueAtacou, Vector3 direction,Vector3 inpactPos, int damage)
     {
-        Vector3 direction = -(inpactPos - transform.position).normalized;
-        _rb.AddForce(direction * 10, ForceMode.Impulse);
+
+        _rb.AddForceAtPosition(direction, inpactPos, ForceMode.Impulse);
+        //_rb.AddForce(direction * 10, ForceMode.Impulse);
+
     }
 
  
 
     public void Killed() => Destroy(this.gameObject);
 
-    public (Transform, Transform) Grab()
+    public (Quaternion, Quaternion, Vector2) Grab()
     {
         _rb.useGravity = false;
-        return (leftHandPos, rightHandPos);
+        return (leftHandPos.rotation, rightHandPos.rotation,Offset);
     }
 
     public void UnGrab()

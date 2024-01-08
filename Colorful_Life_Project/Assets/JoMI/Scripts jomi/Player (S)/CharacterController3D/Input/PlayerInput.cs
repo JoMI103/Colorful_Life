@@ -287,6 +287,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""StateAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af34b6fb-a637-43ff-9450-b43893eddd0a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StateAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }

@@ -20,8 +20,10 @@ public class HandsGrabbingState : HandsBaseState
         if(CheckSwitchStates()) return;
 
         //check if hands are in pos to grabbed = true;
-        if (_ctx.Grabbed) _ctx.GrabbedObject.transform.position = GetHandsCenterPos();
+        if (_ctx.Grabbed) {
 
+            _ctx.GrabbedObject.transform.position = GetHandsCenterPos() + _ctx.transform.rotation * _ctx.GrabbedOffset;
+        }
 
         if (_ctx.LeftRightHands.Item1._onTarget && _ctx.LeftRightHands.Item2._onTarget && !_ctx.Grabbed) {
             Debug.LogError("GGGGGGGGGGGG");
