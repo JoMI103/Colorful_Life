@@ -33,8 +33,13 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 
     public (Transform, Transform) Grab()
     {
-//        Debug.LogError("okok");
+        _rb.useGravity = false;
         return (leftHandPos, rightHandPos);
+    }
+
+    public void UnGrab()
+    {
+        _rb.useGravity = true;
     }
     #endregion
 }

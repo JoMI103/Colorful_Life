@@ -3,11 +3,19 @@ using jomi.CharController3D;
 
 public class PlayerHands : MonoBehaviour
 {
-    [SerializeField] private BoxCollider coll;
     [SerializeField] private Hand _LeftHand, _RightHand;
+
+    [SerializeField] private Vector2 _HandsYZBasePosition;
+    [SerializeField] private float _handsBaseDistance;
+
 
     MonoBehaviour currentIGrabbable;
     GameObject _grabbedObject;
+
+    private void Start()
+    {
+
+    }
 
 
     private void Update()
@@ -16,35 +24,54 @@ public class PlayerHands : MonoBehaviour
 
         if (_grabbedObject == null)
         {
-            _LeftHand.updateTarget(debugleftPos.position, Quaternion.identity);
-            _RightHand.updateTarget(debugrightPos.position, Quaternion.identity);
-
-            _LeftHand.updateTarget(transform.localRotation * _HandDefaultPosition + transform.position, transform.localRotation);
-            _RightHand.updateTarget(transform.localRotation * new Vector3(-_HandDefaultPosition.x, _HandDefaultPosition.y, _HandDefaultPosition.z) + transform.position, transform.localRotation);
+           // _LeftHand.updateTarget(gethandInBodyPos(false), transform.localRotation);
+           // _RightHand.updateTarget(gethandInBodyPos(true), transform.localRotation);
         }
 
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T)) GrabUngrabObject();
         {
-            if (_grabbedObject) { _grabbedObject = null; } else
+            if (_grabbedObject) { _grabbedObject = null; }
+            else
 
             if (currentIGrabbable != null)
             {
                 _grabbedObject = currentIGrabbable.gameObject;
                 (Transform, Transform) coiso = (currentIGrabbable as IGrabbable).Grab();
-                _LeftHand.updateTarget(coiso.Item1.position, coiso.Item1.rotation,true);
-                _RightHand.updateTarget(coiso.Item2.position, coiso.Item2.rotation,true);
+               // _LeftHand.updateTarget(coiso.Item1.position, coiso.Item1.rotation, true);
+               // _RightHand.updateTarget(coiso.Item2.position, coiso.Item2.rotation, true);
             }
-            
-        }
 
+        }
+        /*
         if (_grabbedObject && !_LeftHand.grabbing && !_RightHand.grabbing)
         {
             _grabbedObject.transform.position = _RightHand.transform.position + (_LeftHand.transform.position - _RightHand.transform.position) / 2;
-            _LeftHand.updateTarget(transform.localRotation * _HandDefaultPosition + transform.position, transform.localRotation,false);
-            _RightHand.updateTarget(transform.localRotation * new Vector3(-_HandDefaultPosition.x, _HandDefaultPosition.y, _HandDefaultPosition.z) + transform.position, transform.localRotation);
+           // _LeftHand.updateTarget(gethandInBodyPos(false), transform.localRotation);
+           // _RightHand.updateTarget(gethandInBodyPos(true), transform.localRotation);
         }
+        */
+        FindGrabbableObjects();
 
+    }
+
+    Vector3 gethandInBodyPos(bool right = false)
+    {
+        float dist = right ? 1 : -1;
+        return transform.localRotation * new Vector3(dist * _handsBaseDistance, _HandsYZBasePosition.x, _HandsYZBasePosition.y) + transform.position;
+    }
+
+    public void GrabUngrabObject()
+    {
+        if (_grabbedObject) _grabbedObject = null;
+        //else
+    }
+
+
+    #region findObjects
+
+    private void FindGrabbableObjects()
+    {
         MonoBehaviour hitedGrabbable = null;
 
         Collider[] colliders = Physics.OverlapBox(transform.position + transform.rotation * coll.center, coll.size);
@@ -65,26 +92,29 @@ public class PlayerHands : MonoBehaviour
         }
     }
 
+    [SerializeField] private BoxCollider coll;
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawCube(transform.position + transform.rotation * coll.center , coll.size);
+        // Gizmos.DrawCube(transform.position + transform.rotation * coll.center , coll.size);
     }
+    #endregion
 
 
-    [SerializeField] private Vector3 _HandDefaultPosition;
+
+    #region debugGizmos
     [SerializeField] private bool _DrawGizmos;
     [SerializeField] private Mesh _HandDebugMesh;
-    [SerializeField, Range(0,2)] private float _debugScale;
+    [SerializeField, Range(0, 2)] private float _debugScale;
 
-    [SerializeField] Transform debugleftPos, debugrightPos;
+    public void OnDrawGizmos()
+    {
 
 
-    public void OnDrawGizmos() {
-        
-        
 
         if (!_DrawGizmos) return;
-        Gizmos.DrawMesh(_HandDebugMesh, transform.localRotation * _HandDefaultPosition + transform.position, Quaternion.identity,Vector3.one * _debugScale);
-        Gizmos.DrawMesh(_HandDebugMesh, transform.localRotation * new Vector3(-_HandDefaultPosition.x,_HandDefaultPosition.y,_HandDefaultPosition.z) + transform.position, Quaternion.identity,Vector3.one * _debugScale);
+        Gizmos.DrawMesh(_HandDebugMesh, gethandInBodyPos(false), Quaternion.identity, Vector3.one * _debugScale);
+        Gizmos.DrawMesh(_HandDebugMesh, gethandInBodyPos(true), Quaternion.identity, Vector3.one * _debugScale);
     }
+    #endregion
 }

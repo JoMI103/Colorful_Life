@@ -20,5 +20,12 @@ namespace jomi.CharController3D {
             this.transform.forward = pos - transform.position;
             //if(DebugPosition)Draw.Mesh(mesh,pos,0.2f,mat);
         }
+
+        public Vector3 getcurrentMousePosition()
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            Vector3 pos = jaux.dontknow(ray.origin, ray.direction, transform.position.y);
+            return pos;
+        }
     }
 }
