@@ -29,7 +29,7 @@ public class EnemyChasingState : BaseState<EnemyState>
 
     public override void UpdateState()
     {
-        //_ctx.Rb.velocity = new Vector3(_ctx.pl);
+        
     }
 
 
