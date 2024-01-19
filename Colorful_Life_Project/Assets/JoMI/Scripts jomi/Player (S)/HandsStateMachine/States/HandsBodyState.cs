@@ -8,9 +8,9 @@ public class HandsBodyState : HandsBaseState
         : base(currentctx, factory) { }
 
     public override void EnterState() {
+        //Debug.LogError("Enter Body");
         _ctx.LeftRightHands.Item1.currentHandState = handState.Body;
         _ctx.LeftRightHands.Item2.currentHandState = handState.Body;
-        Debug.LogError("Enter Body");
         _ctx.BaseLeftRightTransform.Item1.localRotation = _ctx.BaseDefaultRotations.Item1;
         _ctx.BaseLeftRightTransform.Item2.localRotation = _ctx.BaseDefaultRotations.Item2;
         UpdateHandsTarget(_ctx.BaseLeftRightTransform);
@@ -20,7 +20,9 @@ public class HandsBodyState : HandsBaseState
         if(CheckSwitchStates()) return;
         UpdateHandsPosRot();
     }
-    public override void ExitState() { Debug.LogError("Exit Body"); }
+    public override void ExitState() { 
+        //Debug.LogError("Exit Body"); 
+    }
     public override bool CheckSwitchStates() {
         if (_ctx.IsPressingAttackMode) { SwitchState(_factory.Attacking()); return true; }
         return false; 

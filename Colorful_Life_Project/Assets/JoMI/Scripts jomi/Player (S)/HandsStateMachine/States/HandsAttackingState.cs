@@ -23,7 +23,7 @@ public class HandsAttackingState : HandsBaseState
         leftRight = false;
       
 
-        Debug.LogError("Enter Attacking"); 
+        //Debug.LogError("Enter Attacking"); 
     }
     public override void UpdateState() 
     { 
@@ -44,14 +44,16 @@ public class HandsAttackingState : HandsBaseState
     }
     public override void ExitState() 
     {
-        Debug.LogError("Exit Attacking"); 
+        //Debug.LogError("Exit Attacking"); 
     }
     public override bool CheckSwitchStates() {
         if (!_ctx.IsPressingAttackMode) { SwitchState(_factory.Body()); return true; }   
         return false; 
     }
 
-    public override void GrabAction() { Debug.Log("Can't grab because is attacking."); }
+    public override void GrabAction() { 
+        Debug.Log("Can't grab because is attacking.");
+    }
 
     bool leftRight;
 

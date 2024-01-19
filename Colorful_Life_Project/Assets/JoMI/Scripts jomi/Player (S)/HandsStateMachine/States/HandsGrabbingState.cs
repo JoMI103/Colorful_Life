@@ -9,10 +9,10 @@ public class HandsGrabbingState : HandsBaseState
         : base(currentctx, factory) { }
 
     public override void EnterState(){
+        //Debug.LogError("Enter Grabbing");
         _ctx.LeftRightHands.Item1.StartGrabbing();
         _ctx.LeftRightHands.Item2.StartGrabbing();
         UpdateHandsTarget(_ctx.GrabbleLeftRightTransform);
-        Debug.LogError("Enter Grabbing");
         _ctx.Grabbed = false;
     }
 
@@ -26,7 +26,7 @@ public class HandsGrabbingState : HandsBaseState
         }
 
         if (_ctx.LeftRightHands.Item1._onTarget && _ctx.LeftRightHands.Item2._onTarget && !_ctx.Grabbed) {
-            Debug.LogError("GGGGGGGGGGGG");
+            //Debug.LogError("GGGGGGGGGGGG");
             _ctx.BaseLeftRightTransform.Item1.localRotation = _ctx.GrabbleLeftRightTransform.Item1.transform.rotation;
             _ctx.BaseLeftRightTransform.Item2.localRotation = _ctx.GrabbleLeftRightTransform.Item2.transform.rotation;
             UpdateHandsTarget(_ctx.BaseLeftRightTransform);
@@ -48,7 +48,7 @@ public class HandsGrabbingState : HandsBaseState
 
     public override void ExitState()
     {
-        Debug.LogError("Exit Grabbing"); 
+       
         if (_ctx.GrabbedObject) { 
             (_ctx.GrabbedObject as IGrabbable).UnGrab(); 
             _ctx.GrabbedObject = null; 
