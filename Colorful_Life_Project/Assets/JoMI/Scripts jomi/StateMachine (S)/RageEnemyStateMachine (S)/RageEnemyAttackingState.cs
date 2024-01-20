@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EnemyStateMachine;
 
-public class EnemyAttackingState : BaseState<EnemyState>
+public class RageEnemyAttackingState : BaseState<EnemyState>
 {
-    public EnemyAttackingState(EnemyState key, EnemyStateMachine ctx) : base(key) { _ctx = ctx; }
+    public RageEnemyAttackingState(EnemyState key, EnemyStateMachine ctx) : base(key) { _ctx = ctx; }
 
     protected EnemyStateMachine _ctx;
 
@@ -16,22 +16,22 @@ public class EnemyAttackingState : BaseState<EnemyState>
     public override void EnterState()
     {
         _attackTimer = 0;
-        Debug.LogError("Enter Attacking");
+        Debug.LogError("Enter Rage Attacking");
     }
 
     public override void ExitState()
     {
-        Debug.LogError("Exit Attacking");
+        Debug.LogError("Exit Rage Attacking");
     }
 
     public override EnemyState GetNextState()
     {
         if (_ctx.PlayerDistance > _ctx.ChasingDistance)
             return EnemyState.Idle;
-        if (!_ctx.CanSeePlayer())
+        if (_ctx.PlayerDistance > _ctx.AttackingDistance)
             return EnemyState.Chasing;
 
-       
+
 
         return EnemyState.Attacking;
     }
@@ -50,15 +50,15 @@ public class EnemyAttackingState : BaseState<EnemyState>
 
         }
 
-        if (_attackTimer > _ctx.AttackTimer )
+        if (_attackTimer > _ctx.AttackTimer)
         {
             _preparedAtack = false;
             _attackTimer = -0.25f;
-            
-            
+
+
             _ctx.Rb.AddForce(new Vector3(_preparedDirection.x, 0.5f/*jump force*/, _preparedDirection.z) * _ctx.AttackForce, ForceMode.Impulse);
 
-            
+
         }
     }
 }

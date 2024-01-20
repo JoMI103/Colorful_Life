@@ -24,7 +24,7 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
     public Transform rightHandPos { get; set; }
     public Transform leftT, rightT;
 
-    public void Hit(GameObject coisoQueAtacou, Vector3 direction,Vector3 inpactPos, int damage)
+    public void Hit(GameObject coisoQueAtacou, Vector3 direction,Vector3 inpactPos, int damage, bool impact = false)
     {
 
         _rb.AddForceAtPosition(direction, inpactPos, ForceMode.Impulse);

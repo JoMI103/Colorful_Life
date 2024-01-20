@@ -13,6 +13,7 @@ public class EnemyHittedState : BaseState<EnemyState>
 
     public override void EnterState()
     {
+       
         Debug.LogError("Enter Hitted");
         _timer = 0;   
     }

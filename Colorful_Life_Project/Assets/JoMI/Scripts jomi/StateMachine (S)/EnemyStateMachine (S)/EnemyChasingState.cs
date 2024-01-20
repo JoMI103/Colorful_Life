@@ -9,6 +9,7 @@ public class EnemyChasingState : BaseState<EnemyState>
 
     protected EnemyStateMachine _ctx;
 
+  
     public override void EnterState()
     {
         Debug.LogError("Enter Chasing");
@@ -21,15 +22,22 @@ public class EnemyChasingState : BaseState<EnemyState>
 
     public override EnemyState GetNextState()
     {
-        if (Input.GetKeyDown(KeyCode.V)) { return EnemyState.Idle; }
-        if (Input.GetKeyDown(KeyCode.X)) { return EnemyState.Attacking; }
+        if (_ctx.PlayerDistance > _ctx.ChasingDistance)
+            return EnemyState.Idle;
+
+        if (_ctx.PlayerDistance < _ctx.AttackingDistance && _ctx.CanSeePlayer())
+            return EnemyState.Attacking;
 
         return EnemyState.Chasing;
     }
 
     public override void UpdateState()
     {
+
         
+        Vector3 direction =  _ctx.Player.position - _ctx.transform.position;
+        direction.y = 0; direction = direction.normalized;
+        _ctx.Rb.velocity = new(direction.x, _ctx.Rb.velocity.y, direction.z);
     }
 
 

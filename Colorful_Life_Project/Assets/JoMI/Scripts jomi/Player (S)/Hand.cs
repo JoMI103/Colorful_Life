@@ -21,7 +21,7 @@ public class Hand : MonoBehaviour
     Vector3 _direction, _currentVelocity, _bodyInfluence;
     float _currentDistance;
 
-    public PlayerHands _hands;
+    public HandsStateMachine _hands;
     [SerializeField] bool left;
 
 
@@ -139,7 +139,7 @@ public class Hand : MonoBehaviour
             {
                 if (mono is IHittable)
                 {
-                    (mono as IHittable).Hit(this.gameObject, dir * punchForce, hit.point, 10);
+                    (mono as IHittable).Hit(this.gameObject, dir * punchForce, hit.point, 5);
                     return true;
                 }
             }

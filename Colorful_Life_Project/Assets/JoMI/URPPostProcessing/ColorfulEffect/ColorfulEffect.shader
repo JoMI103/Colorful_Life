@@ -52,23 +52,32 @@ Shader "CustomPost/ColorfullEffect"
                 float4 background = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                // return tex2D(_MainTex,input.uv);
                 //return background;
+
+                //background.r = 0;
+                //background.g = 0;
+                //background.b = 0;
+                return background;
+
                 float gray = 0.33 * (background.r + background.g + background.b);
 
                 
-                if(gray  > 0.5)
+                if(gray  > _intensity)
                 {
                  // white
-                 background.rgb = float3(1.0);   
+                 background = float4(1.0,1.0,1.0,background.w);   
                 }
                 else
                 {
                  // black
-                 background.rgb = float3(0.0);
+                 background = float4(0.0,0.0,0.0,background.w);   
                 }
-                return (background);
+
+
 
                #if defined(BlackWhite)
-               return 1;
+
+               
+               
                 
                 
                 #endif

@@ -23,7 +23,7 @@ public class EnemyIdleState : BaseState<EnemyState>
     {
         if (_ctx.PlayerDistance < _ctx.SearchDistance)
             if (_ctx.CanSeePlayer()) {
-                if (_ctx.PlayerDistance < _ctx.SearchDistance) return EnemyState.Chasing;
+                if (_ctx.PlayerDistance < _ctx.ChasingDistance) return EnemyState.Chasing;
                 if (_ctx.PlayerDistance < _ctx.AttackingDistance) return EnemyState.Attacking;
             }
 
@@ -33,6 +33,6 @@ public class EnemyIdleState : BaseState<EnemyState>
     public override void UpdateState()
     {
 
-        _ctx.Rb.velocity = new(0, 0, 0);
+        
     }
 }
