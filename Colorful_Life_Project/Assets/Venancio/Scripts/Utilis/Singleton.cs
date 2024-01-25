@@ -9,7 +9,7 @@ public class Singleton<T> : MonoBehaviour
 
     protected void InitializeSingleton()
     {
-        if (Instance != null && Instance.Equals(this))
+        if (Instance != null && ( !Instance.Equals(this)) )
         {
             Destroy(this);
         }

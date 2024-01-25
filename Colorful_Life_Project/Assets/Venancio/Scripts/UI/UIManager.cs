@@ -9,17 +9,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas HUD;
     [SerializeField] private Image currentMagicImage;
     [SerializeField] private MagicDictionary[] magicImageDictionary;
+    private UIManager.Magic _currentMagic;
     [SerializeField]
-    private UIManager.Magic CurrentMagic
+    public UIManager.Magic CurrentMagic
     {
         get
         {
-            return CurrentMagic;
+            return _currentMagic;
         }
         set
         {
             MagicChanged = true;
-            CurrentMagic = value;
+            _currentMagic = value;
+            UpdateCurrentMagicHUD();
         }
     }
 
@@ -34,20 +36,11 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        UpdateHUD();
+     
     }
 
-    private void UpdateHUD()
+    private void UpdateCurrentMagicHUD()
     {
-        UpdateCurrentMagic();
-    }
-
-    private void UpdateCurrentMagic()
-    {
-        if (MagicChanged)
-        {
-            MagicChanged = false;
-
             foreach (MagicDictionary dictionaryPage in magicImageDictionary)
             {
                 if (dictionaryPage.Magic.Equals(CurrentMagic))
@@ -58,8 +51,8 @@ public class UIManager : MonoBehaviour
             }
 
             Debug.Log("UIManager: No image found. Check gameobject configuration.");
-        }
     }
+
 
     public void  EnableHUD (bool enable)
     {

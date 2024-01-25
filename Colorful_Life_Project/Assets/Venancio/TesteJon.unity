@@ -3403,7 +3403,7 @@ MonoBehaviour:
   currentHandState: 0
   moveSpeed: 10
   rotateSpeed: 2
-  _hands: {fileID: 7780435707030387659}
+  _hands: {fileID: 0}
   left: 1
   _onTarget: 0
   _isAttacking: 0
@@ -4867,7 +4867,7 @@ MonoBehaviour:
   currentHandState: 0
   moveSpeed: 10
   rotateSpeed: 2
-  _hands: {fileID: 7780435707030387659}
+  _hands: {fileID: 0}
   left: 0
   _onTarget: 0
   _isAttacking: 0
@@ -7140,6 +7140,61 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849758059}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1856907986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1856907988}
+  - component: {fileID: 1856907987}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1856907987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856907986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d415b9f88ed141e4c90e6adc2774a9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_backgroundMusicsData:
+  - Name: Circotorio
+    AudioClip: {fileID: 8300000, guid: f578efd6a4d04c54b9599b1cf793eea0, type: 3}
+  m_backgroundVolume: 0.05
+  _playOnStart: 1
+  _backgroundMusicToPlay: Circotorio
+  m_audioClipsData: []
+  _GlobalSoundEffectsVolume: 0
+  _activeAudioSourceList: []
+  _audioGroupList: []
+  BackgroundMusicAudioSource: {fileID: 0}
+--- !u!4 &1856907988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856907986}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1867590695
 GameObject:
   m_ObjectHideFlags: 0
@@ -8673,3 +8728,4 @@ SceneRoots:
   - {fileID: 736562371}
   - {fileID: 1807444871}
   - {fileID: 173584984}
+  - {fileID: 1856907988}
