@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlayerContext;
+using static HandStateMachine;
 
 public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
 {
@@ -13,6 +14,11 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
     public override void EnterState()
     {
         Debug.LogWarning("Enter Hands Attack State");
+
+        _ctx.LeftHand.SwitchState(HandState.Animate);
+
+        _ctx.RightHand.SwitchState(HandState.Animate);
+        _ctx.LeftRightAnimator.Play("RageAttack");
     }
 
     public override void UpdateState()
@@ -23,10 +29,21 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
     public override void ExitState()
     {
         Debug.LogWarning("Exit Hands Attack State");
+
+        _ctx.LeftHand.SwitchState(HandState.Free);
+        _ctx.RightHand.SwitchState(HandState.Free);
+        _ctx.LeftRightAnimator.Play("Nothing");
     }
 
     public override bool CheckSwitchStates()
     {
-        return true;
+        if (_ctx.LeftRightAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
+
+        }
+
+
+            return false;
     }
 }

@@ -27,21 +27,26 @@ namespace jomi.CharController3D {
 
 
             Ray ray = new(transform.position, transform.forward);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, interactableDistance))
+            RaycastHit[] hits = Physics.RaycastAll(ray, interactableDistance);
+            if (hits.Length > 1)
             {
-              
-                MonoBehaviour[] allScripts = hit.collider.gameObject.GetComponentsInChildren<MonoBehaviour>();
-                for (int i = 0; i < allScripts.Length; i++)
-                {
-                    if (allScripts[i] is IInteractable)
-                        hitedInteractable = allScripts[i] as IInteractable;
+                foreach (RaycastHit hit in hits) {
+                    MonoBehaviour[] allScripts = hit.collider.gameObject.GetComponentsInChildren<MonoBehaviour>();
+                    for (int i = 0; i < allScripts.Length; i++)
+                    {
+                        if (allScripts[i] is IInteractable) {
+                            hitedInteractable = allScripts[i] as IInteractable;
+                            if (hitedInteractable != currentLookingInteractable)
+                            {
+                                currentLookingInteractable = hitedInteractable;
+                            }
+                            return;
+                        }
+                    }
                 }
             }
 
-            if (hitedInteractable != currentLookingInteractable) {
-                currentLookingInteractable = hitedInteractable;
-            }
+            
         }
     }
 }

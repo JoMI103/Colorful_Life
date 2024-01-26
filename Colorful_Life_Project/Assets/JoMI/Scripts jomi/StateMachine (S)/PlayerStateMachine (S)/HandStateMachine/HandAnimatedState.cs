@@ -19,8 +19,8 @@ public class HandAnimatedState : InnerBaseState<HandState>
     public override void UpdateState()
     {
         if(CheckSwitchStates()) return;
-        _ctx.transform.position = Vector3.MoveTowards(_ctx.transform.position, _ctx.TargetFollowPos, Time.deltaTime * 10);
-        _ctx.transform.rotation = Quaternion.Euler(_ctx.TargetFollowRotation);
+        _ctx.transform.position = Vector3.MoveTowards(_ctx.transform.position, _ctx.AnimationTransform.position, Time.deltaTime * 10);
+        _ctx.transform.rotation = _ctx.AnimationTransform.rotation;
     }
 
     public override void ExitState()

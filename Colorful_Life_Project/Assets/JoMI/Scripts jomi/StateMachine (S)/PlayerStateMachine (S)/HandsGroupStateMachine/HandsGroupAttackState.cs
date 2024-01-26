@@ -43,7 +43,7 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
         _ctx.LeftHand.SwitchState(HandState.Animate);
         while (_ctx.IsAttackPressed)
         {
-            _ctx.LeftHand.SetFollowTarget(_ctx.LeftAnimatedTransform.position, _ctx.LeftAnimatedTransform.rotation.eulerAngles);
+            
 
             _chargingPunchTimer += Time.deltaTime;
             yield return 0;
@@ -63,7 +63,7 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
         _ctx.RightHand.SwitchState(HandState.Animate);
         while (_ctx.IsAttackPressed)
         {
-            _ctx.RightHand.SetFollowTarget(_ctx.RightAnimatedTransform.position, _ctx.RightAnimatedTransform.rotation.eulerAngles);
+            
 
             _chargingPunchTimer += Time.deltaTime;
             yield return 0;

@@ -41,6 +41,7 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
     {
         if (_ctx.IsAttackPressed) SwitchState(_ctx.HandsGroupStates[HandsGroupState.Attack], ref _ctx.CurrentHandsGroupStateRef);
 
+        if(Input.GetKeyDown(KeyCode.J)) SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
         return false;
     }
 }

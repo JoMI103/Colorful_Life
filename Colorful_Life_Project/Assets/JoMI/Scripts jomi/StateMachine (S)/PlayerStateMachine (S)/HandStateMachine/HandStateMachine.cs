@@ -7,6 +7,8 @@ public class HandStateMachine : MonoBehaviour
 
     [SerializeField] private Transform _playerBody;
 
+    [SerializeField] private Transform _animationTransform;
+
     private Vector3 _targetFollowPos;
     private Vector3 _targetBasePos;
     private Vector3 _targetFollowRotation;
@@ -39,8 +41,9 @@ public class HandStateMachine : MonoBehaviour
     public Vector3 TargetBaseRotation { get => _targetBaseRotation;  }
     public Transform PlayerBody { get => _playerBody; }
 
-    public void SetFollowTarget(Vector3 TargetPosition, Vector3 TargetRotation)
-    {
+    public Transform AnimationTransform { get => _animationTransform;  }
+
+    public void SetFollowTarget(Vector3 TargetPosition, Vector3 TargetRotation) {
         _targetFollowPos = TargetPosition;
         _targetFollowRotation = TargetRotation;
       

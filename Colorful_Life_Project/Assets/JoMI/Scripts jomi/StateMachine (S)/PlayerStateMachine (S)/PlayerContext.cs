@@ -51,8 +51,6 @@ public class PlayerContext : MonoBehaviour {
     [SerializeField] private Animator _leftAnimator;
     [SerializeField] private Animator _rightAnimator;
     [SerializeField] private Animator _leftRightAnimator;
-    [SerializeField] private Transform _leftAnimatedTransform;
-    [SerializeField] private Transform _rightAnimatedTransform;
 
     #endregion
 
@@ -108,8 +106,7 @@ public class PlayerContext : MonoBehaviour {
     public HandStateMachine RightHand { get => _rightHand; }
     public Animator LeftAnimator { get => _leftAnimator; }
     public Animator RightAnimator { get => _rightAnimator; }
-    public Transform LeftAnimatedTransform { get => _leftAnimatedTransform; }
-    public Transform RightAnimatedTransform { get => _rightAnimatedTransform;  }
+    public Animator LeftRightAnimator { get => _leftRightAnimator;}
     public Transform DebugTransform { get => debugTransform; set => debugTransform = value; }
 
     #endregion

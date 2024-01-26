@@ -6,5 +6,8 @@ public class SpellCaster : MonoBehaviour
 {
     PlayerContext _playerContext;
 
-    //public void Explosion
+    public void Explosion()
+    {
+        Debug.LogError("BOOOOMM!!!");
+    }
 }
