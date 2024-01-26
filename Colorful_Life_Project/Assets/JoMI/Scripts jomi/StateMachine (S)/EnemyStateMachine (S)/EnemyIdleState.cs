@@ -11,12 +11,12 @@ public class EnemyIdleState : BaseState<EnemyState>
 
     public override void EnterState()
     {
-        Debug.LogError("Enter Idle");
+        //Debug.LogError("Enter Idle");
     }
 
     public override void ExitState()
     {
-        Debug.LogError("Exit Idle");
+        //Debug.LogError("Exit Idle");
     }
 
     public override EnemyState GetNextState()

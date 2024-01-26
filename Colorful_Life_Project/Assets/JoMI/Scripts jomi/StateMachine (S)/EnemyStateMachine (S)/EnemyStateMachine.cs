@@ -25,8 +25,8 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
     [SerializeField] private float _attackForce;
 
     #region gets & sets
-    public string Name { get; private set; }
-    public GameObject coisoQueAtacou { get; private set; }
+    //public string Name { get; private set; }
+    //public GameObject coisoQueAtacou { get; private set; }
 
     public Vector3 HitDirection { get => _hitDirection; }
     public Rigidbody Rb { get => _rb; }

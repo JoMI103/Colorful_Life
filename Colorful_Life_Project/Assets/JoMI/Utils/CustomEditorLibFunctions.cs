@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace jomi.utils {
     public static class EditorUtils
@@ -19,7 +20,8 @@ namespace jomi.utils {
 
     }
 
-    public static class jaux {
+    public static class Jaux
+    {
 
         public static bool exists<T>(T elementT, List<T> listT, string pro) where T : struct
         {
@@ -29,10 +31,15 @@ namespace jomi.utils {
             return false;
         }
 
-        public static Vector3 dontknow(Vector3 origin, Vector3 direction, float y) {
-            float distance = (origin.y - y) / direction.y;
-            return origin - direction * distance;
-            
+        /// <summary> (Make a description) </summary> 
+        public static Vector3 Dontknow(Vector3 origin, Vector3 direction, float y) => origin - direction * ((origin.y - y) / direction.y);
+      
+
+        /// <summary> (Make a description) </summary>
+        public static Vector3 GetcurrentMousePosition(Camera camera, float targetY)  {     
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            return Dontknow(ray.origin, ray.direction, targetY);    
         }
+
     }
 }

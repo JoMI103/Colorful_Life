@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace old
+{
+
+
 public class HandsAttackingState : HandsBaseState
 {
 
@@ -79,4 +83,5 @@ public class HandsAttackingState : HandsBaseState
 
    
 
+}
 }

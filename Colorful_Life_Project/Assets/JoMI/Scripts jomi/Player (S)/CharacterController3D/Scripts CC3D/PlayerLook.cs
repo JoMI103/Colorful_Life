@@ -11,7 +11,7 @@ namespace jomi.CharController3D {
         [SerializeField,Range(0,2)] private float _xSensitivity = 1.0f, _ySensitivity = 1.0f;
 
         private void Start() {
-            _onFoot = GetComponent<InputManager>().onFoot;
+            _onFoot = GetComponent<InputManager>().OnFoot;
         }
 
         private void LateUpdate() {

@@ -12,7 +12,7 @@ namespace jomi.CharController3D {
 
         void Start()
         {
-            _onFoot = GetComponent<InputManager>().onFoot;
+            _onFoot = GetComponent<InputManager>().OnFoot;
             _onFoot.Interact.performed += ctx => Interact();
         }
 
@@ -28,7 +28,7 @@ namespace jomi.CharController3D {
 
             Ray ray = new(transform.position, transform.forward);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, interactableDistance, interactableMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, interactableDistance))
             {
               
                 MonoBehaviour[] allScripts = hit.collider.gameObject.GetComponentsInChildren<MonoBehaviour>();

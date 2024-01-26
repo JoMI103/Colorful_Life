@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+namespace old { 
 public enum handState
 {
     Body,
@@ -255,4 +256,5 @@ public class Hand : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position - _bodyInfluence, DColorBodyInfluence);
     }
     
+}
 }

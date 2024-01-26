@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashState : MonoBehaviour
+public class HandsCarryState : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

@@ -15,8 +15,8 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 
 
     #region Interfaces
-    public string Name { get; set; }
-    public GameObject coisoQueAtacou { get; set; }
+   // public string Name { get; set; }
+   // public GameObject coisoQueAtacou { get; set; }
 
     public Vector2 _offset;
     public Vector2 Offset { get; set; }

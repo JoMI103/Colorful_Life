@@ -6,21 +6,27 @@ using UnityEngine;
 namespace jomi.CharController3D {
     public class InputManager : MonoBehaviour {
 
-        private PlayerInput playerInput;
-        public PlayerInput.OnFootActions onFoot;
+        private PlayerInput _playerInput;
 
-        private void Awake() {
-            playerInput = new PlayerInput();
-            onFoot = playerInput.OnFoot;
+
+        public PlayerInput.OnFootActions OnFoot {
+            get { if (_playerInput == null) InitializePlayerInput();  return _playerInput.OnFoot; } }
+
+
+
+        private void InitializePlayerInput()
+        {
+            _playerInput = new PlayerInput();
+            _playerInput.OnFoot.Enable();
         }
 
         private void OnEnable() {
-            onFoot.Enable();
+            _playerInput?.OnFoot.Enable();
             //Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnDisable() {
-            onFoot.Disable();
+            _playerInput?.OnFoot.Disable();
         }
     }
 }

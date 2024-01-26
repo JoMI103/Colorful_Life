@@ -24,8 +24,8 @@ namespace jomi.CharController3D {
 
         void Start() {
             _controller = GetComponent<CharacterController>();
-            _onFoot = GetComponent<InputManager>().onFoot;
-
+            _onFoot = GetComponent<InputManager>().OnFoot;
+            Debug.Log(_onFoot);
             _onFoot.Jump.performed += ctx => Jump();
             _onFoot.Crouch.performed += ctx => Crouch();
             _onFoot.Sprint.performed += ctx => Sprint();
