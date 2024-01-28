@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8798ef086179b6c4c8678d79016e8ccf, type: 3}
+  m_Name: PageN0
+  m_EditorClassIdentifier: 
+  _id: 0
+  _type: INT. CIRCUS TENT - TUTORIAL AREA
+  _title: ' DIARY ENTRY #36 - MARCH 19TH'
+  _content: "Look at the rain... It hits the window\r\n of the car, and it drops
+    down leaving\r\na trail that resembles the tears that\r\n I almost every day
+    shed here after\r\n leaving work.\r\n Life's funny. I woke up so energetic\r\n
+    today, promised myself to be\r\n productive and to make it work... And\r\n look
+    where I ended. Like always. So\r\n predictable.\r\n Honestly, I'm tired of filling
+    this\r\n diary with the same shit everyday. I\r\n don't even understand why I'm
+    writing\r\n this.\r\n Well, that's enough. Time to put a\r\n happy face and go
+    have dinner with the\r\n boys. Hope my freaking anxiety allows\r\n me to have
+    some fun tonight."

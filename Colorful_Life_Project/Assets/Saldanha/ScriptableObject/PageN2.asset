@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8798ef086179b6c4c8678d79016e8ccf, type: 3}
+  m_Name: PageN2
+  m_EditorClassIdentifier: 
+  _id: 2
+  _type: INT. ROOM 2 - GUILT
+  _title: DIARY ENTRY #263 - NOVEMBER 20TH
+  _content: 'It''s thanksgiving in a few days.
+
+    This year was disastrous...
+    But I
+
+    survived. I have no clue how, but I
+
+    did.
+
+    These... marks
+    on my body... I regret
+
+    them now. I regret hurting myself. I
+
+    regret
+    hurting my friends and family.
+
+    I regret not living the life I found
+
+    out
+    I wanted to, and causing problems
+
+    to people around me.
+
+    How am I supposed
+    to give thanks if
+
+    I''m filled with this... this poison.
+
+    This . Guilt
+
+    It''s
+    corroding me from the inside out,
+
+    and I just can''t stop feeling mad for
+
+    allowing
+    it to slowly consume me.
+
+    That''s it. I had enough.
+
+    This is MY life,
+    and this will NOT
+
+    kill me.'
