@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_Manager : MonoBehaviour
@@ -29,7 +31,11 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] GameObject diaryPanel;
     [SerializeField] List<GameObject> diaryPagePrefab;
 
-   
+    //UI elements, move page
+    private int currentPageIndex = 0;
+
+    
+
     private void OnEnable()
     {
         DiaryManager.Instance.OnPageUnlocked += UpdateDiaryUI;
@@ -45,9 +51,43 @@ public class UI_Manager : MonoBehaviour
     {
         Debug.Log("Tentando ativar o painel do diário");
         diaryPanel.SetActive(true);
-       
 
 
+        //Maneira generica de instanciar as páginas
+        /*foreach (DiaryPage pageUnlocked in _diaryManager._unlockedPages)
+        {
+            Debug.Log("Tentando instanciar a página");
+
+            // Verificar se o índice está dentro do intervalo da lista
+            if (pageUnlocked._id >= 0 && pageUnlocked._id < diaryPagePrefab.Count)
+            {
+                GameObject pagePrefab = Instantiate(diaryPagePrefab[pageUnlocked._id], diaryPanel.transform);
+                pagePrefab.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = pageUnlocked._title;
+                pagePrefab.transform.Find("TypeText").GetComponent<TextMeshProUGUI>().text = pageUnlocked._type;
+                pagePrefab.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text =pageUnlocked._content;
+            }
+            
+        }*/
+    }
+
+    public void NextPage()
+    {
+        if (currentPageIndex < diaryPagePrefab.Count - 1 && currentPageIndex <_diaryManager._unlockedPages.Count-1)
+        {
+            diaryPagePrefab[currentPageIndex].SetActive(false);
+            currentPageIndex++;
+            diaryPagePrefab[currentPageIndex].SetActive(true);
+        }
+    }
+
+    public void PreviousPage()
+    {
+        if (currentPageIndex > 0)
+        {
+            diaryPagePrefab[currentPageIndex].SetActive(false);
+            currentPageIndex--;
+            diaryPagePrefab[currentPageIndex].SetActive(true);
+        }
     }
 
     #endregion

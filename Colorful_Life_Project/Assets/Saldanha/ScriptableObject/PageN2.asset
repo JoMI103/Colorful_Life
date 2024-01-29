@@ -12,35 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8798ef086179b6c4c8678d79016e8ccf, type: 3}
   m_Name: PageN2
   m_EditorClassIdentifier: 
-  _id: 2
+  _id: 3
   _type: INT. ROOM 2 - GUILT
   _title: DIARY ENTRY #263 - NOVEMBER 20TH
   _content: 'It''s thanksgiving in a few days.
 
-    This year was disastrous...
-    But I
+    This year was disastrous... But
+    I
 
     survived. I have no clue how, but I
 
     did.
 
-    These... marks
-    on my body... I regret
+    These... marks on my
+    body... I regret
 
     them now. I regret hurting myself. I
 
-    regret
-    hurting my friends and family.
+    regret hurting
+    my friends and family.
 
     I regret not living the life I found
 
-    out
-    I wanted to, and causing problems
+    out I wanted
+    to, and causing problems
 
     to people around me.
 
-    How am I supposed
-    to give thanks if
+    How am I supposed to
+    give thanks if
 
     I''m filled with this... this poison.
 

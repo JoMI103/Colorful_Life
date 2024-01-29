@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8798ef086179b6c4c8678d79016e8ccf, type: 3}
   m_Name: PageN0
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 1
   _type: INT. CIRCUS TENT - TUTORIAL AREA
   _title: ' DIARY ENTRY #36 - MARCH 19TH'
   _content: "Look at the rain... It hits the window\r\n of the car, and it drops
