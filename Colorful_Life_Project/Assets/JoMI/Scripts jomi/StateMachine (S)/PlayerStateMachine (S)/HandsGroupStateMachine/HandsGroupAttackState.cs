@@ -17,8 +17,11 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
 
 
 
-    public override void EnterState() { 
-        Debug.LogWarning("Enter Hands Attack State");
+    public override void EnterState() {
+        _ctx.LeftRightAnimator.enabled = false;
+        _ctx.LeftAnimator.enabled = true;
+        _ctx.RightAnimator.enabled = true;
+        //Debug.LogWarning("Enter Hands Attack State");
     }
 
     public override void UpdateState()
@@ -48,7 +51,8 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
             _chargingPunchTimer += Time.deltaTime;
             yield return 0;
         }
-        _ctx.LeftHand.SetFollowTarget(GetAttackPos(),Vector3.zero);
+        _ctx.LeftHand.FollowTransform.position = GetAttackPos();
+        _ctx.LeftHand.FollowTransform.rotation = _ctx.transform.rotation;
         _ctx.LeftHand.SwitchState(HandState.Burst);
         _chargingPunchTimer = 0;
         _ctx.LeftAnimator.Play("Nothing");
@@ -63,12 +67,12 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
         _ctx.RightHand.SwitchState(HandState.Animate);
         while (_ctx.IsAttackPressed)
         {
-            
-
             _chargingPunchTimer += Time.deltaTime;
             yield return 0;
         }
-        _ctx.RightHand.SetFollowTarget(GetAttackPos(), Vector3.zero);
+        _ctx.RightHand.FollowTransform.position = GetAttackPos();
+        _ctx.RightHand.FollowTransform.rotation = _ctx.transform.rotation;
+
         _ctx.RightHand.SwitchState(HandState.Burst);
         _chargingPunchTimer = 0;
         _ctx.RightAnimator.Play("Nothing");
@@ -92,8 +96,6 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
         _ctx.RightHand.SwitchState(HandState.Free);
         _ctx.RightAnimator.Play("Nothing");
         _ctx.LeftAnimator.Play("Nothing");
-
-        Debug.LogWarning("Exit Hands Attack State");
     }
 
 
@@ -101,7 +103,7 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
     {
         
 
-        if (!_ctx.IsAttackPressed &&_attackModeTimer < 0 ) SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
+        if (!_ctx.IsAttackPressed &&_attackModeTimer < 0 ) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
 
         return false;
     }

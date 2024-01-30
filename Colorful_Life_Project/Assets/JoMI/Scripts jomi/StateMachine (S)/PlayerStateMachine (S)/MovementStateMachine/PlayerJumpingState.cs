@@ -6,47 +6,40 @@ using static PlayerContext;
 public class PlayerJumpingState : HierarchicalBaseState<MovementState> {
 
     protected PlayerContext _ctx;
+    float minJumpTime;
 
     public PlayerJumpingState(MovementState key, PlayerContext playerStateMachine) : base(key) {
         _isRootState = true;
         _ctx = playerStateMachine;
     }
 
-    IEnumerator IJumpResetRoutine() {
-        yield return new WaitForSeconds(.5f); 
-        _ctx.JumpCount = 0;
-    }
+ 
 
     public override void EnterState() {
+        //Debug.Log("Enter Jumping");
+        minJumpTime = 0.1f;
         HandleJump();
-        //Debug.Log("Enter Jumping State");
     }
 
     public override void UpdateState() {
         if (CheckSwitchStates()) return;
+        minJumpTime -= Time.deltaTime;
         HandleGravity();
     }
 
     public override void ExitState() {
-        //Debug.Log("Exit Jumping State");
         if (_ctx.IsJumpPressed) _ctx.RequireNewJumpPress = true;
-
-        _ctx.CurrentJumpResetRoutine = _ctx.StartCoroutine(IJumpResetRoutine());
-
-        if(_ctx.JumpCount == 3)  _ctx.JumpCount = 0;
     }
 
     public override bool CheckSwitchStates() {
-        if(_ctx.CharacterController.isGrounded) return SwitchState(_ctx.MovementStates[MovementState.Grounded], ref _ctx.CurrentMovementStateRef);
+        if(_ctx.CharacterController.isGrounded && minJumpTime < 0) return SwitchState(_ctx.MovementStates[MovementState.Grounded], ref _ctx.CurrentMovementStateRef);
         return false;
     }
 
     void HandleJump() {
-        if (_ctx.JumpCount < 3 && _ctx.CurrentJumpResetRoutine != null) _ctx.StopCoroutine(_ctx.CurrentJumpResetRoutine);
-        _ctx.IsJumping = true;
-        _ctx.JumpCount++;
-        _ctx.CurrentMovementY = _ctx.InitialJumpVelocities[_ctx.JumpCount];
-        _ctx.AppliedMovementY = _ctx.InitialJumpVelocities[_ctx.JumpCount];
+       
+        _ctx.CurrentMovementY = _ctx.JumpVelocity;
+        _ctx.AppliedMovementY = _ctx.JumpGravity;
     }
 
     void HandleGravity() {
@@ -55,12 +48,12 @@ public class PlayerJumpingState : HierarchicalBaseState<MovementState> {
 
         if (isFalling) {
             float previousYVelocity = _ctx.CurrentMovementY;
-            _ctx.CurrentMovementY += (_ctx.JumpGravities[_ctx.JumpCount] * fallMultiplier * Time.deltaTime);
+            _ctx.CurrentMovementY += (_ctx.JumpGravity * fallMultiplier * Time.deltaTime);
             _ctx.AppliedMovementY = Mathf.Max((previousYVelocity + _ctx.CurrentMovementY) * 0.5f, -20.0f);
         }
         else {
             float previousYVelocity = _ctx.CurrentMovementY;
-            _ctx.CurrentMovementY += (_ctx.JumpGravities[_ctx.JumpCount]  * Time.deltaTime);
+            _ctx.CurrentMovementY += (_ctx.JumpGravity  * Time.deltaTime);
             _ctx.AppliedMovementY = (previousYVelocity + _ctx.CurrentMovementY) * 0.5f;
         }
     }

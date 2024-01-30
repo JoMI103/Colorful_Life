@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1dadbe6666d40c48811a49fd049942a, type: 3}
   m_Name: Player Base Stats Deafult
   m_EditorClassIdentifier: 
-  MovementSpeed: 10
-  RotationSpeed: 2.34
-  MaxJumpHeight: 3
-  MaxJumpTime: 0.8
+  MovementSpeed: 6
+  RotationSpeed: 1.5
+  DashDuration: 1
+  DashDistance: 1
+  MaxJumpHeight: 4
+  MaxJumpTime: 1

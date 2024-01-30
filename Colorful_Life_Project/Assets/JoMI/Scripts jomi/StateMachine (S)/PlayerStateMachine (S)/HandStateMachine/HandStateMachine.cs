@@ -8,15 +8,17 @@ public class HandStateMachine : MonoBehaviour
     [SerializeField] private Transform _playerBody;
 
     [SerializeField] private Transform _animationTransform;
+    [SerializeField] private Transform _baseTransform;
+    [SerializeField] private Transform _followTransform;
 
-    private Vector3 _targetFollowPos;
-    private Vector3 _targetBasePos;
-    private Vector3 _targetFollowRotation;
-    private Vector3 _targetBaseRotation;
 
+    float _currentTargetDistance;
+    Vector3 _playerBodyInfluence;
+    Vector3 _currentTargetDirection;
 
     private Vector3 _currentVelocity;
-
+    private float _currentPunchForce;
+    private Vector3 _lastBodyPos;
 
     #region State Machine Variables Setters and Getters
     //Hands state machine
@@ -35,26 +37,17 @@ public class HandStateMachine : MonoBehaviour
    
     public Vector3 CurrentVelocity { get => _currentVelocity; set => _currentVelocity = value; }
     public HandBaseStatsSO HandBaseStats { get => _handBaseStats;  }
-    public Vector3 TargetFollowPos { get => _targetFollowPos; }
-    public Vector3 TargetFollowRotation { get => _targetFollowRotation;  }
-    public Vector3 TargetBasePos { get => _targetBasePos;  }
-    public Vector3 TargetBaseRotation { get => _targetBaseRotation;  }
     public Transform PlayerBody { get => _playerBody; }
 
     public Transform AnimationTransform { get => _animationTransform;  }
+    public float CurrentPunchForce { get => _currentPunchForce; set => _currentPunchForce = value; }
+    public float CurrentTargetDistance { get => _currentTargetDistance; }
+    public Vector3 PlayerBodyInfluence { get => _playerBodyInfluence; }
+    public Vector3 CurrentTargetDirection { get => _currentTargetDirection; }
 
-    public void SetFollowTarget(Vector3 TargetPosition, Vector3 TargetRotation) {
-        _targetFollowPos = TargetPosition;
-        _targetFollowRotation = TargetRotation;
-      
-    }
+    public Transform BaseTransform { get => _baseTransform; }
+    public Transform FollowTransform { get => _followTransform; }
 
-    public void SetBaseTarget(Vector3 TargetPosition, Vector3 TargetRotation)
-    {
-        _targetBasePos = TargetPosition;
-        _targetBaseRotation = TargetRotation;
-  
-    }
 
     #endregion
 
@@ -79,6 +72,7 @@ public class HandStateMachine : MonoBehaviour
     {
 
         _currentHandState.UpdateState();
+        _lastBodyPos = _playerBody.position;
     }
 
     
@@ -93,39 +87,63 @@ public class HandStateMachine : MonoBehaviour
     }
 
 
+
+    
+     
+
+    
+    
+
     #region movement methods
 
-    public void HandleHandToBaseMovement()
+    public void FixPositionWithPlayerMovement()
     {
-        float currentDistance = Vector3.Distance(TargetBasePos, transform.position);
+        this.transform.position += Vector3.Lerp(_playerBody.position - _lastBodyPos, Vector3.zero, Mathf.Lerp(0, 1, Vector3.Distance(_baseTransform.position, transform.position) - 0.3f));
+        _lastBodyPos = _playerBody.position;
+    }
 
-        Vector3 playerBodyInfluenceForce = (PlayerBody.position - transform.position).normalized *
+    public void CalculateForBaseTarget()
+    {
+        _currentTargetDistance = Vector3.Distance(_baseTransform.position, transform.position);
+
+        _playerBodyInfluence = (PlayerBody.position - transform.position).normalized *
+                Mathf.Pow(Vector3.Distance(transform.position, PlayerBody.position), _handBaseStats.BodyInflunce);
+
+        _currentTargetDirection = (_baseTransform.position - transform.position).normalized;
+
+    }
+
+    public void CalculateForFollowTarget()
+    {
+        _currentTargetDistance = Vector3.Distance(_followTransform.position, transform.position);
+
+        _playerBodyInfluence = (PlayerBody.position - transform.position).normalized *
                 Mathf.Pow(Vector3.Distance(transform.position, PlayerBody.position), -1);
 
-        Vector3 directionToTarget = (TargetBasePos - transform.position).normalized;
+        _currentTargetDirection = (_followTransform.position - transform.position).normalized;
+    }
 
-        CurrentVelocity = (directionToTarget - playerBodyInfluenceForce) *
-            HandBaseStats.MoveSpeed * getVelocityFactorFunc(currentDistance); //+ v3 * f3;
 
-        //Debug.Log(getVelocityFactorFunc(_ctx.CurrentDistance));
+    public void HandleMovement(float AdditionalVelocity)
+    {
+        CurrentVelocity = (CurrentTargetDirection - PlayerBodyInfluence) *
+           HandBaseStats.MoveSpeed * AdditionalVelocity * GetVelocityFactorFunc(CurrentTargetDistance);
 
         Vector3 nextPos = transform.position + CurrentVelocity * Time.deltaTime;
 
-
-
-        if (Vector3.Distance(transform.position, nextPos) > currentDistance)
+        if (Vector3.Distance(transform.position, nextPos) > CurrentTargetDistance)
         {
             Debug.LogError("1");
-            CurrentVelocity = Vector3.zero; 
-            transform.position = TargetBasePos;
+            CurrentVelocity = Vector3.zero;
+            transform.position = BaseTransform.position;
             return;
         }
 
-
         transform.position = nextPos;
     }
+  
 
-    float getVelocityFactorFunc(float x)
+    public float GetVelocityFactorFunc(float x)
     {
         float aux1 = 1 + x * HandBaseStats.Func1;
         if (aux1 == 0) return 0;

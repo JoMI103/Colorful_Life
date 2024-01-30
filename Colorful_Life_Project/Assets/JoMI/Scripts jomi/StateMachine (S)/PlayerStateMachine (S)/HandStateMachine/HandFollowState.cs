@@ -18,7 +18,10 @@ public class HandFollowState : InnerBaseState<HandState>
     public override void UpdateState()
     {
         if (CheckSwitchStates()) return;
-        HandleMovement();
+        _ctx.CalculateForFollowTarget();
+        _ctx.HandleMovement(1);
+        _ctx.FixPositionWithPlayerMovement();
+        HandleRotation();
     }
 
     public override void ExitState()
@@ -26,32 +29,13 @@ public class HandFollowState : InnerBaseState<HandState>
         Debug.LogWarning("Exit Hand Follow State");
     }
 
-    void HandleMovement()
+    private void HandleRotation()
     {
-        float currentDistance = Vector3.Distance(_ctx.TargetFollowPos, _ctx.transform.position);
-
-        Vector3 playerBodyInfluenceForce = (_ctx.PlayerBody.position - _ctx.transform.position).normalized *
-                Mathf.Pow(Vector3.Distance(_ctx.transform.position, _ctx.PlayerBody.position), -1);
-
-
-        Vector3 directionToTarget = (_ctx.TargetFollowPos - _ctx.transform.position).normalized;
-        _ctx.CurrentVelocity = (directionToTarget - playerBodyInfluenceForce) *
-            _ctx.HandBaseStats.MoveSpeed * getVelocityFactorFunc(currentDistance); //+ v3 * f3;
-
-
-        Vector3 nextPos = _ctx.transform.position + _ctx.CurrentVelocity * Time.deltaTime;
-
-        if (Vector3.Distance(_ctx.transform.position, nextPos) > currentDistance)
-        {
-            Debug.LogError("1");
-            _ctx.CurrentVelocity = Vector3.zero; playerBodyInfluenceForce = Vector3.zero;
-            _ctx.transform.position = _ctx.TargetFollowPos;
-            return;
-        }
-
-
-        _ctx.transform.position = nextPos;
+        Quaternion farRotation = Quaternion.LookRotation(Vector3.up, _ctx.PlayerBodyInfluence.normalized);
+        Quaternion q = Quaternion.Lerp(_ctx.FollowTransform.rotation, farRotation, Mathf.Exp(_ctx.CurrentTargetDistance - _ctx.CurrentTargetDistance / 1.5f) - 1);
+        _ctx.transform.rotation = Quaternion.RotateTowards(_ctx.transform.rotation, q, 360 * _ctx.HandBaseStats.RotationSpeed * Time.deltaTime);
     }
+
 
     public override bool CheckSwitchStates()
     {

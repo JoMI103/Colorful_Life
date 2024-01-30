@@ -18,10 +18,13 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
    // public string Name { get; set; }
    // public GameObject coisoQueAtacou { get; set; }
 
-    public Vector2 _offset;
-    public Vector2 Offset { get; set; }
+    public float _offset;
+    public float Offset { get; set; }
     public Transform leftHandPos { get; set; }
     public Transform rightHandPos { get; set; }
+
+    public GameObject GetGameObject { get => this.gameObject; }
+
     public Transform leftT, rightT;
 
     public void Hit(GameObject coisoQueAtacou, Vector3 direction,Vector3 inpactPos, int damage, bool impact = false)
@@ -36,15 +39,22 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 
     public void Killed() => Destroy(this.gameObject);
 
-    public (Quaternion, Quaternion, Vector2) Grab()
-    {
-        _rb.useGravity = false;
-        return (leftHandPos.rotation, rightHandPos.rotation,Offset);
-    }
+
 
     public void UnGrab()
     {
         _rb.useGravity = true;
+    }
+
+
+    public (Quaternion, Quaternion, float Offset) GetGrabablesData()
+    {
+        return (leftHandPos.rotation, rightHandPos.rotation,Offset);
+    }
+
+    void IGrabbable.Grab()
+    {
+        _rb.useGravity = false;
     }
     #endregion
 }

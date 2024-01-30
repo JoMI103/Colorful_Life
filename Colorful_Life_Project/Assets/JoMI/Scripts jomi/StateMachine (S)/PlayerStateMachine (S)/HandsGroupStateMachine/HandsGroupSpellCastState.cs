@@ -13,11 +13,11 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
 
     public override void EnterState()
     {
-        Debug.LogWarning("Enter Hands Attack State");
-
         _ctx.LeftHand.SwitchState(HandState.Animate);
-
         _ctx.RightHand.SwitchState(HandState.Animate);
+        _ctx.LeftAnimator.enabled = false;
+        _ctx.RightAnimator.enabled = false;
+        _ctx.LeftRightAnimator.enabled = true;
         _ctx.LeftRightAnimator.Play("RageAttack");
     }
 
@@ -28,8 +28,6 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
 
     public override void ExitState()
     {
-        Debug.LogWarning("Exit Hands Attack State");
-
         _ctx.LeftHand.SwitchState(HandState.Free);
         _ctx.RightHand.SwitchState(HandState.Free);
         _ctx.LeftRightAnimator.Play("Nothing");
@@ -38,12 +36,8 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
     public override bool CheckSwitchStates()
     {
         if (_ctx.LeftRightAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-        {
             return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
 
-        }
-
-
-            return false;
+        return false;
     }
 }

@@ -11,9 +11,7 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
 
     public override void EnterState()
     {
-        ResetRandomIdleAnimation();
-        
-        Debug.LogWarning("Enter Hands Group Idle State");
+        ResetRandomIdleAnimation(); 
     }
 
     public override void UpdateState()
@@ -27,7 +25,6 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
 
     public override void ExitState()
     {
-        Debug.LogWarning("Exit Hands Group Idle State");
     }
 
    
@@ -39,9 +36,11 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
 
     public override bool CheckSwitchStates()
     {
-        if (_ctx.IsAttackPressed) SwitchState(_ctx.HandsGroupStates[HandsGroupState.Attack], ref _ctx.CurrentHandsGroupStateRef);
+        if (_ctx.IsAttackPressed) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Attack], ref _ctx.CurrentHandsGroupStateRef);
 
-        if(Input.GetKeyDown(KeyCode.J)) SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
+        if(Input.GetKeyDown(KeyCode.J)) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
+
+        if(Input.GetKeyDown(KeyCode.E) && _ctx.CurrentIGrabbable != null) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Grab], ref _ctx.CurrentHandsGroupStateRef);
         return false;
     }
 }

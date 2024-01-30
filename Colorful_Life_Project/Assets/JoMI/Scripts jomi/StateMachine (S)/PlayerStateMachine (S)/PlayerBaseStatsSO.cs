@@ -7,7 +7,8 @@ public class PlayerBaseStatsSO : ScriptableObject
     public float MovementSpeed = 10;
     public float RotationSpeed = 30;
 
-
+    public float DashDuration = 1;
+    public float DashDistance = 1;
 
 
     [Header("Scene Start needed")]

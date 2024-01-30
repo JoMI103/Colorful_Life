@@ -8,7 +8,6 @@ using static HandStateMachine;
 
 public class PlayerContext : MonoBehaviour {
 
-    [SerializeField] Transform debugTransform;
 
     #region Variables
 
@@ -33,15 +32,13 @@ public class PlayerContext : MonoBehaviour {
 
     //jumping variables
     private bool _isJumpPressed;
-    private bool _isJumping;
     private bool _requireNewJumpPress;
-    private float _initialJumpVelocity;
-    private int _jumpCount;
-    Dictionary<int, float> _initialJumpVelocities = new();
-    Dictionary<int, float> _jumpGravities = new();
-    Coroutine _currentJumpResetRoutine = null;
+    private float _jumpVelocity;
+    private float _jumpGravity;
+
 
     private float _gravity = -9.8f;
+
 
     //hands Variables
 
@@ -51,6 +48,13 @@ public class PlayerContext : MonoBehaviour {
     [SerializeField] private Animator _leftAnimator;
     [SerializeField] private Animator _rightAnimator;
     [SerializeField] private Animator _leftRightAnimator;
+
+
+    [SerializeField] private BoxCollider _grabbableArea;
+    private IGrabbable _currentIGrabbable;
+    private IGrabbable _grabbedObject;
+
+    
 
     #endregion
 
@@ -86,12 +90,9 @@ public class PlayerContext : MonoBehaviour {
     public float AppliedMovementZ { get => _appliedMovement.z; set => _appliedMovement.z = value; }
     
     public bool IsJumpPressed { get => _isJumpPressed; }
-    public bool IsJumping { get => _isJumping; set => _isJumping = value; }
     public bool RequireNewJumpPress { get => _requireNewJumpPress; set => _requireNewJumpPress = value; }
-    public int JumpCount { get => _jumpCount; set => _jumpCount = value; }
-    public Dictionary<int, float> InitialJumpVelocities { get => _initialJumpVelocities; }
-    public Dictionary<int, float> JumpGravities { get => _jumpGravities;  }
-    public Coroutine CurrentJumpResetRoutine { get => _currentJumpResetRoutine; set => _currentJumpResetRoutine = value; }
+    public float JumpVelocity { get => _jumpVelocity; }
+    public float JumpGravity { get => _jumpGravity; }
     
     public float Gravity { get => _gravity; set => _gravity = value; }
 
@@ -107,7 +108,9 @@ public class PlayerContext : MonoBehaviour {
     public Animator LeftAnimator { get => _leftAnimator; }
     public Animator RightAnimator { get => _rightAnimator; }
     public Animator LeftRightAnimator { get => _leftRightAnimator;}
-    public Transform DebugTransform { get => debugTransform; set => debugTransform = value; }
+    public IGrabbable CurrentIGrabbable { get => _currentIGrabbable;  }
+    public IGrabbable GrabbedObject { get => _grabbedObject; set => _grabbedObject = value; }
+
 
     #endregion
 
@@ -143,8 +146,8 @@ public class PlayerContext : MonoBehaviour {
             _handsGroupStates.Add(HandsGroupState.Idle, new HandsGroupIdleState(HandsGroupState.Idle, this));
             _handsGroupStates.Add(HandsGroupState.Attack, new HandsGroupAttackState(HandsGroupState.Attack, this));
             _handsGroupStates.Add(HandsGroupState.SpellCast, new HandsGroupSpellCastState(HandsGroupState.SpellCast, this));
-            //_movementStates.Add(HandsState.Carry, new PlayerFallState(HandsState.Carry, this));
-            //_movementStates.Add(HandsState.SpellCast, new PlayerJumpingState(HandsState.SpellCast, this));
+            _handsGroupStates.Add(HandsGroupState.Grab, new HandsGroupGrabState(HandsGroupState.Grab, this));
+            _handsGroupStates.Add(HandsGroupState.Carry, new HandsCarryState(HandsGroupState.Carry, this));
         }
         SetHandsStateMachineStates();
         _currentHandsGroupState = _handsGroupStates[HandsGroupState.Idle];
@@ -152,21 +155,8 @@ public class PlayerContext : MonoBehaviour {
         void SetUpJumpVariables()
         {
             float timeToApex = _playerBaseStats.MaxJumpTime / 2;
-            float initialGRavity = -2 * _playerBaseStats.MaxJumpHeight / Mathf.Pow(timeToApex, 2);
-            _initialJumpVelocity = 2 * _playerBaseStats.MaxJumpHeight / timeToApex;
-            float secondJumpGravity = -2 * (_playerBaseStats.MaxJumpHeight + 2) / Mathf.Pow(timeToApex * 1.25f, 2);
-            float secondJumpInitialVelocity = 2 * (_playerBaseStats.MaxJumpHeight + 2) / (timeToApex * 1.25f);
-            float thirdJumpGravity = -2 * (_playerBaseStats.MaxJumpHeight + 4) / Mathf.Pow(timeToApex * 1.5f, 2);
-            float thirdJumpInitialVelocity = 2 * (_playerBaseStats.MaxJumpHeight + 4) / (timeToApex * 1.5f);
-
-            _initialJumpVelocities.Add(1, _initialJumpVelocity);
-            _initialJumpVelocities.Add(2, secondJumpInitialVelocity);
-            _initialJumpVelocities.Add(3, thirdJumpInitialVelocity);
-
-            _jumpGravities.Add(0, initialGRavity);
-            _jumpGravities.Add(1, initialGRavity);
-            _jumpGravities.Add(2, secondJumpGravity);
-            _jumpGravities.Add(3, thirdJumpGravity);
+            _jumpGravity = -2 * _playerBaseStats.MaxJumpHeight / Mathf.Pow(timeToApex, 2);
+            _jumpVelocity = 2 * _playerBaseStats.MaxJumpHeight / timeToApex;
         }
         SetUpJumpVariables();
     }
@@ -178,36 +168,34 @@ public class PlayerContext : MonoBehaviour {
 
     private void Update() {
 
-        void SetHandsBaseTarget()
-        {
-            Vector3 leftPos, rightPos;
-            Vector3 offset = HandBaseStats.BodyHandOffSet;
-            rightPos = transform.rotation * offset + transform.position;
-            leftPos = transform.rotation * new Vector3(-offset.x, offset.y, offset.z) + transform.position;
-            LeftHand.SetBaseTarget(leftPos, HandBaseStats.BodyHandRotation);
-            RightHand.SetBaseTarget(rightPos, HandBaseStats.BodyHandRotation);
+        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y);
+
+        void HandleRotation() {
+            const float TAU = 2 * Mathf.PI;
+            transform.rotation = Quaternion.LookRotation(
+                Vector3.RotateTowards(transform.forward, 
+                (_mousePosition - transform.position).normalized, 
+                TAU * Time.deltaTime * _playerBaseStats.RotationSpeed, 0.0f));
         }
-        SetHandsBaseTarget();
+        HandleRotation();
+
+        _currentIGrabbable = null;
+        void FindGrabbableObjects()
+        {
+            foreach (Collider c in Physics.OverlapBox(transform.position + (transform.rotation * _grabbableArea.center), _grabbableArea.size))
+                foreach (MonoBehaviour script in c.gameObject.GetComponentsInChildren<MonoBehaviour>())
+                    if (script is IGrabbable)
+                        _currentIGrabbable = script as IGrabbable;
+        }
+        FindGrabbableObjects();
 
         _currentMovementState.UpdateStates();
         _currentHandsGroupState.UpdateState();
-        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y);
-
-        void HandleRotation()
-        {
-            const float TAU = 2 * Mathf.PI;
-            transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, (_mousePosition - transform.position).normalized, TAU * Time.deltaTime * _playerBaseStats.RotationSpeed, 0.0f));
-        }
-        HandleRotation();
     }
-
-    
 
     private void FixedUpdate() {
         _characterController.Move(_appliedMovement * Time.deltaTime);
     }
-
-   
 
     #region Inputs
 

@@ -38,6 +38,7 @@ namespace old
         {
             if (!_ctx.CurrentIGrabbable) return;
             _ctx.GrabbedObject = _ctx.CurrentIGrabbable;
+            /*
             (Quaternion, Quaternion, Vector2) data = (_ctx.CurrentIGrabbable as IGrabbable).Grab();
             GameObject g = _ctx.CurrentIGrabbable.gameObject;
             _ctx.GrabbleLeftRightTransform.Item1.rotation = data.Item1;
@@ -47,7 +48,7 @@ namespace old
             _ctx.GrabbleLeftRightTransform.Item2.position = _ctx.transform.rotation * new Vector3(+0.5f, -data.Item3.x, -data.Item3.y)
                 + g.transform.position;
             _ctx.GrabbedOffset = new Vector3(0, data.Item3.x, data.Item3.y);
-
+            */
             SwitchState(_factory.Grabbing());
 
         }

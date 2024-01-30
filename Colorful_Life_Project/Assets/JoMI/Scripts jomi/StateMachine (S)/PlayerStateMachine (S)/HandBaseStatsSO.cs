@@ -12,15 +12,18 @@ public class HandBaseStatsSO : ScriptableObject
     [Range(-1, 1)] public float Func2V2;
 
 
+    [Range(-2, 2)] public float BodyInflunce;
+
+    public float RotationSpeed;
+
+    public float AnimationMovementSpeed;
+    public float AnimationRotationSpeed;
+
     public float MaxPunchDistance;
     public float MinPunchDistance;
-
     public float punchChargTimeMult;
 
 
-    [Header("Player COntext ctx")]
-    public Vector3 BodyHandOffSet;
-    public Vector3 BodyHandRotation;
 
 
 }
