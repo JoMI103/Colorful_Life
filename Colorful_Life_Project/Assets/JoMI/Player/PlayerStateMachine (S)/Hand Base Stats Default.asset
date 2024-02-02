@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f30a87ded455b18489a86b32909a9ada, type: 3}
+  m_Name: Hand Base Stats Default
+  m_EditorClassIdentifier: 
+  MoveSpeed: 10
+  Func1: 9.3
+  Func2V1: 1.1
+  Func2V2: 0.55
+  BodyInflunce: -1
+  RotationSpeed: 5
+  AnimationMovementSpeed: 20
+  AnimationRotationSpeed: 70
+  MaxPunchDistance: 8
+  MinPunchDistance: 2
+  punchChargTimeMult: 0.6
