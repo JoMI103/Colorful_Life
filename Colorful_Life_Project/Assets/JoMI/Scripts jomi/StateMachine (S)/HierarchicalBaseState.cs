@@ -20,7 +20,7 @@ public abstract class HierarchicalBaseState<EState> where EState : Enum {
 
     public abstract bool CheckSwitchStates();
 
-    public void UpdateStates() { 
+    public virtual void UpdateStates() { 
         UpdateState();
         _currentSubState?.UpdateStates();
     }
@@ -32,6 +32,14 @@ public abstract class HierarchicalBaseState<EState> where EState : Enum {
         if (_isRootState)  contextCurrentState = newState; else _currentSuperState.SetSubState(newState);
         if (_currentSubState != null) newState.SetSubState(_currentSubState);
         return true;
+    }
+
+    public HierarchicalBaseState<EState> SwitchRootStateFromOutSide(HierarchicalBaseState<EState> newState)
+    {
+        ExitState(); //Exit current state (this)
+        newState.EnterState(); //Enter new state (newState)
+        if (_currentSubState != null) newState.SetSubState(_currentSubState);
+        return newState;
     }
 
     protected void SetSuperState(HierarchicalBaseState<EState> newSuperState) {
