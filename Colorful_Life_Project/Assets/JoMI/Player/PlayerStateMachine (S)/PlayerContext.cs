@@ -242,6 +242,10 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     void OnMovementInput(InputAction.CallbackContext context) {
         _currentMovementInput = context.ReadValue<Vector2>();
+        Vector3 Input3D = new(_currentMovementInput.x, 0, _currentMovementInput.y);
+        Input3D = _mainCamera.transform.rotation * Input3D;
+        Vector2 finalInput = new Vector2(Input3D.x, Input3D.z).normalized;
+        _currentMovementInput = finalInput;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
     }
 

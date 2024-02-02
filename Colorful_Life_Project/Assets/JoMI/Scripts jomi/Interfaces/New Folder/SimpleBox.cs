@@ -29,6 +29,7 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
 
     public void Hit(GameObject coisoQueAtacou, Vector3 direction,Vector3 inpactPos, int damage)
     {
+        Destroy(this.gameObject);
         _rb.AddForceAtPosition(direction, inpactPos, ForceMode.Impulse);
     }
 

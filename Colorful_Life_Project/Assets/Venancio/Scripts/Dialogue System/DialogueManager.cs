@@ -10,8 +10,8 @@ public class DialogueManager : Singleton<DialogueManager>
 {
     public GameObject _dialogueObject;
     private Speech _currentSpeech;
-    private TMPro.TextMeshPro _dialogueText;
-    private TMPro.TextMeshPro _speakerName;
+    private TextMeshPro _dialogueText;
+    private TextMeshPro _speakerName;
     private Speech _nextSpeech;
     [SerializeField]
     private SpeechGameObjectDictionaryPage[] _speechGameObjectDictionaryPages;
@@ -37,17 +37,6 @@ public class DialogueManager : Singleton<DialogueManager>
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void StartDialogue(Speech speech, GameObject dialogueObject, TextMeshPro dialogueText, TextMeshPro speakerName)
     {
