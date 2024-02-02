@@ -10,4 +10,6 @@ public class Speech : ScriptableObject
     [TextArea]
     public string Words;
     public Speech NextSpeech;
+    public string GameObjectToChange;
+
 }

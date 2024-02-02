@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class DialogueManager : Singleton<DialogueManager>
@@ -11,6 +13,29 @@ public class DialogueManager : Singleton<DialogueManager>
     private TMPro.TextMeshPro _dialogueText;
     private TMPro.TextMeshPro _speakerName;
     private Speech _nextSpeech;
+    [SerializeField]
+    private SpeechGameObjectDictionaryPage[] _speechGameObjectDictionaryPages;
+    private Dictionary<string, SpeechGameObjectDictionaryPage> _speechGameObjectDictionary = new Dictionary<string, SpeechGameObjectDictionaryPage>();
+
+
+    [Serializable]
+    public class SpeechGameObjectDictionaryPage
+    {
+        public string Name;
+        public GameObject DialogueObject;
+        public TextMeshPro DialogueText;
+        public TextMeshPro SpeakerName;
+    }
+
+    private void Awake()
+    {
+        InitializeSingleton();
+
+        foreach (SpeechGameObjectDictionaryPage page in _speechGameObjectDictionaryPages)
+        {
+            _speechGameObjectDictionary.Add(page.Name, page);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +80,23 @@ public class DialogueManager : Singleton<DialogueManager>
                 || nextSpeaker == null
                 || nextSpeaker.Equals("")))
             {
-                _speakerName.text = nextSpeaker;
+                _dialogueObject.SetActive(false);
+                
+                try  {
+                    SpeechGameObjectDictionaryPage UIElementInfo = _speechGameObjectDictionary[_currentSpeech.GameObjectToChange];
+                    _dialogueObject = UIElementInfo.DialogueObject;
+                    _dialogueText = UIElementInfo.DialogueText;
+                    _speakerName = UIElementInfo.SpeakerName;
+                }
+                catch (KeyNotFoundException excpt)
+                {
+                    Debug.Log(excpt);
+                }
+
+                
+                _speakerName.text = _currentSpeech.Speaker;
+
+                _dialogueObject.SetActive(true);
             }
 
             _dialogueText.text = _currentSpeech.Words;
@@ -67,6 +108,11 @@ public class DialogueManager : Singleton<DialogueManager>
             EndDialogue();
             return false;
         }
+    }
+
+    private void ChangeDialogueObject(string gameObjectToShow)
+    {
+        
     }
 
     public void EndDialogue()
