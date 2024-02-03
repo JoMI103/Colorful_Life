@@ -124,8 +124,6 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     #endregion
 
-
-
     private void Awake() {
         _playerInfo = new PlayerInfo(_uiManager, _playerBaseStats.MaxHP);
 
@@ -242,8 +240,14 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     void OnMovementInput(InputAction.CallbackContext context) {
         _currentMovementInput = context.ReadValue<Vector2>();
+
         Vector3 Input3D = new(_currentMovementInput.x, 0, _currentMovementInput.y);
+        Quaternion lastRotation;
+        lastRotation = _mainCamera.transform.rotation;
+
+        _mainCamera.transform.forward = Vector3.Cross(Vector3.up, -_mainCamera.transform.right);
         Input3D = _mainCamera.transform.rotation * Input3D;
+        _mainCamera.transform.rotation = lastRotation;
         Vector2 finalInput = new Vector2(Input3D.x, Input3D.z).normalized;
         _currentMovementInput = finalInput;
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
@@ -261,8 +265,6 @@ public class PlayerContext : MonoBehaviour, IHittable
     
 
     #endregion
-
-
 
     #region StateEnums
 
