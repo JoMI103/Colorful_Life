@@ -13,7 +13,6 @@ public class PlayerContext : MonoBehaviour, IHittable
     #region Variables
 
     [SerializeField] private Camera _mainCamera;
-    [SerializeField] private UI_Manager _uiManager;
 
     private CharacterController _characterController;
     private PlayerInput.OnFootActions _onFoot;
@@ -127,8 +126,7 @@ public class PlayerContext : MonoBehaviour, IHittable
     #endregion
 
     private void Awake() {
-        _playerInfo = new PlayerInfo(_uiManager, _playerBaseStats.MaxHP);
-
+        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None);
         _characterController = GetComponent<CharacterController>();
         _onFoot = GetComponent<InputManager>().OnFoot;
 
@@ -179,9 +177,11 @@ public class PlayerContext : MonoBehaviour, IHittable
         _currentHandsGroupState.EnterState();
     }
 
+
+
     private void Update() {
 
-        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y);
+        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y ) ;
 
         void HandleBodyRotation() {
             const float TAU = 2 * Mathf.PI;
@@ -301,18 +301,16 @@ public class PlayerContext : MonoBehaviour, IHittable
 
 public class PlayerInfo
 {
-    UI_Manager _uiManager;
-
     Magic _currentMagic;
     int _currentHP;
-    public int CurrentHP { get => _currentHP; set { _currentHP = value; Debug.Log("HP = " + _currentHP); } }
+    public int CurrentHP { get => _currentHP; set { _currentHP = value; UI_Manager.Instance.SetSlideLife(_currentHP); Debug.Log("HP = " + _currentHP); } }
     public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; } }
 
-    public PlayerInfo(UI_Manager uiMan,int hp)
+    public PlayerInfo(int MaxHp, Magic startMagic)
     {
-        _uiManager = uiMan;
-        _currentHP = hp;
-        _currentMagic = Magic.None;
+        _currentHP = MaxHp;
+        UI_Manager.Instance.SetSlideMaxLife(MaxHp);
+        _currentMagic = startMagic;
     }
 
 

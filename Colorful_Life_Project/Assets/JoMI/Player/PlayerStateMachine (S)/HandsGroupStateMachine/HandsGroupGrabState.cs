@@ -9,6 +9,7 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
     protected PlayerContext _ctx;
 
     public HandsGroupGrabState(HandsGroupState key, PlayerContext ctx) : base(key) => _ctx = ctx;
+    
 
    
 
@@ -35,17 +36,16 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
 
     void UpdateGrabTransforms()
     {
-        /*
-        (Quaternion, Quaternion, float) data = _ctx.GrabbedObject.GetGrabablesData();
-        GameObject g = _ctx.GrabbedObject.GetGameObject;
+        float offset = _ctx.GrabbedObject.Offset;
+        (Quaternion, Quaternion) data = _ctx.GrabbedObject.HandsRotations;
        
         _ctx.LeftHand.FollowTransform.rotation = data.Item1;
         _ctx.RightHand.FollowTransform.rotation = data.Item2;
-        _ctx.LeftHand.FollowTransform.position = _ctx.transform.rotation * new Vector3(-0.5f, -data.Item3, -data.Item3)
-            + g.transform.position;
-        _ctx.RightHand.FollowTransform.position = _ctx.transform.rotation * new Vector3(+0.5f, -data.Item3, -data.Item3)
-            + g.transform.position;
-        */
+        _ctx.LeftHand.FollowTransform.position = _ctx.transform.rotation * new Vector3(- 0.5f, -offset, -offset)
+            + _ctx.GrabbedObject.Position;
+        _ctx.RightHand.FollowTransform.position = _ctx.transform.rotation * new Vector3(+ 0.5f, -offset, -offset)
+            + _ctx.GrabbedObject.Position;
+        
     }
 
     public override bool CheckSwitchStates()

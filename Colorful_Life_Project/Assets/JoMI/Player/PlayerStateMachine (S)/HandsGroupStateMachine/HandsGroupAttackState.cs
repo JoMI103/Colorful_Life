@@ -92,7 +92,7 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
         float finalDistance = (min + Mathf.Lerp(0, distLenght, _chargingPunchTimer / _ctx.HandBaseStats.TimeToChargeMaxPunch));
         Vector3 direction = (_ctx.MousePosition - _ctx.transform.position).normalized;
 
-        return _ctx.transform.position + direction * finalDistance;
+        return (_ctx.transform.position + new Vector3(0, 1.5f, 0)) + direction * finalDistance;
     }
 
     public override void ExitState()

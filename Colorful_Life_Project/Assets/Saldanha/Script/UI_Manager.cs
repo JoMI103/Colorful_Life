@@ -113,6 +113,7 @@ public class UI_Manager : MonoBehaviour
     public void SetSlideLife(int lifeHP)
     {
         _lifeSlider.value = lifeHP;
+        StartCoroutine(UpdateSliderGradually());
     }
 
     public void OnHealthChanged()
@@ -124,7 +125,7 @@ public class UI_Manager : MonoBehaviour
     {
         float timeToChange = 1f;
         float startValue = _lifeSlider.value;
-        float targetValue = (float) _lifeSlider.value/ _lifeSlider.maxValue;
+        float targetValue = (float) _lifeSlider.value/ _lifeSlider.maxValue * 100;
         float elapsedTime = 0f;
     
           while (elapsedTime < timeToChange)

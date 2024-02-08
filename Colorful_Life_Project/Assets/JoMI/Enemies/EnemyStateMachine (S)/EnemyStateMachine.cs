@@ -97,7 +97,7 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
 
         foreach (var collider in coll)
         {
-            collider.GetComponent<PlayerContext>()?.Hit(this.gameObject,(collider.ClosestPoint(transform.position) - transform.position).normalized,transform.position, 5); // SO bodyDamage
+            collider.GetComponent<PlayerContext>()?.Hit(this.gameObject,(collider.ClosestPoint(transform.position) - transform.position).normalized,transform.position, 25); // SO bodyDamage
         }
 
     }

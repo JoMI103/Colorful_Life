@@ -17,14 +17,14 @@ public class GrabbableObject : MonoBehaviour, IGrabbable
 
     public float Offset => _offSet;
 
-    public (Vector3, Vector3) HandsRotations => (_handRotation, new Vector3(_handRotation.x, _handRotation.y, -_handRotation.z));
+    public (Quaternion, Quaternion) HandsRotations => (Quaternion.Euler( _handRotation), Quaternion.Euler( new Vector3(_handRotation.x, _handRotation.y, -_handRotation.z)));
 
     public Vector3 Position => transform.position;
 
-    public void Grab() => _rb.useGravity = true;
+    public void Grab() => _rb.useGravity = false;
     
 
-    public void UnGrab() => _rb.useGravity = false;
+    public void UnGrab() => _rb.useGravity = true;
 
     public void updatePosWithHandsPos(Vector3 middleHandsPos) => transform.position = middleHandsPos;
     
