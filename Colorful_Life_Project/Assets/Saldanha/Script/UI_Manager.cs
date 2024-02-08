@@ -112,20 +112,17 @@ public class UI_Manager : MonoBehaviour
 
     public void SetSlideLife(int lifeHP)
     {
-        _lifeSlider.value = lifeHP;
-        StartCoroutine(UpdateSliderGradually());
+        lifeHP =(int)Mathf.Clamp(lifeHP, 0, _lifeSlider.maxValue);
+
+        float targetValue = lifeHP/ _lifeSlider.maxValue;
+
+        StartCoroutine(UpdateSliderGradually(targetValue));
     }
 
-    public void OnHealthChanged()
-    {
-        StartCoroutine(UpdateSliderGradually());
-    }
-
-    private IEnumerator UpdateSliderGradually()
+    private IEnumerator UpdateSliderGradually(float targetValue)
     {
         float timeToChange = 1f;
         float startValue = _lifeSlider.value;
-        float targetValue = (float) _lifeSlider.value/ _lifeSlider.maxValue * 100;
         float elapsedTime = 0f;
     
           while (elapsedTime < timeToChange)
