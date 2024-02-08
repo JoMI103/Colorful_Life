@@ -4,14 +4,22 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    #region HUD REFERENCES
+    [Header("HUD")]
+    private Slider _lifeSlider;
+    #endregion
     #region [Singleton]
     public static UI_Manager Instance { get; private set; }
 
     public void Awake()
     {
+       
+       
         if (Instance == null)
         {
             Instance = this;
@@ -33,8 +41,6 @@ public class UI_Manager : MonoBehaviour
 
     //UI elements, move page
     private int currentPageIndex = 0;
-
-    
 
     private void OnEnable()
     {
@@ -92,6 +98,45 @@ public class UI_Manager : MonoBehaviour
 
     #endregion
 
+    #region HUD 
 
+    public void SetSlideMaxLife(int maxLifeHP)
+    {
+        _lifeSlider = GameObject.Find("LifeSlider").GetComponent<Slider>();
+
+        _lifeSlider.maxValue = maxLifeHP;
+        _lifeSlider.value = maxLifeHP;
+    }   
+
+
+
+    public void SetSlideLife(int lifeHP)
+    {
+        _lifeSlider.value = lifeHP;
+    }
+
+    public void OnHealthChanged()
+    {
+        StartCoroutine(UpdateSliderGradually());
+    }
+
+    private IEnumerator UpdateSliderGradually()
+    {
+        float timeToChange = 1f;
+        float startValue = _lifeSlider.value;
+        float targetValue = (float) _lifeSlider.value/ _lifeSlider.maxValue;
+        float elapsedTime = 0f;
+    
+          while (elapsedTime < timeToChange)
+          {
+                elapsedTime += Time.deltaTime;
+                _lifeSlider.value = Mathf.Lerp(startValue, targetValue , elapsedTime / timeToChange);
+                yield return null;
+          }
+       _lifeSlider.value = targetValue;
+    }
+
+
+    #endregion
 
 }
