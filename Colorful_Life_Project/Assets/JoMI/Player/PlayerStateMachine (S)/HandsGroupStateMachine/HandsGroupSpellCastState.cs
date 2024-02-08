@@ -14,6 +14,7 @@ public class HandsGroupSpellCastState : InnerBaseState<HandsGroupState>
 
     public override void EnterState()
     {
+
         _ctx.LeftHand.SwitchState(HandState.Animate);
         _ctx.RightHand.SwitchState(HandState.Animate);
         _ctx.LeftAnimator.enabled = false;

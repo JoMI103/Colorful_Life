@@ -18,6 +18,8 @@ MonoBehaviour:
   DashDistance: 1
   HittedImunityTime: 1
   HittedKnockbackDuration: 0.2
+  ExplosionDmg: 30
+  ExplosionForce: 10
   MaxJumpHeight: 4
   MaxJumpTime: 1
   MaxHP: 100

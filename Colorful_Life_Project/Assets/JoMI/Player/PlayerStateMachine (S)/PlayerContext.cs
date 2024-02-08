@@ -46,6 +46,8 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     private float _gravity = -9.8f;
 
+    private float _spellDamageTimer;
+    private const float SpellDmgCoolDown = 1;
 
     //hands Variables
     [SerializeField] private HandStateMachine _leftHand;
@@ -181,14 +183,14 @@ public class PlayerContext : MonoBehaviour, IHittable
 
         _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y);
 
-        void HandleRotation() {
+        void HandleBodyRotation() {
             const float TAU = 2 * Mathf.PI;
             transform.rotation = Quaternion.LookRotation(
                 Vector3.RotateTowards(transform.forward, 
                 (_mousePosition - transform.position).normalized, 
                 TAU * Time.deltaTime * _playerBaseStats.RotationSpeed, 0.0f));
         }
-        HandleRotation();
+        HandleBodyRotation();
 
         _currentIGrabbable = null;
         void FindGrabbableObjects()
@@ -202,6 +204,12 @@ public class PlayerContext : MonoBehaviour, IHittable
 
         _currentMovementState.UpdateStates();
         _currentHandsGroupState.UpdateState();
+
+        if (_spellDamageTimer < 0 && _playerInfo.CurrentMagic != Magic.None) { 
+            _spellDamageTimer = SpellDmgCoolDown; 
+            _playerInfo.CurrentHP -= 1; 
+        } else _spellDamageTimer -= Time.deltaTime;
+        
     }
 
     private void FixedUpdate() {
@@ -230,7 +238,7 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     public bool AddSpell(Magic magic)
     {
-        if (_playerInfo.CurrentMagic == Magic.None) { _playerInfo.CurrentMagic = magic; return true; }
+        if (_playerInfo.CurrentMagic == Magic.None) { _spellDamageTimer = SpellDmgCoolDown;  _playerInfo.CurrentMagic = magic; return true; }
         return false;
     }
 

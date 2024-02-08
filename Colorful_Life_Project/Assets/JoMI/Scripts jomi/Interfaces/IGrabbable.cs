@@ -2,12 +2,11 @@ using UnityEngine;
 
 public interface IGrabbable 
 {
-    float Offset { get; set; }
-    Transform leftHandPos { get; set; }
-    Transform rightHandPos { get; set; }
-    public GameObject GetGameObject { get; }
+    float Offset { get; }
+    (Vector3,Vector3) HandsRotations { get; }
+    Vector3 Position { get; }
 
+    void updatePosWithHandsPos(Vector3 middleHandsPos);
     void Grab();
-    (Quaternion, Quaternion, float Offset) GetGrabablesData();
     void UnGrab();
 }
