@@ -11,13 +11,13 @@ public class HandStateMachine : MonoBehaviour
     [SerializeField] private Transform _baseTransform;
     [SerializeField] private Transform _followTransform;
 
+    private float _punchPower; //0 - 1 power;
 
     float _currentTargetDistance;
     Vector3 _playerBodyInfluence;
     Vector3 _currentTargetDirection;
 
     private Vector3 _currentVelocity;
-    private float _currentPunchForce;
     private Vector3 _lastBodyPos;
 
     #region State Machine Variables Setters and Getters
@@ -40,13 +40,13 @@ public class HandStateMachine : MonoBehaviour
     public Transform PlayerBody { get => _playerBody; }
 
     public Transform AnimationTransform { get => _animationTransform;  }
-    public float CurrentPunchForce { get => _currentPunchForce; set => _currentPunchForce = value; }
     public float CurrentTargetDistance { get => _currentTargetDistance; }
     public Vector3 PlayerBodyInfluence { get => _playerBodyInfluence; }
     public Vector3 CurrentTargetDirection { get => _currentTargetDirection; }
 
     public Transform BaseTransform { get => _baseTransform; }
     public Transform FollowTransform { get => _followTransform; }
+    public float PunchPower { get => _punchPower; set => _punchPower = Mathf.Clamp(value,0.1f,1); }
 
 
     #endregion
@@ -150,6 +150,13 @@ public class HandStateMachine : MonoBehaviour
         return y;
     }
 
+
+    public void HandleRotation(float AdditionalVelocity)
+    {
+        Quaternion farRotation = Quaternion.LookRotation(Vector3.up, _playerBodyInfluence.normalized);
+        Quaternion q = Quaternion.Lerp(_baseTransform.rotation, farRotation, Mathf.Exp(_currentTargetDistance - _currentTargetDistance / 1.5f) - 1);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 360 * _handBaseStats.RotationSpeed * AdditionalVelocity * Time.deltaTime);
+    }
 
     #endregion
 

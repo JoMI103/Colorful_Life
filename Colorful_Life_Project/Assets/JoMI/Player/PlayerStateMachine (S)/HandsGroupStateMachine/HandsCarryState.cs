@@ -29,10 +29,10 @@ public class HandsCarryState : InnerBaseState<HandsGroupState>
     public override void UpdateState()
     {
         if (CheckSwitchStates()) return;
-        (Quaternion, Quaternion, float) data = _ctx.GrabbedObject.GetGrabablesData();
-        Transform GrabbedObjectTransform = _ctx.GrabbedObject.GetGameObject.transform;
+        //(Quaternion, Quaternion, float) data = _ctx.GrabbedObject.GetGrabablesData();
+        //Transform GrabbedObjectTransform = _ctx.GrabbedObject.GetGameObject.transform;
 
-        GrabbedObjectTransform.position = GetHandsCenterPos() + _ctx.transform.rotation * new Vector3( 0, data.Item3, data.Item3);
+        //GrabbedObjectTransform.position = GetHandsCenterPos() + _ctx.transform.rotation * new Vector3( 0, data.Item3, data.Item3);
     }
 
     private Vector3 GetHandsCenterPos()

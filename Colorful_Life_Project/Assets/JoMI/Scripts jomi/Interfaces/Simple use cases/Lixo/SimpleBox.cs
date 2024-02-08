@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
+public class SimpleBox : MonoBehaviour, IHittable
 {
     //[SerializeField] private int weight;
 
@@ -50,9 +50,6 @@ public class SimpleBox : MonoBehaviour, IHittable, IGrabbable
         return (leftHandPos.rotation, rightHandPos.rotation,Offset);
     }
 
-    void IGrabbable.Grab()
-    {
-        _rb.useGravity = false;
-    }
+
     #endregion
 }

@@ -35,6 +35,7 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
 
     void UpdateGrabTransforms()
     {
+        /*
         (Quaternion, Quaternion, float) data = _ctx.GrabbedObject.GetGrabablesData();
         GameObject g = _ctx.GrabbedObject.GetGameObject;
        
@@ -44,6 +45,7 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
             + g.transform.position;
         _ctx.RightHand.FollowTransform.position = _ctx.transform.rotation * new Vector3(+0.5f, -data.Item3, -data.Item3)
             + g.transform.position;
+        */
     }
 
     public override bool CheckSwitchStates()

@@ -19,9 +19,13 @@ public class HandBaseStatsSO : ScriptableObject
     public float AnimationMovementSpeed;
     public float AnimationRotationSpeed;
 
-    public float MaxPunchDistance;
-    public float MinPunchDistance;
-    public float punchChargTimeMult;
+    public float TimeToChargeMaxPunch;
+    public Vector2 MinMaxPunchDistance;
+    public float PunchDistanceLength { get => MinMaxPunchDistance.y - MinMaxPunchDistance.x; }
+    public Vector2 MinMaxPunchVelocity;
+    public Vector2Int MinMaxPunchDamage;
+    public Vector2 MinMaxPunchImpactForce;
+   
 
 
 

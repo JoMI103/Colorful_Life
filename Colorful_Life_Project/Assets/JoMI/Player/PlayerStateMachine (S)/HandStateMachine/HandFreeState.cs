@@ -21,17 +21,10 @@ public class HandFreeState : InnerBaseState<HandState>
         if (CheckSwitchStates()) return;
         _ctx.CalculateForBaseTarget();
         _ctx.HandleMovement(1);
+        _ctx.HandleRotation(1);
         _ctx.FixPositionWithPlayerMovement();
-        HandleRotation();
     }
 
-
-    private void HandleRotation()
-    {
-        Quaternion farRotation = Quaternion.LookRotation(Vector3.up, _ctx.PlayerBodyInfluence.normalized);
-        Quaternion q = Quaternion.Lerp(_ctx.BaseTransform.rotation, farRotation, Mathf.Exp(_ctx.CurrentTargetDistance - _ctx.CurrentTargetDistance / 1.5f) - 1);
-        _ctx.transform.rotation = Quaternion.RotateTowards(_ctx.transform.rotation, q, 360 * _ctx.HandBaseStats.RotationSpeed * Time.deltaTime);
-    }
 
 
     public override void ExitState()

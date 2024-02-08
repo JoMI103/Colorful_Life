@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SpellCaster : MonoBehaviour
 {
-    PlayerContext _playerContext;
+    [SerializeField] PlayerContext _playerContext;
 
     public void Explosion()
     {
+        int dmg = _playerContext.PlayerBaseStats.ExplosionDmg;
+        float impactForce = _playerContext.PlayerBaseStats.ExplosionForce;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, 10);
 
@@ -18,7 +20,7 @@ public class SpellCaster : MonoBehaviour
             {
                 if (mono is IHittable)
                 {
-                    (mono as IHittable).Hit(this.gameObject, (mono.transform.position - this.transform.position).normalized * 100, mono.transform.position, 10);
+                    (mono as IHittable).Hit(this.gameObject, (mono.transform.position - this.transform.position).normalized * impactForce, mono.transform.position, dmg);
                 }
             }
         }

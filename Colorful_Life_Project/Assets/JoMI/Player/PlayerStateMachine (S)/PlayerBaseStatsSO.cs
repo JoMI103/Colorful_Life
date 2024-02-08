@@ -13,6 +13,11 @@ public class PlayerBaseStatsSO : ScriptableObject
     public float HittedImunityTime;
     public float HittedKnockbackDuration;
 
+    [Header("Spell Stats")]
+    public int ExplosionDmg;
+    public float ExplosionForce;
+
+
     [Header("Scene Start needed")]
     public float MaxJumpHeight = 4;
     public float MaxJumpTime = 0.5f;

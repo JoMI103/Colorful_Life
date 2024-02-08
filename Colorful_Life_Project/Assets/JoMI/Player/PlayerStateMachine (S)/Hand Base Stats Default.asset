@@ -16,10 +16,12 @@ MonoBehaviour:
   Func1: 9.3
   Func2V1: 1.1
   Func2V2: 0.55
-  BodyInflunce: -1
+  BodyInflunce: -0.89
   RotationSpeed: 5
-  AnimationMovementSpeed: 20
-  AnimationRotationSpeed: 70
-  MaxPunchDistance: 8
-  MinPunchDistance: 2
-  punchChargTimeMult: 0.6
+  AnimationMovementSpeed: 30
+  AnimationRotationSpeed: 120
+  TimeToChargeMaxPunch: 3
+  MinMaxPunchDistance: {x: 2, y: 10}
+  MinMaxPunchVelocity: {x: 10, y: 30}
+  MinMaxPunchDamage: {x: 5, y: 100}
+  MinMaxPunchImpactForce: {x: 2, y: 10}
