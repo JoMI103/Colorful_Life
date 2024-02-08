@@ -55,46 +55,66 @@ public class UI_Manager : MonoBehaviour
         DiaryManager.Instance.OnPageUnlocked -= UpdateDiaryUI;
     }
 
-    private void UpdateDiaryUI(DiaryPage page)
+    public void EnableDiary()
     {
-        Debug.Log("Tentando ativar o painel do diário");
+          diaryPanel.SetActive(true);
+    }
+
+    public void UpdateDiaryUI(DiaryPage page)
+    {
+        
         diaryPanel.SetActive(true);
 
-
-        //Maneira generica de instanciar as páginas
-        /*foreach (DiaryPage pageUnlocked in _diaryManager._unlockedPages)
+        for (int i = 0; i < _diaryManager._unlockedPages.Count; i += 2)
         {
-            Debug.Log("Tentando instanciar a página");
-
-            // Verificar se o índice está dentro do intervalo da lista
-            if (pageUnlocked._id >= 0 && pageUnlocked._id < diaryPagePrefab.Count)
-            {
-                GameObject pagePrefab = Instantiate(diaryPagePrefab[pageUnlocked._id], diaryPanel.transform);
-                pagePrefab.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = pageUnlocked._title;
-                pagePrefab.transform.Find("TypeText").GetComponent<TextMeshProUGUI>().text = pageUnlocked._type;
-                pagePrefab.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text =pageUnlocked._content;
-            }
             
-        }*/
+            if (i < diaryPagePrefab.Count)
+            {
+                var currentPage = _diaryManager._unlockedPages[i];
+                var currentPagePrefab = diaryPagePrefab[i];
+                UpdatePageUI(currentPagePrefab, currentPage);
+               
+            }
+            if (i + 1 < _diaryManager._unlockedPages.Count && i + 1 < diaryPagePrefab.Count)
+            {
+                var nextPage = _diaryManager._unlockedPages[i + 1];
+                var nextPagePrefab = diaryPagePrefab[i + 1];
+                UpdatePageUI(nextPagePrefab, nextPage);
+                
+            }
+        }
     }
+    
+    private void UpdatePageUI(GameObject pagePrefab, DiaryPage page)
+    {
+        pagePrefab.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = page._title;
+        pagePrefab.transform.Find("TypeText").GetComponent<TextMeshProUGUI>().text = page._type;
+        pagePrefab.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = page._content;
+        pagePrefab.transform.Find("Image").GetComponent<Image>().gameObject.SetActive(false);
+    }
+
 
     public void NextPage()
     {
-        if (currentPageIndex < diaryPagePrefab.Count - 1 && currentPageIndex < _diaryManager._unlockedPages.Count - 1)
+        if (currentPageIndex < diaryPagePrefab.Count - 2 && currentPageIndex < _diaryManager._unlockedPages.Count - 2)
         {
             diaryPagePrefab[currentPageIndex].SetActive(false);
-            currentPageIndex++;
+            diaryPagePrefab[currentPageIndex+1].SetActive(false);
+            currentPageIndex +=2;
             diaryPagePrefab[currentPageIndex].SetActive(true);
+            diaryPagePrefab[currentPageIndex+1].SetActive(true);
         }
     }
 
     public void PreviousPage()
     {
-        if (currentPageIndex > 0)
+        if (currentPageIndex > 1)
         {
             diaryPagePrefab[currentPageIndex].SetActive(false);
-            currentPageIndex--;
+            diaryPagePrefab[currentPageIndex+1].SetActive(false);
+            currentPageIndex -=2;
             diaryPagePrefab[currentPageIndex].SetActive(true);
+            diaryPagePrefab[currentPageIndex+1].SetActive(true);
         }
     }
 
