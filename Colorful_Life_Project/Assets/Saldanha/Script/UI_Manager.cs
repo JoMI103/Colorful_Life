@@ -114,7 +114,7 @@ public class UI_Manager : MonoBehaviour
     {
         lifeHP =(int)Mathf.Clamp(lifeHP, 0, _lifeSlider.maxValue);
 
-        float targetValue = lifeHP/ _lifeSlider.maxValue;
+        float targetValue = lifeHP / _lifeSlider.maxValue * 100;
 
         StartCoroutine(UpdateSliderGradually(targetValue));
     }
