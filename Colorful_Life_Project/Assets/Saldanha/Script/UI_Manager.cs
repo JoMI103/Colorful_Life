@@ -140,17 +140,16 @@ public class UI_Manager : MonoBehaviour
 
     #region DespairSlider
 
-    public void SetSlideMaxDespair(int maxDespair)
+    public void SetSlideMaxDespair(float maxDespair)
     {
         _despairSlider = GameObject.Find("DespairSlider").GetComponent<Slider>();
 
         _despairSlider.maxValue = maxDespair;
-        _despairSlider.value = maxDespair;
     }
 
     public void SetSlideDespair(float currentDispair)
     {
-        _despairSlider.value = currentDispair / _despairSlider.maxValue * 100f;
+        _despairSlider.value = currentDispair ;
     }
 
     #endregion
@@ -167,13 +166,13 @@ public class UI_Manager : MonoBehaviour
         _abilitySlots[2].SetActive(false);
         switch (currentMagic)
         {
-            case PlayerInfo.Magic.Sadness:
+            case PlayerInfo.Magic.Rage:
                 _abilitySlots[0].SetActive(true);
                 break;
-            case PlayerInfo.Magic.Rage:
+            case PlayerInfo.Magic.Guilt:
                 _abilitySlots[1].SetActive(true);
                 break;
-            case PlayerInfo.Magic.Guilt:
+            case PlayerInfo.Magic.Sadness:
                 _abilitySlots[2].SetActive(true);
                 break;
         }

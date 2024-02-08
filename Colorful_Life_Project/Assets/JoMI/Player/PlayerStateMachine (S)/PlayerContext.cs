@@ -2,8 +2,10 @@ using jomi.CharController3D;
 using jomi.utils;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static PlayerInfo;
 
 public class PlayerContext : MonoBehaviour, IHittable
@@ -126,7 +128,9 @@ public class PlayerContext : MonoBehaviour, IHittable
     #endregion
 
     private void Awake() {
-        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None);
+
+        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
+        StartCoroutine(AddDespair());
         _characterController = GetComponent<CharacterController>();
         _onFoot = GetComponent<InputManager>().OnFoot;
 
@@ -177,11 +181,20 @@ public class PlayerContext : MonoBehaviour, IHittable
         _currentHandsGroupState.EnterState();
     }
 
+    IEnumerator AddDespair()
+    {
+        while (true)
+        {
+            _playerInfo.Despair += 0.0166f;
+            yield return new WaitForSeconds(1);
+        }
+    }
 
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.L)) SceneManager.LoadScene(0);
 
-        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y ) ;
+        _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y) ;
 
         void HandleBodyRotation() {
             const float TAU = 2 * Mathf.PI;
@@ -303,14 +316,22 @@ public class PlayerInfo
 {
     Magic _currentMagic;
     int _currentHP;
+    float _currentDespair;
     public int CurrentHP { get => _currentHP; set { _currentHP = value; UI_Manager.Instance.SetSlideLife(_currentHP); Debug.Log("HP = " + _currentHP); } }
-    public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; } }
+    public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; UI_Manager.Instance.UnlockAbilities(_currentMagic); } }
+    public float Despair { get => _currentDespair; set { _currentDespair = value;
+            UI_Manager.Instance.SetSlideDespair(_currentDespair);
+        }
+    }
 
-    public PlayerInfo(int MaxHp, Magic startMagic)
+    public PlayerInfo(int MaxHp, Magic startMagic, float MaxDespair)
     {
         _currentHP = MaxHp;
-        UI_Manager.Instance.SetSlideMaxLife(MaxHp);
+        _currentDespair = 0;
         _currentMagic = startMagic;
+        UI_Manager.Instance.SetSlideMaxLife(MaxHp);
+        UI_Manager.Instance.UnlockAbilities(_currentMagic);
+        UI_Manager.Instance.SetSlideMaxDespair(MaxDespair);
     }
 
 

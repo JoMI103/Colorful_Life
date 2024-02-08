@@ -17,6 +17,7 @@ public class PlayerBaseStatsSO : ScriptableObject
     public int ExplosionDmg;
     public float ExplosionForce;
 
+    public float DespairMaxTime;
 
     [Header("Scene Start needed")]
     public float MaxJumpHeight = 4;
