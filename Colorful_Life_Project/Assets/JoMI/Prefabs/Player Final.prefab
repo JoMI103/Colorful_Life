@@ -880,7 +880,7 @@ Transform:
   m_GameObject: {fileID: 5818364573364690563}
   serializedVersion: 2
   m_LocalRotation: {x: 0.039828274, y: 0.939808, z: 0.318356, w: -0.11757569}
-  m_LocalPosition: {x: -16.392897, y: 2.1420646, z: 0.6215316}
+  m_LocalPosition: {x: 0.27, y: 4.51, z: 0.6}
   m_LocalScale: {x: 1.109878, y: 1.109878, z: 1.1098781}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1442,7 +1442,7 @@ Transform:
   m_GameObject: {fileID: 7082852229368741793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.77, y: 1.2, z: 3.71}
+  m_LocalPosition: {x: -3.36, y: 1.2, z: -0.05}
   m_LocalScale: {x: 0.901, y: 0.901, z: 0.901}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1478,7 +1478,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 6241286433423962395}
-  _uiManager: {fileID: 0}
   _playerBaseStats: {fileID: 11400000, guid: 1da1adb38f933a04fa2fcb3f20c965fc, type: 2}
   _handBaseStats: {fileID: 11400000, guid: 4bc71f8f5e2d90244a12d43528788cad, type: 2}
   _leftHand: {fileID: 5150715344231787522}
