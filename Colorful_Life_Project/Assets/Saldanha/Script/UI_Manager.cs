@@ -163,7 +163,7 @@ public class UI_Manager : MonoBehaviour
     {
         //_despairSlider = GameObject.Find("DespairSlider").GetComponent<Slider>();
 
-        _despairImage.fillAmount = maxDespair;
+        _despairImage.fillAmount = 0;// maxDespair / 100;
     }
 
     public void SetSlideDespair(float currentDispair)

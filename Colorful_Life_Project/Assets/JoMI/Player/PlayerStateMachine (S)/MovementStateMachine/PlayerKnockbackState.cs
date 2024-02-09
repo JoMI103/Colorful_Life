@@ -28,6 +28,7 @@ public class PlayerKnockbackState : HierarchicalBaseState<MovementState>
         if (CheckSwitchStates()) return;
         _ctx.AppliedMovementX = _ctx.HitDirection.x * 8;
         _ctx.AppliedMovementZ = _ctx.HitDirection.z * 8;
+        HandleGravity();
         effectTime -= Time.deltaTime;
     }
 
