@@ -18,8 +18,7 @@ public class DespairScene : MonoBehaviour
     {
         if (other.GetComponent<PlayerContext>())
         {
-            //load next scene
-            Debug.Log("Deu");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
         }
     }
 }

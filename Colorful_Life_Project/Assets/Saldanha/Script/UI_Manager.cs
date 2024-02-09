@@ -15,24 +15,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private Image _lifeImage;
     [SerializeField] private Image _despairImage;
     #endregion
-    #region [Singleton]
-    public static UI_Manager Instance { get; private set; }
 
-    public void Awake()
-    {
-
-
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // This object will not be destroyed when loading a new scene
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    #endregion
 
 
     #region[Diario]
@@ -46,13 +29,13 @@ public class UI_Manager : MonoBehaviour
 
     private void OnEnable()
     {
-        //DiaryManager.Instance.OnPageUnlocked += UpdateDiaryUI;
+        _diaryManager.OnPageUnlocked += UpdateDiaryUI;
     }
 
 
     private void OnDisable()
     {
-        //DiaryManager.Instance.OnPageUnlocked -= UpdateDiaryUI;
+        _diaryManager.OnPageUnlocked -= UpdateDiaryUI;
     }
 
     public void EnableDiary()

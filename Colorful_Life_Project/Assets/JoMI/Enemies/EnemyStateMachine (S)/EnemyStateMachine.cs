@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHittable 
 {
-    [SerializeField] private Transform _player; //Setted in an enemy Spawn Manager
+   private Transform _player; //Setted in an enemy Spawn Manager
     [SerializeField] private GameObject _enemyOrb;
 
 
@@ -60,6 +60,10 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
     }
 
 
+    private void Start()
+    {
+        _player = SceneInstances.Instance.PlayerContext.gameObject.transform;
+    }
     protected virtual void setStates()
     {
         States.Add(EnemyState.Idle, new EnemyIdleState(EnemyState.Idle, this));

@@ -323,10 +323,10 @@ public class PlayerInfo
     Magic _currentMagic;
     int _currentHP;
     float _currentDespair;
-    public int CurrentHP { get => _currentHP; set { _currentHP = value; UI_Manager.Instance.SetSlideLife(_currentHP); Debug.Log("HP = " + _currentHP); } }
-    public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; UI_Manager.Instance.UnlockAbilities(_currentMagic); } }
+    public int CurrentHP { get => _currentHP; set { _currentHP = value; SceneInstances.Instance.Uimanager.SetSlideLife(_currentHP); Debug.Log("HP = " + _currentHP); } }
+    public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; SceneInstances.Instance.Uimanager.UnlockAbilities(_currentMagic); } }
     public float Despair { get => _currentDespair; set { _currentDespair = value;
-            UI_Manager.Instance.SetSlideDespair(_currentDespair);
+            SceneInstances.Instance.Uimanager.SetSlideDespair(_currentDespair);
         }
     }
 
@@ -335,9 +335,9 @@ public class PlayerInfo
         _currentHP = MaxHp;
         _currentDespair = 0;
         _currentMagic = startMagic;
-        UI_Manager.Instance.SetSlideMaxLife(MaxHp);
-        UI_Manager.Instance.UnlockAbilities(_currentMagic);
-        UI_Manager.Instance.SetSlideMaxDespair(MaxDespair);
+        SceneInstances.Instance.Uimanager.SetSlideMaxLife(MaxHp);
+        SceneInstances.Instance.Uimanager.UnlockAbilities(_currentMagic);
+        SceneInstances.Instance.Uimanager.SetSlideMaxDespair(MaxDespair);
     }
 
 

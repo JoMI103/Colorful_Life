@@ -21,11 +21,11 @@ public class StartDialogue : MonoBehaviour, IInteractable
         if (_firstTime)
         {
             PlayerGO = player;
-            DialogueManager.Instance.StartDialogue(_speech, _dialogueVisualObject, _dialogueText, _dialogueSpeaker);
+            SceneInstances.Instance.DialogueManager.StartDialogue(_speech, _dialogueVisualObject, _dialogueText, _dialogueSpeaker);
             _firstTime = false;
         } else
         {
-            if (!DialogueManager.Instance.NextDialogue())
+            if (!SceneInstances.Instance.DialogueManager.NextDialogue())
             {
                 _firstTime = true;
             }

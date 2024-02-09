@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class DialogueManager : Singleton<DialogueManager>
+public class DialogueManager : MonoBehaviour
 {
     public GameObject _dialogueObject;
     private Speech _currentSpeech;
@@ -29,7 +29,6 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void Awake()
     {
-        InitializeSingleton();
 
         foreach (SpeechGameObjectDictionaryPage page in _speechGameObjectDictionaryPages)
         {
