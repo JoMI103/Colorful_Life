@@ -62,6 +62,7 @@ public class HandsGroupAttackState : InnerBaseState<HandsGroupState>
     IEnumerator Punch(HandStateMachine hand, Animator handAnimator, string animation)
     {
         handAnimator.Play(animation);
+        hand.AnimatedTrail = true;
         hand.SwitchState(HandState.Animate);
 
         while (_ctx.IsAttackPressed)

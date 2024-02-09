@@ -18,6 +18,7 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
         _ctx.GrabbedObject = _ctx.CurrentIGrabbable;
         _ctx.LeftHand.SwitchState(HandState.Follow);
         _ctx.RightHand.SwitchState(HandState.Follow);
+     
         UpdateGrabTransforms();
 
     }
@@ -50,7 +51,10 @@ public class HandsGroupGrabState : InnerBaseState<HandsGroupState>
 
     public override bool CheckSwitchStates()
     {
-        if (Input.GetKeyDown(KeyCode.E)) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
+        if (_ctx.InteractPressed && !_ctx.RequireNewInteractPress) {
+            _ctx.RequireNewInteractPress = true;
+            return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef); 
+        }
 
         if(_ctx.LeftHand.CurrentTargetDistance < 0.1f && _ctx.RightHand.CurrentTargetDistance < 0.1f) 
             return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Carry], ref _ctx.CurrentHandsGroupStateRef);

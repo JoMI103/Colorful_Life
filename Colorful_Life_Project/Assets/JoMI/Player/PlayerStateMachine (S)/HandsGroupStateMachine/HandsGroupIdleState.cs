@@ -17,7 +17,14 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
     public override void UpdateState()
     {
         if (CheckSwitchStates()) return;
-        
+
+
+        if (_ctx.InteractPressed && !_ctx.RequireNewInteractPress && _ctx.CurrentIInteractable != null)
+        {
+            _ctx.CurrentIInteractable.Interact(_ctx.gameObject);
+            _ctx.RequireNewInteractPress = true;
+        }
+
         _idleAnimationTimer -= Time.deltaTime;
 
         if(_idleAnimationTimer < 0) { ResetRandomIdleAnimation(); }
@@ -40,7 +47,11 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
 
         if(Input.GetKeyDown(KeyCode.J) && _ctx.PlayerInfo.CurrentMagic != PlayerInfo.Magic.None) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
 
-        if(Input.GetKeyDown(KeyCode.E) && _ctx.CurrentIGrabbable != null) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Grab], ref _ctx.CurrentHandsGroupStateRef);
+        if (_ctx.InteractPressed && !_ctx.RequireNewInteractPress && _ctx.CurrentIGrabbable != null)
+        {
+            _ctx.RequireNewInteractPress = true;
+            return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Grab], ref _ctx.CurrentHandsGroupStateRef);
+        }
         return false;
     }
 }

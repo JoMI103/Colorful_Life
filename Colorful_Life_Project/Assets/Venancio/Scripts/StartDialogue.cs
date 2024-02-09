@@ -12,6 +12,8 @@ public class StartDialogue : MonoBehaviour, IInteractable
     public string PromptMessage { get; set; }
     public GameObject PlayerGO { get; set; }
 
+    public GameObject InteractableGO => this.gameObject;
+
     private bool _firstTime = true;
 
     public void Interact(GameObject player)
@@ -19,7 +21,6 @@ public class StartDialogue : MonoBehaviour, IInteractable
         if (_firstTime)
         {
             PlayerGO = player;
-            //Debug.Log("AJUDAAAAAAAAAAAAAAAAA");
             DialogueManager.Instance.StartDialogue(_speech, _dialogueVisualObject, _dialogueText, _dialogueSpeaker);
             _firstTime = false;
         } else
