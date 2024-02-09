@@ -21,12 +21,13 @@ public class CameraManager : MonoBehaviour
 
 
     private Vector3 PlayerPosWithOffSet { get => _playerGameObject.transform.position + _playerPosOffSet; }
-    private Vector3 DefaulCameraPos { get => _cameraToPlayerOffSet + PlayerPosWithOffSet;  }
+    private Vector3 DefaulCameraPos { get => _cameraToPlayerOffSet + PlayerPosWithOffSet; }
     private Vector3 ForwardToPlayer { get => (PlayerPosWithOffSet - transform.position).normalized; }
     private Vector3 DefaultForwardToPlayer { get => (PlayerPosWithOffSet - DefaulCameraPos).normalized; }
     private float DefaultCameraTranslationVelocity { get => Time.deltaTime * _camTranslationVelocity * 10; }
     private float DefaultCameraRotationVelocity { get => Time.deltaTime * _camRotationVelocity * 3.14f; }
     public CamArea CurrentCamArea { get => _currentCamArea; set => _currentCamArea = value; }
+    public Vector3 CameraToPlayerOffSet { get => _cameraToPlayerOffSet; set => _cameraToPlayerOffSet = value; }
 
     private void Start()
     {

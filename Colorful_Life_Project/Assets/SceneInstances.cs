@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneInstances : MonoBehaviour
 {
@@ -30,4 +31,22 @@ public class SceneInstances : MonoBehaviour
     }
 
     #endregion
+
+
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    public CameraManager _cameraManager;
+    public Vector3[] startPos;
+    public Vector3[] cameraToPLayerOffSet;
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _playerContext.gameObject.transform.position = startPos[scene.buildIndex];
+        _cameraManager.CameraToPlayerOffSet = cameraToPLayerOffSet[scene.buildIndex];
+    }
+
 }
