@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.ProBuilder;
+using UnityEngine.SceneManagement;
 //TO-DO: No audioGroupList, fazer uma lista de um objeto proprio, onde se possa colocar um float e uma string).
-
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : MonoBehaviour
 {
     [Header("Background Musics Configuration")]
     [Space]
@@ -69,7 +68,8 @@ public class AudioManager : Singleton<AudioManager>
     [Space]
 
     [SerializeField]
-    private List<AudioGroup> _audioGroupList = new List<AudioGroup>();
+    [Serialize]
+    public List<AudioGroup> AudioGroups = new List<AudioGroup>(); //Needs to have a private set
     private Dictionary<string, AudioGroup> _audioGroupDictionary = new Dictionary<string, AudioGroup>();
 
 
@@ -87,8 +87,30 @@ public class AudioManager : Singleton<AudioManager>
         public AudioClip AudioClip;
     }
 
+
+    private static AudioManager _instance;
+
+    public static AudioManager Instance
+    {
+        get { return _instance; }
+    }
+
+    protected void SingletonSetup()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
     private void Awake()
     {
+        SingletonSetup();
         MakeDictionaries();
     }
 
@@ -125,8 +147,21 @@ public class AudioManager : Singleton<AudioManager>
         if (_playOnStart)
             PlayBackgroundMusic(_backgroundMusicToPlay);
 
+        SceneManager.activeSceneChanged += ResetAudioSources;
         
     }
+
+    private void ResetAudioSources(Scene current, Scene next)
+    {
+        _activeAudioSourceList = new List<AudioSource>();
+        _orignalVolumeDictionary = new Dictionary<AudioSource, float>();
+
+        foreach (AudioGroup audioGroup in AudioGroups)
+        {
+            audioGroup.List = new List<AudioSource>();
+        }
+}
+
 
     private void CheckVariables()
     {
@@ -135,9 +170,9 @@ public class AudioManager : Singleton<AudioManager>
             BackgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        if (_audioGroupList != null)
+        if (AudioGroups != null)
         {
-            foreach (AudioGroup audioGroup in _audioGroupList)
+            foreach (AudioGroup audioGroup in AudioGroups)
             {
                 if (audioGroup.Name == null)
                     audioGroup.Name = "";
@@ -154,7 +189,7 @@ public class AudioManager : Singleton<AudioManager>
             }
         } else
         {
-            _audioGroupList = new List<AudioGroup>();
+            AudioGroups = new List<AudioGroup>();
         }
     }
 
@@ -241,7 +276,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             audioGroup = new AudioGroup(audioGroupName, new List<AudioSource>(), 1f); //*
             _audioGroupDictionary.Add(audioGroupName, audioGroup);
-            _audioGroupList.Add(audioGroup);
+            AudioGroups.Add(audioGroup);
 
             Debug.Log("AudioManager on " + methodThatCalled + ": no Audio Group with name [" + audioGroupName + "]. Creating a new one...");
         }
@@ -299,17 +334,16 @@ public class AudioManager : Singleton<AudioManager>
         targetAudioSource.Play();
     }
 
-    public void ChangeVolume (float volume, string audioGroupName)
+    public void ChangeVolume (float newVolume, string audioGroupName)
     {
         AudioGroup audioGroup = RetrieveAudioGroupByName(audioGroupName, "ChangeVolume");
-        audioGroup.Volume = volume;
+        audioGroup.Volume = newVolume;
 
         if (audioGroup.List.Count > 0)
         {
             foreach (AudioSource audioSource in audioGroup.List)
             {
-                //Debug.Log("UMA");
-                audioSource.volume = (_orignalVolumeDictionary[audioSource] * volume) * GlobalSoundEffectsVolume;
+                audioSource.volume = (_orignalVolumeDictionary[audioSource] * newVolume) * GlobalSoundEffectsVolume;
             }
         }
     }
@@ -318,19 +352,21 @@ public class AudioManager : Singleton<AudioManager>
 
     public void DebugThis(string args)
     {
-        Debug.Log(_audioGroupList[0].List[0].volume) ;
+        Debug.Log(AudioGroups[0].List[0].volume) ;
     }
 
     [MenuItem("GameObject/Managers/Audio Manager", false, 10)]
     static void CreateCustomGameObject(MenuCommand menuCommand)
     {
         // Create a custom game object
-        GameObject go = new GameObject("Audio Manager");
-        go.AddComponent<AudioManager>();
+        GameObject audioManager = new GameObject("Audio Manager");
+        audioManager.AddComponent<AudioManager>();
         // Ensure it gets reparented if this was a context click (otherwise does nothing)
-        GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
+        GameObjectUtility.SetParentAndAlign(audioManager, menuCommand.context as GameObject);
         // Register the creation in the undo system
-        Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-        Selection.activeObject = go;
+        Undo.RegisterCreatedObjectUndo(audioManager, "Create " + audioManager.name);
+        Selection.activeObject = audioManager;
     }
+
+    
 }

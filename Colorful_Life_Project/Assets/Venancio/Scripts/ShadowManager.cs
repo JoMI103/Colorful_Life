@@ -52,11 +52,12 @@ public class ShadowManager : MonoBehaviour
         CurrentShadow.SetActive(false);
         shadow.SetActive(true);
         CurrentShadow = shadow;
+        AudioManager.Instance.Play("ShadowPoof",shadow,"SFX");
     }
 
     internal void DisableMe(GameObject shadow)
     {
-        CurrentShadow.SetActive(false);
+        shadow.SetActive(false);
     }
 }
 
