@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
+  m_Name: Speech 5
+  m_EditorClassIdentifier: 
+  Speaker: 
+  Words: This is not a dream.
+  NextSpeech: {fileID: 11400000, guid: d45e7b65dff3d4e4b97b1e1e76f19fe0, type: 2}
+  GameObjectToChange: 
