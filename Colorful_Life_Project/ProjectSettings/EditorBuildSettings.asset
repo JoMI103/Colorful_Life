@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_GameFolder/Scenes/StartMenu.unity
+    guid: 45f6fe7c5f200d74591446cb69f8ce5a
+  - enabled: 1
+    path: Assets/Venancio/Scenes/Despair.unity
+    guid: 44dfb85dbd242dd448956480d74ad9db
   m_configObjects: {}
