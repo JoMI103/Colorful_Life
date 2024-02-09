@@ -12,8 +12,8 @@ public class UI_Manager : MonoBehaviour
 {
     #region HUD REFERENCES
     [Header("HUD")]
-    private Slider _lifeSlider;
-    private Slider _despairSlider;
+    [SerializeField] private Slider _lifeSlider;
+    [SerializeField] private Slider _despairSlider;
     #endregion
     #region [Singleton]
     public static UI_Manager Instance { get; private set; }
@@ -46,13 +46,13 @@ public class UI_Manager : MonoBehaviour
 
     private void OnEnable()
     {
-        DiaryManager.Instance.OnPageUnlocked += UpdateDiaryUI;
+        //DiaryManager.Instance.OnPageUnlocked += UpdateDiaryUI;
     }
 
 
     private void OnDisable()
     {
-        DiaryManager.Instance.OnPageUnlocked -= UpdateDiaryUI;
+        //DiaryManager.Instance.OnPageUnlocked -= UpdateDiaryUI;
     }
 
     public void EnableDiary()
@@ -124,7 +124,6 @@ public class UI_Manager : MonoBehaviour
     #region LifeSlider
     public void SetSlideMaxLife(int maxLifeHP)
     {
-        _lifeSlider = GameObject.Find("LifeSlider").GetComponent<Slider>();
 
         _lifeSlider.maxValue = maxLifeHP;
         _lifeSlider.value = maxLifeHP;
@@ -162,7 +161,7 @@ public class UI_Manager : MonoBehaviour
 
     public void SetSlideMaxDespair(float maxDespair)
     {
-        _despairSlider = GameObject.Find("DespairSlider").GetComponent<Slider>();
+        //_despairSlider = GameObject.Find("DespairSlider").GetComponent<Slider>();
 
         _despairSlider.maxValue = maxDespair;
     }

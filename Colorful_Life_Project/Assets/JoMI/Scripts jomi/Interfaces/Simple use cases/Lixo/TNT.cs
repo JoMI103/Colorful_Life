@@ -12,6 +12,8 @@ public class TNT : MonoBehaviour, IInteractable
 
     public GameObject PlayerGO { get; set; }
 
+    public GameObject InteractableGO => this.gameObject;
+
     public void Interact(GameObject player)
     {
         Explode();

@@ -58,9 +58,14 @@ public class PlayerContext : MonoBehaviour, IHittable
     [SerializeField] private Animator _rightAnimator;
     [SerializeField] private Animator _leftRightAnimator;
 
+    private bool _interactPressed;
+    private bool _requireNewInteractPress;
 
-    [SerializeField] private BoxCollider _grabbableArea;
+
     private IGrabbable _currentIGrabbable;
+    private IInteractable _currentIInteractable;
+
+
     private IGrabbable _grabbedObject;
 
     
@@ -117,20 +122,22 @@ public class PlayerContext : MonoBehaviour, IHittable
     public Animator LeftAnimator { get => _leftAnimator; }
     public Animator RightAnimator { get => _rightAnimator; }
     public Animator LeftRightAnimator { get => _leftRightAnimator;}
-    public IGrabbable CurrentIGrabbable { get => _currentIGrabbable;  }
+    public IGrabbable CurrentIGrabbable { get => _currentIGrabbable; set => _currentIGrabbable = value; }
     public IGrabbable GrabbedObject { get => _grabbedObject; set => _grabbedObject = value; }
 
     internal PlayerInfo PlayerInfo { get => _playerInfo; set => _playerInfo = value; }
     public bool IsBeingHitted { get => _isBeingHitted; set => _isBeingHitted = value; }
     public Vector3 HitDirection { get => _hitDirection;  }
     public Camera GetMainCameraFromPlayerContext { get => _mainCamera; set => _mainCamera = value; }
+    public bool InteractPressed { get => _interactPressed;  }
+    public bool RequireNewInteractPress { get => _requireNewInteractPress; set => _requireNewInteractPress = value; }
+    public IInteractable CurrentIInteractable { get => _currentIInteractable; set => _currentIInteractable = value; }
 
     #endregion
 
     private void Awake() {
 
-        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
-        StartCoroutine(AddDespair());
+       
         _characterController = GetComponent<CharacterController>();
         _onFoot = GetComponent<InputManager>().OnFoot;
 
@@ -142,8 +149,11 @@ public class PlayerContext : MonoBehaviour, IHittable
         _onFoot.Attack.started += OnAttack;
         _onFoot.Attack.canceled += OnAttack;
 
+        _onFoot.Interact.started += OnInteract;
+        _onFoot.Interact.canceled += OnInteract;
 
-        
+
+
         void SetMovementStateMachineStates()
         {
             _movementStates.Add(MovementState.Idle, new PlayerIdleState(MovementState.Idle, this));
@@ -177,6 +187,8 @@ public class PlayerContext : MonoBehaviour, IHittable
     }
 
     private void Start() {
+        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
+        StartCoroutine(AddDespair());
         _currentMovementState.EnterState();
         _currentHandsGroupState.EnterState();
     }
@@ -192,7 +204,6 @@ public class PlayerContext : MonoBehaviour, IHittable
 
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.L)) SceneManager.LoadScene(0);
 
         _mousePosition = Jaux.GetcurrentMousePosition(_mainCamera, transform.position.y) ;
 
@@ -205,15 +216,6 @@ public class PlayerContext : MonoBehaviour, IHittable
         }
         HandleBodyRotation();
 
-        _currentIGrabbable = null;
-        void FindGrabbableObjects()
-        {
-            foreach (Collider c in Physics.OverlapBox(transform.position + (transform.rotation * _grabbableArea.center), _grabbableArea.size))
-                foreach (MonoBehaviour script in c.gameObject.GetComponentsInChildren<MonoBehaviour>())
-                    if (script is IGrabbable)
-                        _currentIGrabbable = script as IGrabbable;
-        }
-        FindGrabbableObjects();
 
         _currentMovementState.UpdateStates();
         _currentHandsGroupState.UpdateState();
@@ -281,6 +283,10 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     void OnAttack(InputAction.CallbackContext context) { 
         _isAttackPressed = context.ReadValueAsButton(); 
+    } 
+    void OnInteract(InputAction.CallbackContext context) {
+        _interactPressed = context.ReadValueAsButton();
+        _requireNewInteractPress = false;
     }
 
     

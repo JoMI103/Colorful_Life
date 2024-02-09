@@ -41,7 +41,10 @@ public class HandsCarryState : InnerBaseState<HandsGroupState>
 
     public override bool CheckSwitchStates()
     {
-        if (Input.GetKeyDown(KeyCode.E) || _ctx.GrabbedObject == null) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef);
+        if ((_ctx.InteractPressed && !_ctx.RequireNewInteractPress) || _ctx.GrabbedObject == null) {
+            _ctx.RequireNewInteractPress = true;
+            return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Idle], ref _ctx.CurrentHandsGroupStateRef); 
+        }
         return false;
     }
 }

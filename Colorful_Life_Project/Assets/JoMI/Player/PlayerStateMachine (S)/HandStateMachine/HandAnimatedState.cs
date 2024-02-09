@@ -13,6 +13,7 @@ public class HandAnimatedState : InnerBaseState<HandState>
 
     public override void EnterState()
     {
+        if(_ctx.AnimatedTrail) _ctx.Trail.emitting = true;
         //Debug.LogWarning("Enter Hand Animated State");
     }
 
@@ -25,6 +26,8 @@ public class HandAnimatedState : InnerBaseState<HandState>
 
     public override void ExitState()
     {
+        _ctx.Trail.emitting = false;
+        _ctx.AnimatedTrail = false;
         //Debug.LogWarning("Exit Hand Animated State");
     }
 

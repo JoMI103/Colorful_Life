@@ -11,6 +11,9 @@ public class HandStateMachine : MonoBehaviour
     [SerializeField] private Transform _baseTransform;
     [SerializeField] private Transform _followTransform;
 
+    [SerializeField] private bool _animatedTrail;
+    [SerializeField] private TrailRenderer _trail;
+
     private float _punchPower; //0 - 1 power;
 
     float _currentTargetDistance;
@@ -47,6 +50,8 @@ public class HandStateMachine : MonoBehaviour
     public Transform BaseTransform { get => _baseTransform; }
     public Transform FollowTransform { get => _followTransform; }
     public float PunchPower { get => _punchPower; set => _punchPower = Mathf.Clamp(value,0.1f,1); }
+    public TrailRenderer Trail { get => _trail; }
+    public bool AnimatedTrail { get => _animatedTrail; set => _animatedTrail = value; }
 
 
     #endregion

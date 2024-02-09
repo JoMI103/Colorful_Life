@@ -21,6 +21,7 @@ public class HandBurstState : InnerBaseState<HandState>
     public HandBurstState(HandState key, HandStateMachine ctx) : base(key) => _ctx = ctx;
 
     public override void EnterState() {
+        _ctx.Trail.emitting = true;
         _retreating = false;
         _retreatingTimer = 1.5f;
         initialRotation = _ctx.transform.rotation;
@@ -41,7 +42,10 @@ public class HandBurstState : InnerBaseState<HandState>
         if (_retreating) { _ctx.CalculateForBaseTarget(); _ctx.HandleMovement(3); _ctx.HandleRotation(3); _retreatingTimer -= Time.deltaTime; }
     }
 
-    public override void ExitState() { /*Debug.LogWarning("Exit Hand Burst State");*/ }
+    public override void ExitState() {
+        _ctx.Trail.emitting = false;
+        /*Debug.LogWarning("Exit Hand Burst State");*/
+    }
 
     bool HandleMovementBurst() { 
  

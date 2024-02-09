@@ -21,8 +21,11 @@ public class GrabbableObject : MonoBehaviour, IGrabbable
 
     public Vector3 Position => transform.position;
 
+    public GameObject GrabbableGO => this.gameObject;
+
     public void Grab() => _rb.useGravity = false;
     
+
 
     public void UnGrab() => _rb.useGravity = true;
 

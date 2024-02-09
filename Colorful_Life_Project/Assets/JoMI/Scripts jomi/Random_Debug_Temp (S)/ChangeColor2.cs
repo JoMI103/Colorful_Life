@@ -10,6 +10,8 @@ public class ChangeColor2 : MonoBehaviour, IInteractable
 
     public GameObject PlayerGO { get; set; }
 
+    public GameObject InteractableGO => this.gameObject;
+
     public void Interact(GameObject player)
     {
         PlayerGO = player;
