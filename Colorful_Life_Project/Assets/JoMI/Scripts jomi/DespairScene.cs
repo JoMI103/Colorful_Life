@@ -13,4 +13,13 @@ public class DespairScene : MonoBehaviour
         transform.position += new Vector3(0, 0, 1) * Time.deltaTime * velocity;
         velocity += Time.deltaTime * 1.5f;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerContext>())
+        {
+            //load next scene
+            Debug.Log("Deu");
+        }
+    }
 }

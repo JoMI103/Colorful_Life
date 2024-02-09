@@ -355,6 +355,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log(AudioGroups[0].List[0].volume) ;
     }
 
+#if UNITY_EDITOR
     [MenuItem("GameObject/Managers/Audio Manager", false, 10)]
     static void CreateCustomGameObject(MenuCommand menuCommand)
     {
@@ -367,6 +368,6 @@ public class AudioManager : MonoBehaviour
         Undo.RegisterCreatedObjectUndo(audioManager, "Create " + audioManager.name);
         Selection.activeObject = audioManager;
     }
+#endif
 
-    
 }

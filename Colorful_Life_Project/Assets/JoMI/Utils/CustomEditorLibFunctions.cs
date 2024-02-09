@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 namespace jomi.utils {
+#if UNITY_EDITOR
     public static class EditorUtils
     {
         public static int MakePopupOfResources<T>(int currentSelection, SerializedProperty serializedProperty, string path, string label = "Choose: ") where T : UnityEngine.Object
@@ -19,7 +19,7 @@ namespace jomi.utils {
         
 
     }
-
+#endif
     public static class Jaux
     {
 
