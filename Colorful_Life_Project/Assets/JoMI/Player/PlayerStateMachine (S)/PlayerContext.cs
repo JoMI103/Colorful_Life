@@ -158,6 +158,7 @@ public class PlayerContext : MonoBehaviour, IHittable
         {
             _movementStates.Add(MovementState.Idle, new PlayerIdleState(MovementState.Idle, this));
             _movementStates.Add(MovementState.Walk, new PlayerWalkState(MovementState.Walk, this));
+            _movementStates.Add(MovementState.Stop, new PlayerStopState(MovementState.Stop, this));
             _movementStates.Add(MovementState.KnockBack, new PlayerKnockbackState(MovementState.KnockBack, this));
             _movementStates.Add(MovementState.Grounded, new PlayerGroundedState(MovementState.Grounded, this));
             _movementStates.Add(MovementState.Fall, new PlayerFallState(MovementState.Fall, this));
@@ -201,7 +202,6 @@ public class PlayerContext : MonoBehaviour, IHittable
             yield return new WaitForSeconds(1);
         }
     }
-
 
     private void Update() {
 
@@ -301,6 +301,7 @@ public class PlayerContext : MonoBehaviour, IHittable
         Fall,
         Jumping,
         KnockBack,
+        Stop,
             Idle,
             Walk,
             Dash,

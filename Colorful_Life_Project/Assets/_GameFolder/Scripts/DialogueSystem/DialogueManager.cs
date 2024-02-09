@@ -10,8 +10,8 @@ public class DialogueManager : Singleton<DialogueManager>
 {
     public GameObject _dialogueObject;
     private Speech _currentSpeech;
-    private TextMeshPro _dialogueText;
-    private TextMeshPro _speakerName;
+    private TMPro.TMP_Text _dialogueText;
+    private TMPro.TMP_Text _speakerName;
     private Speech _nextSpeech;
     [SerializeField]
     private SpeechGameObjectDictionaryPage[] _speechGameObjectDictionaryPages;
@@ -23,8 +23,8 @@ public class DialogueManager : Singleton<DialogueManager>
     {
         public string Name;
         public GameObject DialogueObject;
-        public TextMeshPro DialogueText;
-        public TextMeshPro SpeakerName;
+        public TMPro.TMP_Text DialogueText;
+        public TMPro.TMP_Text SpeakerName;
     }
 
     private void Awake()
@@ -38,7 +38,7 @@ public class DialogueManager : Singleton<DialogueManager>
     }
 
 
-    public void StartDialogue(Speech speech, GameObject dialogueObject, TextMeshPro dialogueText, TextMeshPro speakerName)
+    public void StartDialogue(Speech speech, GameObject dialogueObject, TMPro.TMP_Text dialogueText, TMPro.TMP_Text speakerName)
     {
         if (speech == null)
 

@@ -16,11 +16,11 @@ MonoBehaviour:
   RotationSpeed: 1.5
   DashDuration: 1
   DashDistance: 1
-  HittedImunityTime: 0.25
+  HittedImunityTime: 0.5
   HittedKnockbackDuration: 0.2
   ExplosionDmg: 30
   ExplosionForce: 10
-  DespairMaxTime: 0.5
+  DespairMaxTime: 20
   MaxJumpHeight: 4
   MaxJumpTime: 1
   MaxHP: 100

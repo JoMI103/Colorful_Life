@@ -12,8 +12,8 @@ public class UI_Manager : MonoBehaviour
 {
     #region HUD REFERENCES
     [Header("HUD")]
-    [SerializeField] private Slider _lifeSlider;
-    [SerializeField] private Slider _despairSlider;
+    [SerializeField] private Image _lifeImage;
+    [SerializeField] private Image _despairImage;
     #endregion
     #region [Singleton]
     public static UI_Manager Instance { get; private set; }
@@ -125,34 +125,34 @@ public class UI_Manager : MonoBehaviour
     public void SetSlideMaxLife(int maxLifeHP)
     {
 
-        _lifeSlider.maxValue = maxLifeHP;
-        _lifeSlider.value = maxLifeHP;
+        _lifeImage.fillAmount = maxLifeHP/100f;
+       
     }
 
 
 
     public void SetSlideLife(int lifeHP)
     {
-        lifeHP = (int)Mathf.Clamp(lifeHP, 0, _lifeSlider.maxValue);
+        lifeHP = (int)Mathf.Clamp(lifeHP, 0, 100);
 
-        float targetValue = lifeHP / _lifeSlider.maxValue * 100;
+        float targetValue = lifeHP / 100f;
 
-        StartCoroutine(UpdateSliderGradually(targetValue));
+        StartCoroutine(UpdateSliderGradually(_lifeImage, targetValue));
     }
 
-    private IEnumerator UpdateSliderGradually(float targetValue)
+    private IEnumerator UpdateSliderGradually(Image image,float targetValue)
     {
         float timeToChange = 1f;
-        float startValue = _lifeSlider.value;
+        float startValue = image.fillAmount;
         float elapsedTime = 0f;
 
         while (elapsedTime < timeToChange)
         {
             elapsedTime += Time.deltaTime;
-            _lifeSlider.value = Mathf.Lerp(startValue, targetValue, elapsedTime / timeToChange);
+            image.fillAmount = Mathf.Lerp(startValue, targetValue, elapsedTime / timeToChange);
             yield return null;
         }
-        _lifeSlider.value = targetValue;
+        image.fillAmount = targetValue;
     }
 
     #endregion
@@ -163,12 +163,12 @@ public class UI_Manager : MonoBehaviour
     {
         //_despairSlider = GameObject.Find("DespairSlider").GetComponent<Slider>();
 
-        _despairSlider.maxValue = maxDespair;
+        _despairImage.fillAmount = 0;// maxDespair / 100;
     }
 
     public void SetSlideDespair(float currentDispair)
     {
-        _despairSlider.value = currentDispair ;
+        _despairImage.fillAmount = currentDispair ;
     }
 
     #endregion
