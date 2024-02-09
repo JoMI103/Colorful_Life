@@ -1,21 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    [SerializeField] private string _sceneName;
+    [SerializeField] private int _sceneName;
+    [SerializeField] Image image;
+    [SerializeField] private GameObject gameObjMenu;
+    [SerializeField] private GameObject gameObjLoad;
     public void LoadScene()
     {
+        gameObjLoad.SetActive(true);
         StartCoroutine(LoadSceneAsync());
     }
 
     IEnumerator LoadSceneAsync()
     {
-        yield return new WaitForSeconds(5);
+        gameObjMenu.SetActive(false);
         AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(_sceneName);
+
         while (!asyncLoad.isDone)
         {
+            if(image != null)
+            {
+                image.fillAmount = asyncLoad.progress;
+            }
             yield return null;
         }
     }
