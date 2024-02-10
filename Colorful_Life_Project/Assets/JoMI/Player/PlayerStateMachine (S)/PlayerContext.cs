@@ -80,6 +80,7 @@ public class PlayerContext : MonoBehaviour, IHittable
     /// Getters and Setters
     public Dictionary<MovementState, HierarchicalBaseState<MovementState>> MovementStates { get => _movementStates; }
     public ref HierarchicalBaseState<MovementState> CurrentMovementStateRef { get => ref _currentMovementState; }
+    public  HierarchicalBaseState<MovementState> CurrentMovementState { get =>  _currentMovementState; }
 
     //Hands state machine
     private Dictionary<HandsGroupState, InnerBaseState<HandsGroupState>> _handsGroupStates = new();
@@ -248,6 +249,12 @@ public class PlayerContext : MonoBehaviour, IHittable
         //death sequence
     }
 
+
+    public void stop(bool ok)
+    {
+        if(ok) _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Stop]);
+        else _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Idle]);
+    }
 
     #region outSideMethods
 
