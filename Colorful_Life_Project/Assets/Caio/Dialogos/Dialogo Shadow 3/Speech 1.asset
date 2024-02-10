@@ -15,4 +15,4 @@ MonoBehaviour:
   Speaker: Shadow
   Words: I used to love going to the circus.
   NextSpeech: {fileID: 11400000, guid: 4e2d08f333917cb4591c86e8fe4a5daf, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX

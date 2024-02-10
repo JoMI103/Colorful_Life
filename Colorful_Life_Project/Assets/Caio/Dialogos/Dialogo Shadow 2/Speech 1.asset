@@ -15,4 +15,4 @@ MonoBehaviour:
   Speaker: Shadow
   Words: This belongs to you.
   NextSpeech: {fileID: 11400000, guid: 19a9b7964c8f6f24fbbb83f69d2c3c56, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Speech 8
   m_EditorClassIdentifier: 
   Speaker: Shadow
-  Words: Why are you always this dumb?
+  Words: And I suggest you to start moving because the clock is ticking and things
+    won't get any better if you linger here.
   NextSpeech: {fileID: 11400000, guid: 3e8938cf5b4bb4343bd790f3c95324ea, type: 2}
-  GameObjectToChange: Shadow1
+  GameObjectToChange: UIBOX

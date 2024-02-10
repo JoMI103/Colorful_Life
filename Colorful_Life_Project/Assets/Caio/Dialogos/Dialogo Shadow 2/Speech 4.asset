@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
   m_Name: Speech 4
   m_EditorClassIdentifier: 
-  Speaker: MC
+  Speaker: ' '
   Words: (This... I know this.)
   NextSpeech: {fileID: 0}
-  GameObjectToChange: Jogador
+  GameObjectToChange: UIBOX

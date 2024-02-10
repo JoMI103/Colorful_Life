@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
-  m_Name: Speech 6
+  m_Name: Speech 10
   m_EditorClassIdentifier: 
   Speaker: Shadow
-  Words: Actually, all of this is part of you.
-  NextSpeech: {fileID: 11400000, guid: 134144747d34dd2459fc22956643391c, type: 2}
+  Words: Geez, you are really dumb.
+  NextSpeech: {fileID: 11400000, guid: e3b40509f8a470d48a775f0814a8f6b7, type: 2}
   GameObjectToChange: UIBOX

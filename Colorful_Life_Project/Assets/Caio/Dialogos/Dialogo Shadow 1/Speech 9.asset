@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
   m_Name: Speech 9
   m_EditorClassIdentifier: 
-  Speaker: MC
-  Words: '(Hey, wait!)
-
-
-'
-  NextSpeech: {fileID: 0}
-  GameObjectToChange: Jogador
+  Speaker: '  '
+  Words: (Does it have something to do with that giant mist thing that was chasing
+    me before?)
+  NextSpeech: {fileID: 11400000, guid: da87529215ec88340a5c8b5066884450, type: 2}
+  GameObjectToChange: UIBOX

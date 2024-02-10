@@ -15,4 +15,4 @@ MonoBehaviour:
   Speaker: Shadow
   Words: This is not a dream.
   NextSpeech: {fileID: 11400000, guid: d45e7b65dff3d4e4b97b1e1e76f19fe0, type: 2}
-  GameObjectToChange: Shadow1
+  GameObjectToChange: UIBOX

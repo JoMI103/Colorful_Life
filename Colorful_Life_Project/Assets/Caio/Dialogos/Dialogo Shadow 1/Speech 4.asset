@@ -15,4 +15,4 @@ MonoBehaviour:
   Speaker: 
   Words: (Ouch... My head hurts. Am I dreaming or something?)
   NextSpeech: {fileID: 11400000, guid: 5e8c88ecae55e5440a14666c370bb986, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX

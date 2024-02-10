@@ -15,4 +15,4 @@ MonoBehaviour:
   Speaker: 
   Words: (Why am I wearing these clothes?)
   NextSpeech: {fileID: 11400000, guid: 8a28e08c2d5b8b24f8de9ffa86311cf3, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX
