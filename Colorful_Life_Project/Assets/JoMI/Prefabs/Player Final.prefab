@@ -1508,6 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerContext: {fileID: 5199642391755899812}
+  _explosionEffect: {fileID: 2003876963797915538, guid: d47055d8e0cc7c747a728a184a338472, type: 3}
 --- !u!1 &6782221226294426483
 GameObject:
   m_ObjectHideFlags: 0

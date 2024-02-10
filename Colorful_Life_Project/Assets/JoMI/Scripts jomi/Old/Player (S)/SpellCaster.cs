@@ -9,7 +9,7 @@ public class SpellCaster : MonoBehaviour
 
     public void Explosion()
     {
-        Instantiate(_explosionEffect);
+        Instantiate(_explosionEffect, transform.position - Vector3.up * 0.5f, Quaternion.identity);
 
         int dmg = _playerContext.PlayerBaseStats.ExplosionDmg;
         float impactForce = _playerContext.PlayerBaseStats.ExplosionForce;
