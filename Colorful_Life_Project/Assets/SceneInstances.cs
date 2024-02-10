@@ -45,7 +45,11 @@ public class SceneInstances : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log(_playerContext.gameObject.transform.position);
+        Debug.Log(startPos[scene.buildIndex]);
+        _playerContext.CharacterController.enabled = false;
         _playerContext.gameObject.transform.position = startPos[scene.buildIndex];
+        _playerContext.CharacterController.enabled = true;
         _cameraManager.CameraToPlayerOffSet = cameraToPLayerOffSet[scene.buildIndex];
     }
 

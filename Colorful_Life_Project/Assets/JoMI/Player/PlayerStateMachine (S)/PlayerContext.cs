@@ -131,6 +131,7 @@ public class PlayerContext : MonoBehaviour, IHittable
     public bool InteractPressed { get => _interactPressed;  }
     public bool RequireNewInteractPress { get => _requireNewInteractPress; set => _requireNewInteractPress = value; }
     public IInteractable CurrentIInteractable { get => _currentIInteractable; set => _currentIInteractable = value; }
+    public CharacterController CharacterController1 { get => _characterController; set => _characterController = value; }
 
     #endregion
 
