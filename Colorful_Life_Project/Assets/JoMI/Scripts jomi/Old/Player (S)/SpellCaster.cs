@@ -5,9 +5,12 @@ using UnityEngine;
 public class SpellCaster : MonoBehaviour
 {
     [SerializeField] PlayerContext _playerContext;
+    [SerializeField] Transform _explosionEffect;
 
     public void Explosion()
     {
+        Instantiate(_explosionEffect);
+
         int dmg = _playerContext.PlayerBaseStats.ExplosionDmg;
         float impactForce = _playerContext.PlayerBaseStats.ExplosionForce;
 
