@@ -19,3 +19,6 @@ MonoBehaviour:
 '
   NextSpeech: {fileID: 0}
   GameObjectToChange: Jogador
+  DialogueGameObjectToDisable:
+  - Shadow1
+  IsDisablelingOnEnd: 1

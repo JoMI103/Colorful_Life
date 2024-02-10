@@ -94,7 +94,12 @@ public class DialogueManager : MonoBehaviour
                     Debug.Log(excpt);
                 }
 
-                
+                if (_currentSpeech.DialogueGameObjectToDisable?.Count > 0 &&
+                    !_currentSpeech.IsDisablelingOnEnd)
+                {
+                    DisableParentsGameObjects();
+                }
+
                 _speakerName.text = _currentSpeech.Speaker;
 
                 _dialogueObject.SetActive(true);
@@ -111,6 +116,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void DisableParentsGameObjects()
+    {
+        foreach (string gameObjectToDisable in _currentSpeech.DialogueGameObjectToDisable)
+        {
+            _speechGameObjectDictionary[gameObjectToDisable].DialogueObject.transform.parent.gameObject.SetActive(false);
+        }
+    }
+
     private void ChangeDialogueObject(string gameObjectToShow)
     {
         
@@ -121,6 +134,7 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEndEvent.Invoke();
         OnDialogueEndEventWithSpeech.Invoke(_currentSpeech);
         _dialogueObject.SetActive(false);
+        if (_currentSpeech.IsDisablelingOnEnd) DisableParentsGameObjects();
 
         Debug.Log("TERMINOU");
     }
