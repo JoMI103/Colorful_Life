@@ -28,6 +28,7 @@ public class PlayerWalkState : HierarchicalBaseState<MovementState> {
 
     public override bool CheckSwitchStates() {
         if (!_ctx.IsMovementPressed) return SwitchState(_ctx.MovementStates[MovementState.Idle], ref _ctx.CurrentMovementStateRef);
+        if (_ctx.IsDashPressed && !_ctx.RequireNewDashPress) return SwitchState(_ctx.MovementStates[MovementState.Dash], ref _ctx.CurrentMovementStateRef);
         return false;
     }
 }

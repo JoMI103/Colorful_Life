@@ -9,6 +9,7 @@ public class PlayerDashState : HierarchicalBaseState<MovementState>
     protected PlayerContext _ctx;
 
     private float _dashDuration;
+    private Vector2 _enterStateDirection;
 
     public PlayerDashState(MovementState key, PlayerContext playerStateMachine) : base(key)
     {
@@ -18,24 +19,32 @@ public class PlayerDashState : HierarchicalBaseState<MovementState>
 
     public override void EnterState()
     {
-        //_dashDuration = _ctx.PlayerBaseStats.
+        _dashDuration = _ctx.PlayerBaseStats.DashDuration;
+        _enterStateDirection = _ctx.CurrentMovementInput;
+        float speed = _ctx.PlayerBaseStats.DashSpeedMultiplier * _ctx.PlayerBaseStats.MovementSpeed;
+        _ctx.AppliedMovementX = _enterStateDirection.x * speed;
+        _ctx.AppliedMovementZ = _enterStateDirection.y * speed;
     }
 
     public override void UpdateState()
     {
         if (CheckSwitchStates()) return;
-        _ctx.AppliedMovementX = _ctx.CurrentMovementInput.x * _ctx.PlayerBaseStats.MovementSpeed;
-        _ctx.AppliedMovementZ = _ctx.CurrentMovementInput.y * _ctx.PlayerBaseStats.MovementSpeed;
+
+        _dashDuration -= Time.deltaTime;
+
+        
     }
 
     public override void ExitState()
     {
-        //Debug.LogWarning("Exit Walk State");
+        _ctx.RequireNewDashPress = true;
     }
 
     public override bool CheckSwitchStates()
     {
+        if(_dashDuration > 0) return false;
         if (!_ctx.IsMovementPressed) return SwitchState(_ctx.MovementStates[MovementState.Idle], ref _ctx.CurrentMovementStateRef);
+        if (_ctx.IsMovementPressed) return SwitchState(_ctx.MovementStates[MovementState.Walk], ref _ctx.CurrentMovementStateRef);
         return false;
     }
 }

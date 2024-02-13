@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHittable 
 {
-   private Transform _player; //Setted in an enemy Spawn Manager
+    private Transform _player; //Setted in an enemy Spawn Manager
+    [SerializeField] private HealthBar _healthBar;
+
     [SerializeField] private GameObject _enemyOrb;
 
 
     [SerializeField] private LayerMask _playerLayerMask;
 
     private Rigidbody _rb;
+
+    public int EnemyMaxHealth;
 
     private int _enemyHealth;
     private float _playerDistance;
@@ -43,6 +47,17 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
     public LayerMask PlayerLayerMask { get => _playerLayerMask;}
 
 
+    public int EnemyHealth
+    {
+        get => _enemyHealth; 
+        set {
+            _enemyHealth = value;
+            if (_enemyHealth <= 0) Killed();
+            _healthBar.SetHealthBarPercentage((float)_enemyHealth / EnemyMaxHealth);
+        }
+    }
+
+
 
 
 
@@ -51,19 +66,13 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
 
 
     protected virtual void Awake() {
-        _enemyHealth = 100;
-
+        _enemyHealth = EnemyMaxHealth;
         
         setStates();
 
         _rb = GetComponent<Rigidbody>();
     }
 
-
-    private void Start()
-    {
-        _player = SceneInstances.Instance.PlayerContext.gameObject.transform;
-    }
     protected virtual void setStates()
     {
         States.Add(EnemyState.Idle, new EnemyIdleState(EnemyState.Idle, this));
@@ -72,6 +81,13 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
         States.Add(EnemyState.Hitted, new EnemyHittedState(EnemyState.Hitted, this));
         _currentState = States[EnemyState.Idle];
     }
+    protected override void Start()
+    {
+        base.Start();
+        _player = SceneInstances.Instance.PlayerContext.gameObject.transform;
+        _healthBar.SetHealthBar(SceneInstances.Instance._cameraManager.Camera, this.transform);
+    }
+
 
     protected override void Update()
     {
@@ -82,9 +98,8 @@ public class EnemyStateMachine : StateMachine<EnemyStateMachine.EnemyState>, IHi
 
     public void Hit(GameObject hittedBy, Vector3 hitDirectionWithForce, Vector3 inpactPosition, int damage)
     {
-        _enemyHealth -= damage;
+        EnemyHealth -= damage;
         _rb.AddForce(hitDirectionWithForce , ForceMode.Impulse);
-        if (_enemyHealth < 0) Killed();
         TransitionToState(EnemyState.Hitted);
         
     }

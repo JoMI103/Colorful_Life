@@ -8,6 +8,7 @@ public class BreakablePlatform :MonoBehaviour, IHittable
 
     public void Hit(GameObject hittedBy, Vector3 hitDirection, Vector3 inpactPosition, int damage)
     {
+        if (hittedBy.GetComponent<PlayerContext>() == null) return;
         nHits--;
         if (nHits < 0) Killed();
     }
