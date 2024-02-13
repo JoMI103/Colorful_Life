@@ -26,6 +26,8 @@ public class FloatObject : MonoBehaviour
 
     private void Awake()
     {
+        if (_transform == null) _transform = gameObject.transform; 
+
         if (_isGoingToStartLocation)
         {
             _initialPosition = _startLocation.position;

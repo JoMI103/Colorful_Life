@@ -253,7 +253,7 @@ public class PlayerContext : MonoBehaviour, IHittable
     public void stop(bool ok)
     {
         if(ok) _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Stop]);
-        else _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Idle]);
+        else _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Grounded]);
     }
 
     #region outSideMethods

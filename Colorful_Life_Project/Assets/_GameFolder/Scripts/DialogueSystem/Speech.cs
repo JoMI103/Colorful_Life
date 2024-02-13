@@ -11,5 +11,7 @@ public class Speech : ScriptableObject
     public string Words;
     public Speech NextSpeech;
     public string GameObjectToChange;
+    public List<string> DialogueGameObjectToDisable;
+    public bool IsDisablelingOnEnd;
 
 }

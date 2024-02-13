@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private SpeechGameObjectDictionaryPage[] _speechGameObjectDictionaryPages;
     private Dictionary<string, SpeechGameObjectDictionaryPage> _speechGameObjectDictionary = new Dictionary<string, SpeechGameObjectDictionaryPage>();
+
+    public UnityEvent OnDialogueStartEvent;
+    public UnityEvent OnDialogueEndEvent;
+
+    public OnDialogueStartSpeech OnDialogueStartEventWithSpeech;
+    public OnDialogueEndSpeech OnDialogueEndEventWithSpeech;
 
 
     [Serializable]
@@ -40,6 +47,10 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(Speech speech, GameObject dialogueObject, TMPro.TMP_Text dialogueText, TMPro.TMP_Text speakerName)
     {
         if (speech == null)
+        {
+            Debug.Log("Dialogue Manager on StartDialogue: no speech input.");
+            return;
+        }
 
         this._currentSpeech = speech;
         this._dialogueObject = dialogueObject;
@@ -51,6 +62,8 @@ public class DialogueManager : MonoBehaviour
 
         this._nextSpeech = speech;
 
+        OnDialogueStartEvent.Invoke();
+        OnDialogueStartEventWithSpeech.Invoke(_currentSpeech);
         NextDialogue();
 
     }
@@ -81,7 +94,12 @@ public class DialogueManager : MonoBehaviour
                     Debug.Log(excpt);
                 }
 
-                
+                if (_currentSpeech.DialogueGameObjectToDisable?.Count > 0 &&
+                    !_currentSpeech.IsDisablelingOnEnd)
+                {
+                    DisableParentsGameObjects();
+                }
+
                 _speakerName.text = _currentSpeech.Speaker;
 
                 _dialogueObject.SetActive(true);
@@ -98,6 +116,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void DisableParentsGameObjects()
+    {
+        foreach (string gameObjectToDisable in _currentSpeech.DialogueGameObjectToDisable)
+        {
+            _speechGameObjectDictionary[gameObjectToDisable].DialogueObject.transform.parent.gameObject.SetActive(false);
+        }
+    }
+
     private void ChangeDialogueObject(string gameObjectToShow)
     {
         
@@ -105,9 +131,15 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        OnDialogueEndEvent.Invoke();
+        OnDialogueEndEventWithSpeech.Invoke(_currentSpeech);
         _dialogueObject.SetActive(false);
+        if (_currentSpeech.IsDisablelingOnEnd) DisableParentsGameObjects();
 
         Debug.Log("TERMINOU");
     }
 
 }
+
+[Serializable] public class OnDialogueStartSpeech : UnityEvent<Speech> { }
+[Serializable] public class OnDialogueEndSpeech : UnityEvent<Speech> { }
