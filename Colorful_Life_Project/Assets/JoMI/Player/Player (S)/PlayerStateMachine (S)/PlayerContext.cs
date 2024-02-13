@@ -61,13 +61,19 @@ public class PlayerContext : MonoBehaviour, IHittable
     private bool _requireNewInteractPress;
 
 
+    private bool _isDashPressed;
+    private bool _requireNewDashPress;
+
     private IGrabbable _currentIGrabbable;
     private IInteractable _currentIInteractable;
 
 
     private IGrabbable _grabbedObject;
 
-    
+
+    [SerializeField] private GameObject _despairParticleSystems;
+    [SerializeField] private GameObject _KilledParticles;
+    [SerializeField] private GameObject _bodyModel;
 
     #endregion
 
@@ -133,6 +139,8 @@ public class PlayerContext : MonoBehaviour, IHittable
     public bool RequireNewInteractPress { get => _requireNewInteractPress; set => _requireNewInteractPress = value; }
     public IInteractable CurrentIInteractable { get => _currentIInteractable; set => _currentIInteractable = value; }
     public CharacterController CharacterController1 { get => _characterController; set => _characterController = value; }
+    public bool RequireNewDashPress { get => _requireNewDashPress; set => _requireNewDashPress = value; }
+    public bool IsDashPressed { get => _isDashPressed; set => _isDashPressed = value; }
 
     #endregion
 
@@ -153,12 +161,16 @@ public class PlayerContext : MonoBehaviour, IHittable
         _onFoot.Interact.started += OnInteract;
         _onFoot.Interact.canceled += OnInteract;
 
+        _onFoot.Dash.started += OnDash;
+        _onFoot.Dash.canceled += OnDash;
+
 
 
         void SetMovementStateMachineStates()
         {
             _movementStates.Add(MovementState.Idle, new PlayerIdleState(MovementState.Idle, this));
             _movementStates.Add(MovementState.Walk, new PlayerWalkState(MovementState.Walk, this));
+            _movementStates.Add(MovementState.Dash, new PlayerDashState(MovementState.Dash, this));
             _movementStates.Add(MovementState.Stop, new PlayerStopState(MovementState.Stop, this));
             _movementStates.Add(MovementState.KnockBack, new PlayerKnockbackState(MovementState.KnockBack, this));
             _movementStates.Add(MovementState.Grounded, new PlayerGroundedState(MovementState.Grounded, this));
@@ -188,12 +200,22 @@ public class PlayerContext : MonoBehaviour, IHittable
         SetUpJumpVariables();
     }
 
-    private void Start() {
-        _playerInfo = new PlayerInfo(_playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
+    public void SceneLoaded()
+    {
+        StopAllCoroutines();
+        _playerInfo = new PlayerInfo(this, _playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
+        _currentHandsGroupState = _handsGroupStates[HandsGroupState.Idle];
+        _currentMovementState = _movementStates[MovementState.Grounded];
         StartCoroutine(AddDespair());
         _currentMovementState.EnterState();
         _currentHandsGroupState.EnterState();
+
+        _despairParticleSystems.SetActive(false);
+        _KilledParticles.SetActive(false);
+        _bodyModel.SetActive(true);
+
     }
+
 
     IEnumerator AddDespair()
     {
@@ -234,11 +256,11 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     public void Hit(GameObject hittedBy, Vector3 hitDirection, Vector3 inpactPosition, int damage)
     {
-        if (_isBeingHitted) return;
+        if (_isBeingHitted || _currentMovementState.StateKey == MovementState.Stop) return;
         _isBeingHitted = true;
-        _playerInfo.CurrentHP -= damage;
         _hitDirection = hitDirection;
         _currentMovementState = _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.KnockBack]);
+        _playerInfo.CurrentHP -= damage * 5;
         Invoke(nameof(EndImunity), PlayerBaseStats.HittedImunityTime);
     }
 
@@ -246,14 +268,36 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     public void Killed()
     {
+        stop(true);
+        Debug.LogWarning("Morreu");
+        _despairParticleSystems.SetActive(false);
+
+        _bodyModel.SetActive(false);
+        _KilledParticles.SetActive(true);
+
+        SceneInstances.Instance.RespawnManager.PlayerKilled();
         //death sequence
     }
 
+  
+
+    public IEnumerator StartDespairDeath()
+    {
+        stop(true);
+        while (!_characterController.isGrounded)
+        {
+            yield return null;
+        }
+        _despairParticleSystems.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Killed();
+        yield return new WaitForSeconds(PlayerBaseStats.DespairAniDuration - 3);
+    }
 
     public void stop(bool ok)
     {
-        if(ok) _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Stop]);
-        else _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Grounded]);
+        if(ok) _currentMovementState = _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Stop]);
+        else _currentMovementState = _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.Grounded]);
     }
 
     #region outSideMethods
@@ -290,13 +334,20 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     void OnAttack(InputAction.CallbackContext context) { 
         _isAttackPressed = context.ReadValueAsButton(); 
-    } 
-    void OnInteract(InputAction.CallbackContext context) {
+    }
+    void OnInteract(InputAction.CallbackContext context)
+    {
         _interactPressed = context.ReadValueAsButton();
         _requireNewInteractPress = false;
     }
 
-    
+    void OnDash(InputAction.CallbackContext context)
+    {
+        _isDashPressed = context.ReadValueAsButton();
+        _requireNewDashPress = false;
+    }
+
+
 
     #endregion
 
@@ -328,21 +379,56 @@ public class PlayerContext : MonoBehaviour, IHittable
 
 public class PlayerInfo
 {
+    PlayerContext _ctx;
     Magic _currentMagic;
     int _currentHP;
+
+    bool _depairHasStarted;
+    float _maxDespair;
     float _currentDespair;
-    public int CurrentHP { get => _currentHP; set { _currentHP = value; SceneInstances.Instance.Uimanager.SetSlideLife(_currentHP); Debug.Log("HP = " + _currentHP); } }
-    public Magic CurrentMagic { get => _currentMagic; set {  _currentMagic = value; SceneInstances.Instance.Uimanager.UnlockAbilities(_currentMagic); } }
-    public float Despair { get => _currentDespair; set { _currentDespair = value;
-            SceneInstances.Instance.Uimanager.SetSlideDespair(_currentDespair);
+    public int CurrentHP
+    {
+        get => _currentHP; set
+        {
+            _currentHP = value; 
+            SceneInstances.Instance.Uimanager.SetSlideLife(_currentHP);
+            if (_currentHP <= 0) _ctx.Killed();
+            Debug.Log("HP = " + _currentHP);
+        }
+    }
+    public Magic CurrentMagic
+    {
+        get => _currentMagic; set
+        {
+            _currentMagic = value; 
+            SceneInstances.Instance.Uimanager.UnlockAbilities(_currentMagic);
+        }
+    }
+    public float Despair
+    {
+        get => _currentDespair; set
+        {
+            _currentDespair = value;
+            if (_currentDespair >= _maxDespair)
+            {
+                if (!_depairHasStarted)
+                {
+                    _ctx.StartCoroutine(_ctx.StartDespairDeath());
+                    _depairHasStarted = true;
+                }
+            }
+            SceneInstances.Instance.Uimanager.SetSlideDespair(  _currentDespair / _maxDespair);
         }
     }
 
-    public PlayerInfo(int MaxHp, Magic startMagic, float MaxDespair)
+    public PlayerInfo(PlayerContext ctx,int MaxHp, Magic startMagic, float MaxDespair)
     {
+        _depairHasStarted = false;
+        _ctx = ctx;
         _currentHP = MaxHp;
         _currentDespair = 0;
         _currentMagic = startMagic;
+        _maxDespair = MaxDespair;
         SceneInstances.Instance.Uimanager.SetSlideMaxLife(MaxHp);
         SceneInstances.Instance.Uimanager.UnlockAbilities(_currentMagic);
         SceneInstances.Instance.Uimanager.SetSlideMaxDespair(MaxDespair);

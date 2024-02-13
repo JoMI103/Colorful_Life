@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    private Camera _camera; 
+
     [SerializeField] GameObject _playerGameObject;
 
    
@@ -28,6 +30,12 @@ public class CameraManager : MonoBehaviour
     private float DefaultCameraRotationVelocity { get => Time.deltaTime * _camRotationVelocity * 3.14f; }
     public CamArea CurrentCamArea { get => _currentCamArea; set => _currentCamArea = value; }
     public Vector3 CameraToPlayerOffSet { get => _cameraToPlayerOffSet; set => _cameraToPlayerOffSet = value; }
+    public Camera Camera { get => _camera; }
+
+    private void Awake()
+    {
+        _camera = GetComponent<Camera>();
+    }
 
     private void Start()
     {
