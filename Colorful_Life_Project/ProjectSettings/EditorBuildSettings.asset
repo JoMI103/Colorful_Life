@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_GameFolder/Scenes/StartMenu.unity
-    guid: 45f6fe7c5f200d74591446cb69f8ce5a
+    path: Assets/_GameFolder/Game Scenes/CL_StartMenu.unity
+    guid: 98709b029cfa71b45a2aacaf4e1b7a8a
   - enabled: 1
-    path: Assets/_GameFolder/Scenes/Despair Final.unity
-    guid: 003b9ed595c2fb44497c7f9680c3bea4
+    path: Assets/_GameFolder/Game Scenes/CL_Despair.unity
+    guid: 63d334f348eb21947a01751e6bdecf70
   - enabled: 1
-    path: Assets/_GameFolder/Scenes/Tutorial Final.unity
-    guid: d616ad6d71585054597f389ce00cb9b2
+    path: Assets/_GameFolder/Game Scenes/CL_Tutorial.unity
+    guid: 0ba04e9ebb1a1c44d855f1b4d6f1c313
   - enabled: 1
-    path: Assets/_GameFolder/Scenes/1 Anger Final.unity
-    guid: ab4010177cf87ec429efa6965b0de449
+    path: Assets/_GameFolder/Game Scenes/CL_Anger.unity
+    guid: 908300df0ec350844bdc31bebf6ab3d7
   m_configObjects: {}

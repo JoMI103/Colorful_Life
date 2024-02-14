@@ -260,7 +260,7 @@ public class PlayerContext : MonoBehaviour, IHittable
         _isBeingHitted = true;
         _hitDirection = hitDirection;
         _currentMovementState = _currentMovementState.SwitchRootStateFromOutSide(MovementStates[MovementState.KnockBack]);
-        _playerInfo.CurrentHP -= damage * 5;
+        _playerInfo.CurrentHP -= damage ;
         Invoke(nameof(EndImunity), PlayerBaseStats.HittedImunityTime);
     }
 

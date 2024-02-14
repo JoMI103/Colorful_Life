@@ -20,7 +20,7 @@ MonoBehaviour:
   HittedKnockbackDuration: 0.2
   ExplosionDmg: 30
   ExplosionForce: 10
-  DespairMaxTime: 0.5
+  DespairMaxTime: 10
   DespairAniDuration: 5
   MaxJumpHeight: 4
   MaxJumpTime: 1
