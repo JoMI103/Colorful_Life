@@ -202,6 +202,7 @@ public class PlayerContext : MonoBehaviour, IHittable
 
     public void SceneLoaded()
     {
+        Debug.Log("ENTRIE NESSA BUCETA");
         StopAllCoroutines();
         _playerInfo = new PlayerInfo(this, _playerBaseStats.MaxHP, Magic.None, _playerBaseStats.DespairMaxTime);
         _currentHandsGroupState = _handsGroupStates[HandsGroupState.Idle];

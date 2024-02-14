@@ -48,7 +48,9 @@ public class SceneInstances : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         int index = scene.buildIndex;
+        if (index == 0) Destroy(this.gameObject); 
         if (index < 0 || index >= startPos.Length) index = 0 ;
         _playerContext.CharacterController.enabled = false;
         _playerContext.gameObject.transform.position = startPos[index];

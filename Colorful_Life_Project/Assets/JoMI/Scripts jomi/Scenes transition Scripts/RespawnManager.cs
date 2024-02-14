@@ -51,5 +51,6 @@ public class RespawnManager : MonoBehaviour
     {
         _deathPanel.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
 }

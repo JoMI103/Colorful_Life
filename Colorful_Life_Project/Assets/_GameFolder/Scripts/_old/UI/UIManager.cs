@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("UIManager: No image found. Check gameobject configuration.");
+            Debug.Log("UIManager: No _gameObject found. Check gameobject configuration.");
     }
 
 

@@ -13,9 +13,9 @@ public class DiaryInteractable : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.LogWarning("Player entered");
+           // Debug.LogWarning("Player entered");
             DiaryManager.Instance.UnlockPage(_pageToUnlock);
-            Debug.LogWarning("Page unlocked");
+            //Debug.LogWarning("Page unlocked");
         }
     
     }

@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
@@ -15,8 +16,6 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private Image _lifeImage;
     [SerializeField] private Image _despairImage;
     #endregion
-
-
 
     #region[Diario]
     [Header("DiarioManager")]
@@ -71,7 +70,6 @@ public class UI_Manager : MonoBehaviour
     private void UpdatePageUI(GameObject pagePrefab, DiaryPage page)
     {
         pagePrefab.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = page._title;
-        pagePrefab.transform.Find("TypeText").GetComponent<TextMeshProUGUI>().text = page._type;
         pagePrefab.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = page._content;
         pagePrefab.transform.Find("Image").GetComponent<Image>().gameObject.SetActive(false);
     }
@@ -181,6 +179,31 @@ public class UI_Manager : MonoBehaviour
     }
 
     #endregion
+
+    #endregion
+
+    #region PauseMenu
+
+    [Header("PauseMenu")]
+    [SerializeField] private GameObject _pauseMenu;
+
+    public void PauseGame()
+    {
+        _pauseMenu.SetActive(true); 
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        _pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void ReturnMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
 
     #endregion
 
