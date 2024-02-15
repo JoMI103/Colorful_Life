@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 public class myEventTriggerOnEnter : MonoBehaviour
 {
 
-    [Header("Custom Event")]
-    public UnityEvent myEvents;
-
+    public Animator animEnimL;
+    public Animator animEnimR;
+    public Animator animBoxL;
+    public Animator animBoxR;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(myEvents != null)
-        {
-            print("deu mas esta null");
-        }
+        if(other.GetComponent<PlayerContext>() == null) return;
+        
+        animEnimL.Play("Edge_L");
+        animEnimR.Play("Edge_R");
+        animBoxL.Play("Crate_Drop_L");
+        animBoxR.Play("Crate_Drop_R");
 
-        else
-        {
-            print("deu e tem o evento" + myEvents);
-            myEvents.Invoke();
-        }
+        Destroy(this.gameObject);
     }
 
 
