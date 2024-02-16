@@ -7,6 +7,7 @@ public interface IGrabbable
     (Quaternion, Quaternion) HandsRotations { get; }
     Vector3 Position { get; }
     GameObject GrabbableGO { get; }
+    bool Placed { get; }
 
     void updatePosWithHandsPos(Vector3 middleHandsPos);
     void Grab();

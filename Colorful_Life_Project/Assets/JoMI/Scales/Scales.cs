@@ -17,12 +17,8 @@ public class Scales : MonoBehaviour
     [SerializeField] private Transform _leftPoint, _rightPoint;
 
     [SerializeField, Header("Masks")]
-    MasksSO _masksSO;
-    [SerializeField] private Transform _masksContainer;
-    [SerializeField] private GameObject _maskPrefab;
-    [SerializeField] private Masks[] masks;
 
-    [SerializeField] LayerMask _masksLayerMask;
+     LayerMask _masksLayerMask;
 
     [SerializeField] int nMasks;
 
@@ -36,21 +32,21 @@ public class Scales : MonoBehaviour
     Masks[] _leftMasks;
     Masks[] _rightMasks;
 
-    (float, float) _targetHeightBalance;
+    [SerializeField] Vector2 _targetHeightBalance;
 
     void Start()
     {
         _leftMasks = new Masks[nMasks * 2];
         _rightMasks = new Masks[nMasks * 2];
+        StartCoroutine(checkPuzzle());
     }
 
 
-    (float, float) CalcScaleThings()
+    Vector2 CalcScaleThings()
     {
         float height = 0;
         float balance = 0;
 
-        int nMasks = 0;
 
         for (int i = 0; i < nMasks; i++)
         {
@@ -71,7 +67,7 @@ public class Scales : MonoBehaviour
             if (_rightMasks[i]) height++; balance++;
         }
 
-        return (height / (nMasks * 2), balance / nMasks + 0.5f);
+        return new Vector2(height / (nMasks * 2), balance / nMasks + 0.5f);
 
     }
 
@@ -79,7 +75,7 @@ public class Scales : MonoBehaviour
     {
         bool scalesChanged = false;
 
-        Collider[] leftColls = Physics.OverlapSphere(_leftDeliverArea.center + transform.position,
+        Collider[] leftColls = Physics.OverlapSphere(_leftDeliverArea.center  + _leftDeliverArea.transform.position,
                                                _leftDeliverArea.radius,
                                                _masksLayerMask);
         foreach (var coll in leftColls)
@@ -94,17 +90,18 @@ public class Scales : MonoBehaviour
                     _leftMasks[index] = mask.MaskScript;
                     scalesChanged = true;
                     mask.MaskPlaced = true;
+                    continue;
                 }
-                if (_leftMasks[index * 2] == null)
+                if (_leftMasks[nMasks + index] == null)
                 {
-                    _leftMasks[index * 2] = mask.MaskScript;
+                    _leftMasks[nMasks + index] = mask.MaskScript;
                     scalesChanged = true;
                     mask.MaskPlaced = true;
                 }
             }
         }
 
-        Collider[] rightColls = Physics.OverlapSphere(_rightDeliverArea.center + transform.position,
+        Collider[] rightColls = Physics.OverlapSphere(_rightDeliverArea.center  + _rightDeliverArea.transform.position,
                                                _rightDeliverArea.radius,
                                                _masksLayerMask);
 
@@ -120,10 +117,11 @@ public class Scales : MonoBehaviour
                     _rightMasks[index] = mask.MaskScript;
                     scalesChanged = true;
                     mask.MaskPlaced = true;
+                    continue;
                 }
-                if (_rightMasks[index * 2] == null)
+                if (_rightMasks[nMasks + index ] == null)
                 {
-                    _rightMasks[index * 2] = mask.MaskScript;
+                    _rightMasks[nMasks + index] = mask.MaskScript;
                     scalesChanged = true;
                     mask.MaskPlaced = true;
                 }
@@ -139,10 +137,18 @@ public class Scales : MonoBehaviour
         {
             if (CheckDeliveryZones())
             {
+            Debug.LogError("CARALHO1");
                 _targetHeightBalance = CalcScaleThings();
+                yield return 1;
                 updateMasksPos();
-                if (_targetHeightBalance.Item1 > 0.99 && _targetHeightBalance.Item2 > 0.49 && _targetHeightBalance.Item2 < 0.51) { Yay(); }
-                else Ohh();
+                if(_targetHeightBalance.x > 0.99)
+                {
+                    Debug.LogError("CARALHO2");
+                    if (_targetHeightBalance.y > 0.49 && _targetHeightBalance.y < 0.51) { Yay(); }
+                    else Ohh();
+                }
+                
+           
                 
             }
             yield return new WaitForSeconds(0.5f);
@@ -177,12 +183,16 @@ public class Scales : MonoBehaviour
 
     private void Ohh()
     {
+        Debug.Log("OHHHH");
         int aux = 0;
         for (int i = 0; i < nMasks * 2; i++)
         {
-            if (_leftMasks[i]) { _leftMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
-            if (_rightMasks[i]) { _rightMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
+            if (_leftMasks[i]) { _leftMasks[i].MaskPlaced = false; _leftMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
+            if (_rightMasks[i]) { _leftMasks[i].MaskPlaced = false; _rightMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
         }
+
+        _leftMasks = new Masks[nMasks * 2];
+        _rightMasks = new Masks[nMasks * 2];
     }
 
 }

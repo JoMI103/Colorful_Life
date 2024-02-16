@@ -23,6 +23,8 @@ public class GrabbableObject : MonoBehaviour, IGrabbable
 
     public GameObject GrabbableGO => this.gameObject;
 
+    public bool Placed => false;
+
     public void Grab() => _rb.useGravity = false;
     
 
