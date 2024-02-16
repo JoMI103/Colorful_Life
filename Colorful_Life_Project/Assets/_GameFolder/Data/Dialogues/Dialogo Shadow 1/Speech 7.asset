@@ -15,4 +15,6 @@ MonoBehaviour:
   Speaker: MC
   Words: (What...?)
   NextSpeech: {fileID: 11400000, guid: 07d3cb1f1348ba945944286d43d4fd49, type: 2}
-  GameObjectToChange: Jogador
+  GameObjectToChange: 
+  DialogueGameObjectToDisable: []
+  IsDisablelingOnEnd: 0

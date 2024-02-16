@@ -16,4 +16,6 @@ MonoBehaviour:
   Words: This place is where emotions and intrusive thoughts manifest themselves
     as all sorts of things.
   NextSpeech: {fileID: 11400000, guid: dab0a9c531ecffa4d9ad70759cc235aa, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX
+  DialogueGameObjectToDisable: []
+  IsDisablelingOnEnd: 0

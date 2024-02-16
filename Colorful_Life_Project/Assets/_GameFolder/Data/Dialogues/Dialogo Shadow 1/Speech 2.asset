@@ -15,5 +15,6 @@ MonoBehaviour:
   Speaker: Jogador
   Words: (Where am I? What is going on?)
   NextSpeech: {fileID: 11400000, guid: 342de0d8b72f3a240ac364e5ce3ccf4d, type: 2}
-  GameObjectToChange: Jogador
+  GameObjectToChange: 
   DialogueGameObjectToDisable: []
+  IsDisablelingOnEnd: 0

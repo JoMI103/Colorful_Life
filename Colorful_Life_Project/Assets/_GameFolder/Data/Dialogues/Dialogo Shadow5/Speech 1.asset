@@ -15,4 +15,6 @@ MonoBehaviour:
   Speaker: Shadow
   Words: This place looks like a dead end.
   NextSpeech: {fileID: 11400000, guid: fb486bde7e399914baf3e929741b6129, type: 2}
-  GameObjectToChange: 
+  GameObjectToChange: UIBOX
+  DialogueGameObjectToDisable: []
+  IsDisablelingOnEnd: 0
