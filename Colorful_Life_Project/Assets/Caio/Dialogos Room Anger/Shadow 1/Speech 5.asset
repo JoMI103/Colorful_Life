@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
   m_Name: Speech 5
   m_EditorClassIdentifier: 
-  Speaker: ' '
-  Words: (Hm... How the f*ck am I alive?)
+  Speaker: '  '
+  Words: (This guy is really pissing me off.)
   NextSpeech: {fileID: 11400000, guid: d01fa74ffacda544e96527ecbd1f653f, type: 2}
   GameObjectToChange: UIBOX
   DialogueGameObjectToDisable: []

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
   m_Name: Speech 4
   m_EditorClassIdentifier: 
-  Speaker: 
+  Speaker: Shadow
   Words: It's as confusing as you are.
   NextSpeech: {fileID: 11400000, guid: 0a9d33f4fa329724baf37eb25071ed35, type: 2}
   GameObjectToChange: UIBOX
