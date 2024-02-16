@@ -22,6 +22,11 @@ public class CopyPosition : MonoBehaviour
         Copy();
     }
 
+    public void SetIsCopying (bool isCopying)
+    {
+        IsCopying = isCopying;
+    }
+
     private void Copy ()
     {
         if (IsCopying && TargetTransform != null && TransformToCopy != null)

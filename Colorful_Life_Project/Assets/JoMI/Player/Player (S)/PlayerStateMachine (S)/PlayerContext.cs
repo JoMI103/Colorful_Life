@@ -67,7 +67,6 @@ public class PlayerContext : MonoBehaviour, IHittable
     private IGrabbable _currentIGrabbable;
     private IInteractable _currentIInteractable;
 
-
     private IGrabbable _grabbedObject;
 
 
@@ -382,6 +381,7 @@ public class PlayerInfo
 {
     PlayerContext _ctx;
     Magic _currentMagic;
+    private int _maxHP;
     int _currentHP;
 
     bool _depairHasStarted;
@@ -389,11 +389,13 @@ public class PlayerInfo
     float _currentDespair;
     public int CurrentHP
     {
-        get => _currentHP; set
+        get => _currentHP; 
+        set
         {
             _currentHP = value; 
             SceneInstances.Instance.Uimanager.SetSlideLife(_currentHP);
             if (_currentHP <= 0) _ctx.Killed();
+            if (_currentHP > MaxHP) _currentHP = MaxHP;
             Debug.Log("HP = " + _currentHP);
         }
     }
@@ -422,10 +424,13 @@ public class PlayerInfo
         }
     }
 
+    public int MaxHP { get => _maxHP; set => _maxHP = value; }
+
     public PlayerInfo(PlayerContext ctx,int MaxHp, Magic startMagic, float MaxDespair)
     {
         _depairHasStarted = false;
         _ctx = ctx;
+        _maxHP = MaxHp;
         _currentHP = MaxHp;
         _currentDespair = 0;
         _currentMagic = startMagic;
