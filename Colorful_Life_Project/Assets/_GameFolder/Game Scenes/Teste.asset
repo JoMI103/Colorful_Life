@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
+  m_Name: Teste
+  m_EditorClassIdentifier: 
+  Speaker: Mascara
+  Words: '"I quickly got up and lent her a hand to help her. I apologized because
+    I was on my phone, and helped her pick up her things. She apologized deeply.
+    But I said it was okay. I was distracted and things like that happen. The important
+    thing is that no one is hurt."'
+  NextSpeech: {fileID: 0}
+  GameObjectToChange: UIBOX
+  DialogueGameObjectToDisable: []
+  IsDisablelingOnEnd: 0
