@@ -18,8 +18,4 @@ public class SpellOrb : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        
-    }
 }
