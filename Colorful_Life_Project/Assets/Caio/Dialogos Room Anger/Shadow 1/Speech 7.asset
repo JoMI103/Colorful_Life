@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7c60042e46ded40bc82ba195e25b9d, type: 3}
   m_Name: Speech 7
   m_EditorClassIdentifier: 
-  Speaker: ' '
-  Words: (Hm... How the f*ck am I alive?)
+  Speaker: Shadow
+  Words: Their aggressiveness means that you lost control of them, and they are trying
+    to take control of you.
   NextSpeech: {fileID: 11400000, guid: a65ab7379c5fca24092de13cd8b4556e, type: 2}
   GameObjectToChange: UIBOX
   DialogueGameObjectToDisable: []
