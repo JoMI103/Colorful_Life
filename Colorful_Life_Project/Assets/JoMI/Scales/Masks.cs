@@ -25,9 +25,11 @@ public class Masks : MonoBehaviour, IGrabbable, IMask
 
     public GameObject GrabbableGO => this.gameObject;
 
+    public bool Placed => _maskPlaced;
 
     public void Grab()
     {
+        _maskPlaced = false;
         Debug.Log("Aparece texto da mascara");
     }
 
