@@ -7,7 +7,7 @@ using UnityEngine.ProBuilder;
 
 public class Scales : MonoBehaviour
 {
-   
+    [SerializeField] private GameObject _Door;
 
     [SerializeField] private SphereCollider _leftDeliverArea, _rightDeliverArea;
 
@@ -166,7 +166,7 @@ public class Scales : MonoBehaviour
 
         float height = Mathf.Lerp(7,5, _targetHeightBalance.x);
         float degrees = Mathf.Lerp(-100, 100, _targetHeightBalance.y + 0.5f);
-        _scaleHeight.localPosition =  new Vector3(_pivotPoint.localPosition.x, height,_pivotPoint.localPosition.z);
+        _scaleHeight.localPosition =  new Vector3(_scaleHeight.localPosition.x, height, _scaleHeight.localPosition.z);
         _pivotPoint.localRotation = quaternion.Euler(new Vector3(0, degrees, 0));
     
 
@@ -202,6 +202,7 @@ public class Scales : MonoBehaviour
 
     private void Yay()
     {
+        Destroy(_Door.gameObject);
         Debug.Log("YAAAAAAY");
     }
 
