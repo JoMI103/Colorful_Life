@@ -138,7 +138,7 @@ MonoBehaviour:
     m_Bits: 512
   EnemyMaxHealth: 100
   _enemyHitBox: 0.8
-  _chasingDistance: 5
+  _chasingDistance: 12
   _attackingDistance: 9
   _searchDistance: 1.76
   _preparingAttackTimer: 0.25
