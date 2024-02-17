@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RageEnemyStateMachine : EnemyStateMachine
 {
+    [SerializeField] private Transform model;
+
     protected override void setStates()
     {
         States.Add(EnemyState.Idle, new EnemyIdleState(EnemyState.Idle, this));
@@ -11,5 +13,11 @@ public class RageEnemyStateMachine : EnemyStateMachine
         States.Add(EnemyState.Attacking, new RageEnemyAttackingState(EnemyState.Attacking, this));
         States.Add(EnemyState.Hitted, new EnemyHittedState(EnemyState.Hitted, this));
         _currentState = States[EnemyState.Idle];
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        model.transform.right = (Player.transform.position - transform.position).normalized;
     }
 }
