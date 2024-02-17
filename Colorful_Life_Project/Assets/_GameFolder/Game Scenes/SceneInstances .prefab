@@ -4185,6 +4185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_backgroundMusicsData:
   - Name: Tutorial
+    AudioClip: {fileID: 8300000, guid: 475d8ce8f568dbb48bb6bb815c77089e, type: 3}
+  - Name: Tutorial2
     AudioClip: {fileID: 8300000, guid: 266db8a70228b2841bd8aa50096d909a, type: 3}
   m_backgroundVolume: 0.083
   _playOnStart: 1
@@ -4192,6 +4194,8 @@ MonoBehaviour:
   m_audioClipsData:
   - Name: ShadowPoof
     AudioClip: {fileID: 8300000, guid: fca53c448a5e0e24b85977804abc5bb0, type: 3}
+  - Name: DespairChainsRoar
+    AudioClip: {fileID: 8300000, guid: 2a66c76eaed6b974d92c3727e525fa34, type: 3}
   _GlobalSoundEffectsVolume: 1
   _activeAudioSourceList: []
   AudioGroups:

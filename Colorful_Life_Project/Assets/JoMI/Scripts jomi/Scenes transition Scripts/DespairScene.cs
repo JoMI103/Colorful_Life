@@ -7,6 +7,11 @@ public class DespairScene : MonoBehaviour
 {
     [SerializeField] private float velocity;
 
+    private void Start()
+    {
+        AudioManager.Instance.Play("DespairChainsRoar",gameObject,"Despair");
+    }
+
     // Update is called once per frame
     void Update()
     {
