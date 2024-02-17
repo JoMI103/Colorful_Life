@@ -35,6 +35,8 @@ public class Scales : MonoBehaviour
 
     [SerializeField] Vector2 _targetHeightBalance;
 
+    
+
     void Start()
     {
         _leftMasks = new Masks[nMasks * 2];
@@ -164,7 +166,6 @@ public class Scales : MonoBehaviour
 
         float height = Mathf.Lerp(7,5, _targetHeightBalance.x);
         float degrees = Mathf.Lerp(-100, 100, _targetHeightBalance.y + 0.5f);
-        Debug.Log(degrees);
         _scaleHeight.localPosition =  new Vector3(_pivotPoint.localPosition.x, height,_pivotPoint.localPosition.z);
         _pivotPoint.localRotation = quaternion.Euler(new Vector3(0, degrees, 0));
     
@@ -220,4 +221,5 @@ public class Scales : MonoBehaviour
         updateMasksPos();
     }
 
+   
 }
