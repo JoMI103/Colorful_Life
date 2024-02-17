@@ -27,6 +27,8 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealthBarPercentage(float percentage)
     {
+        foreGroundImage.gameObject.SetActive(true);
+        backGroundImage.gameObject.SetActive(true);
         Debug.Log(percentage);
         foreGroundImage.fillAmount = percentage;
     }
