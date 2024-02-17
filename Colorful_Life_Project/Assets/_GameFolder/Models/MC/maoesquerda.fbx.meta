@@ -3,7 +3,12 @@ guid: 3669b1f945a7fcd4b99dc38ad7dd8d29
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaoTextura.001
+    second: {fileID: 2100000, guid: 51e650852b652484fbd2903b413d8529, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
