@@ -7,5 +7,5 @@ public interface IMask
     public Masks MaskScript { get; }
     public bool MaskPlaced { get; set; }
     public Vector3 TargetPos { get; set; }
-
+    public bool CorrectAnswer { get; }
 }

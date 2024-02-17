@@ -68,6 +68,14 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    public void SetBox(string speech)
+    {
+    
+        this._dialogueText.text = speech;
+
+
+    }
+
     public bool NextDialogue()
     {
         if (_nextSpeech != null)
