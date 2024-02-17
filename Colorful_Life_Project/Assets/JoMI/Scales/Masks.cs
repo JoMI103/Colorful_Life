@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Masks : MonoBehaviour, IGrabbable, IMask
 {
     [SerializeField] private int _maskGroup;
+    [SerializeField] private bool _correctAnswer;
     [SerializeField] private string _maskText;
     [SerializeField] private bool _maskPlaced;
     [SerializeField] private Vector3 _targetPos;
@@ -14,6 +15,7 @@ public class Masks : MonoBehaviour, IGrabbable, IMask
     public Masks MaskScript => this;
     public bool MaskPlaced { get => _maskPlaced; set => _maskPlaced = value; }
     public Vector3 TargetPos { get => _targetPos; set { _targetPos = value; transform.position = _targetPos;  } }
+    public bool CorrectAnswer { get => _correctAnswer; }
 
 
 
@@ -26,6 +28,7 @@ public class Masks : MonoBehaviour, IGrabbable, IMask
     public GameObject GrabbableGO => this.gameObject;
 
     public bool Placed => _maskPlaced;
+
 
     public void Grab()
     {

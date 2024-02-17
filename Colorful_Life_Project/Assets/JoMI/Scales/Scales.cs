@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class Scales : MonoBehaviour
 {
-   //5 a 7 height
-   //-25 a 25 graus
+   
 
     [SerializeField] private SphereCollider _leftDeliverArea, _rightDeliverArea;
 
@@ -48,26 +49,23 @@ public class Scales : MonoBehaviour
         float balance = 0;
 
 
-        for (int i = 0; i < nMasks; i++)
-        {
-            if (!_leftMasks[i] && !_rightMasks[i]) continue;
-            if(_leftMasks[i] && _rightMasks[i])
-            {
-                height += 2;
-                continue;
-            }
 
-            if (_leftMasks[i]) balance--; else balance++;
-            height++;
+
+
+        for (int i = 0; i < nMasks * 2; i++)
+        {
+            if (_leftMasks[i]) height++;
+            if (_rightMasks[i]) height++;
         }
 
-        for (int i = nMasks; i < nMasks * 2; i++)
+
+        for (int i = 0; i < nMasks * 2; i++)
         {
-            if (_leftMasks[i]) height++; balance--;
-            if (_rightMasks[i]) height++; balance++;
+            if (_leftMasks[i]) balance++; 
+            if (_rightMasks[i]) balance--; 
         }
 
-        return new Vector2(height / (nMasks * 2), balance / nMasks + 0.5f);
+        return new Vector2(height / (nMasks * 2), (balance / nMasks / 2));
 
     }
 
@@ -85,18 +83,18 @@ public class Scales : MonoBehaviour
                 if (mask.MaskPlaced) continue;
 
                 int index = mask.GroupMask;
-                if (_leftMasks[index] == null)
-                {
+                if (mask.CorrectAnswer) {
                     _leftMasks[index] = mask.MaskScript;
-                    scalesChanged = true;
                     mask.MaskPlaced = true;
+                    scalesChanged =  true;
                     continue;
                 }
-                if (_leftMasks[nMasks + index] == null)
+                else
                 {
                     _leftMasks[nMasks + index] = mask.MaskScript;
-                    scalesChanged = true;
+                    scalesChanged =  true;
                     mask.MaskPlaced = true;
+          
                 }
             }
         }
@@ -111,20 +109,24 @@ public class Scales : MonoBehaviour
             {
                 if (mask.MaskPlaced) continue;
 
+
                 int index = mask.GroupMask;
-                if (_rightMasks[index] == null)
+                if (mask.CorrectAnswer)
                 {
-                    _rightMasks[index] = mask.MaskScript;
-                    scalesChanged = true;
+                    scalesChanged =  true;
+                    _rightMasks[nMasks + index] = mask.MaskScript;
                     mask.MaskPlaced = true;
                     continue;
                 }
-                if (_rightMasks[nMasks + index ] == null)
+                else
                 {
-                    _rightMasks[nMasks + index] = mask.MaskScript;
-                    scalesChanged = true;
+                    scalesChanged =  true;
+                    _rightMasks[index] = mask.MaskScript;
                     mask.MaskPlaced = true;
+
                 }
+
+            
             }
         }
         return scalesChanged; 
@@ -144,8 +146,9 @@ public class Scales : MonoBehaviour
                 if(_targetHeightBalance.x > 0.99)
                 {
                     Debug.LogError("CARALHO2");
-                    if (_targetHeightBalance.y > 0.49 && _targetHeightBalance.y < 0.51) { Yay(); }
-                    else Ohh();
+                        if(check()) Yay(); else Ohh();
+                    
+                   
                 }
                 
            
@@ -158,11 +161,31 @@ public class Scales : MonoBehaviour
 
     void Update()
     {
-        
+
+        float height = Mathf.Lerp(7,5, _targetHeightBalance.x);
+        float degrees = Mathf.Lerp(-100, 100, _targetHeightBalance.y + 0.5f);
+        Debug.Log(degrees);
+        _scaleHeight.localPosition =  new Vector3(_pivotPoint.localPosition.x, height,_pivotPoint.localPosition.z);
+        _pivotPoint.localRotation = quaternion.Euler(new Vector3(0, degrees, 0));
+    
 
 
         _leftScale.position = _leftPoint.position;
         _rightScale.position = _rightPoint.position;
+    }
+
+    private bool check()
+    {
+  
+
+        for (int i = 0; i < nMasks; i++)
+        {
+            if (!_leftMasks[i]) return false;
+            if (!_rightMasks[i]) return false;
+        }
+
+        return true;
+
     }
 
     private void updateMasksPos()
@@ -187,12 +210,14 @@ public class Scales : MonoBehaviour
         int aux = 0;
         for (int i = 0; i < nMasks * 2; i++)
         {
+            Debug.Log(aux);
             if (_leftMasks[i]) { _leftMasks[i].MaskPlaced = false; _leftMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
-            if (_rightMasks[i]) { _leftMasks[i].MaskPlaced = false; _rightMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
+            if (_rightMasks[i]) { _rightMasks[i].MaskPlaced = false; _rightMasks[i].TargetPos = _descartedScales.position + scalesPosDescart[aux]; aux++; }
         }
 
         _leftMasks = new Masks[nMasks * 2];
         _rightMasks = new Masks[nMasks * 2];
+        updateMasksPos();
     }
 
 }
