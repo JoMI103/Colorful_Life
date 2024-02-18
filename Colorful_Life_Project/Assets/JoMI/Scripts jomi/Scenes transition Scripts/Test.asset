@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   questions:
-  - QuestionText: Sim
-    CorrectAnswer: 1
-  - QuestionText: "N\xE3o"
+  - QuestionText: Will you give up?
     CorrectAnswer: 0
-  - QuestionText: "O venancio \xE9 um ditador?"
-    CorrectAnswer: 1
+  - QuestionText: Is this the end?
+    CorrectAnswer: 0
+  - QuestionText: Do you want to end it all?
+    CorrectAnswer: 0
