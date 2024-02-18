@@ -23,5 +23,5 @@ MonoBehaviour:
   TimeToChargeMaxPunch: 3
   MinMaxPunchDistance: {x: 2, y: 10}
   MinMaxPunchVelocity: {x: 10, y: 30}
-  MinMaxPunchDamage: {x: 1, y: 100}
+  MinMaxPunchDamage: {x: 10, y: 30}
   MinMaxPunchImpactForce: {x: 2, y: 10}

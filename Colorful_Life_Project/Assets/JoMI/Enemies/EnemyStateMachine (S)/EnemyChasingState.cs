@@ -36,7 +36,7 @@ public class EnemyChasingState : BaseState<EnemyState>
 
         
         Vector3 direction =  _ctx.Player.position - _ctx.transform.position;
-        direction.y = 0; direction = direction.normalized;
+        direction.y = 0; direction = direction.normalized * 3;
         _ctx.Rb.velocity = new(direction.x, _ctx.Rb.velocity.y, direction.z);
     }
 

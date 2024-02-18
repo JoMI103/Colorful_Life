@@ -18,6 +18,6 @@ public class RageEnemyStateMachine : EnemyStateMachine
     protected override void Update()
     {
         base.Update();
-        model.transform.right = (Player.transform.position - transform.position).normalized;
+        model.transform.forward = (new Vector3(Player.transform.position.x,transform.position.y, Player.transform.position.z) - transform.position).normalized;
     }
 }

@@ -22,6 +22,7 @@ public class StartDialogue : MonoBehaviour, IInteractable
         if (_firstTime)
         {
             PlayerGO = player;
+            player.GetComponent<PlayerContext>().stop(true);
             SceneInstances.Instance.DialogueManager.StartDialogue(Speech, _dialogueVisualObject, _dialogueText, _dialogueSpeaker);
             
             _firstTime = false;
@@ -29,6 +30,7 @@ public class StartDialogue : MonoBehaviour, IInteractable
         {
             if (!SceneInstances.Instance.DialogueManager.NextDialogue())
             {
+                player.GetComponent<PlayerContext>().stop(false);
                 _firstTime = true;
             }
         }

@@ -53,7 +53,7 @@ public class RageEnemyAttackingState : BaseState<EnemyState>
         if (_attackTimer > _ctx.AttackTimer)
         {
             _preparedAtack = false;
-            _attackTimer = -0.25f;
+            _attackTimer = -1f;
 
 
             _ctx.Rb.AddForce(new Vector3(_preparedDirection.x, 0.5f/*jump force*/, _preparedDirection.z) * _ctx.AttackForce, ForceMode.Impulse);
