@@ -141,13 +141,11 @@ public class Scales : MonoBehaviour
         {
             if (CheckDeliveryZones())
             {
-            Debug.LogError("CARALHO1");
                 _targetHeightBalance = CalcScaleThings();
                 yield return 1;
                 updateMasksPos();
                 if(_targetHeightBalance.x > 0.99)
                 {
-                    Debug.LogError("CARALHO2");
                         if(check()) Yay(); else Ohh();
                     
                    

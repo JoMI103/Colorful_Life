@@ -45,7 +45,7 @@ public class HandsGroupIdleState : InnerBaseState<HandsGroupState>
     {
         if (_ctx.IsAttackPressed) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.Attack], ref _ctx.CurrentHandsGroupStateRef);
 
-        if(Input.GetKeyDown(KeyCode.J) && _ctx.PlayerInfo.CurrentMagic != PlayerInfo.Magic.None) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
+        if(Input.GetKeyDown(KeyCode.Mouse1) && _ctx.PlayerInfo.CurrentMagic != PlayerInfo.Magic.None) return SwitchState(_ctx.HandsGroupStates[HandsGroupState.SpellCast], ref _ctx.CurrentHandsGroupStateRef);
 
         if (_ctx.InteractPressed && !_ctx.RequireNewInteractPress && _ctx.CurrentIGrabbable != null)
         {

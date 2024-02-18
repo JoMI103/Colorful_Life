@@ -9,8 +9,7 @@ using static PlayerInfo;
 
 public class PlayerContext : MonoBehaviour, IHittable
 {
-
-
+    
     #region Variables
 
     [SerializeField] private Camera _mainCamera;

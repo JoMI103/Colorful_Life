@@ -139,7 +139,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 7, y: 0.2, z: 11}
   - {x: 0, y: 0, z: 0}
-  - {x: 0.3, y: -7.6, z: -18.3}
+  - {x: 0.3, y: -6.8, z: -18.3}
   cameraToPLayerOffSet:
   - {x: 0, y: 12, z: -4}
   - {x: 17, y: 24, z: 0}
@@ -2933,6 +2933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3622783042975616739}
   - component: {fileID: 955428069776715035}
+  - component: {fileID: 5160648393751951186}
   m_Layer: 0
   m_Name: Dialogue Manager
   m_TagString: Untagged
@@ -2989,6 +2990,18 @@ MonoBehaviour:
   OnDialogueEndEventWithSpeech:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5160648393751951186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907978753211268609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e37b3d3221cc3459cd42e76bb48c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6096043780884732919
 GameObject:
   m_ObjectHideFlags: 0

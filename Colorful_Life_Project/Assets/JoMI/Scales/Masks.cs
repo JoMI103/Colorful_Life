@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Masks : MonoBehaviour, IGrabbable, IMask
 {
+    [SerializeField] private GameObject _dialogueVisualObject;
+    [SerializeField] private TMPro.TextMeshPro _dialogueText;
+    [SerializeField] private TMPro.TextMeshPro _dialogueSpeaker;
+    [SerializeField] public Speech Speech;
+
     [SerializeField] private int _maskGroup;
     [SerializeField] private bool _correctAnswer;
     [SerializeField] private string _maskText;
@@ -33,11 +38,13 @@ public class Masks : MonoBehaviour, IGrabbable, IMask
     public void Grab()
     {
         _maskPlaced = false;
+        SceneInstances.Instance.DialogueManager.StartDialogue(Speech, _dialogueVisualObject, _dialogueText, _dialogueSpeaker);
         Debug.Log("Aparece texto da mascara");
     }
 
     public void UnGrab()
     {
+        SceneInstances.Instance.DialogueManager.EndDialogue();
         Debug.Log("Desaparece texto da mascara");
     }
 

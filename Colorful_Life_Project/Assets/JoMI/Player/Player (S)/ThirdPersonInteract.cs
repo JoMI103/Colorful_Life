@@ -4,6 +4,7 @@ using UnityEngine;
 namespace jomi.CharController3D {
     public class ThirdPersonInteract : MonoBehaviour
     {
+        [SerializeField] private InteractSpacialUI _interactSpacialUI;
 
         [SerializeField] private PlayerContext _playerContext;
 
@@ -28,6 +29,7 @@ namespace jomi.CharController3D {
 
         void Update()
         {
+            _interactSpacialUI.Show = false;
             IInteractable hitedInteractable = null;
 
             _playerContext.CurrentIGrabbable = null;
@@ -73,12 +75,17 @@ namespace jomi.CharController3D {
 
             if (closestGrabbable != null) {
                 _playerContext.CurrentIGrabbable = closestGrabbable;
-                _coiso.transform.position = closestGrabbable.GrabbableGO.transform.position; 
-            
+                _coiso.transform.position = closestGrabbable.GrabbableGO.transform.position;
+                _interactSpacialUI.Target = closestGrabbable.GrabbableGO.transform;
+                _interactSpacialUI.Show = true;
+
+
             }
             if (closestInteractable != null) {
                 _playerContext.CurrentIInteractable = closestInteractable;
                 _coiso.transform.position = closestInteractable.InteractableGO.transform.position; 
+                _interactSpacialUI.Target = closestInteractable.InteractableGO.transform;
+                _interactSpacialUI.Show = true;
             }
         }
     }
