@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_GameFolder/Game Scenes/CL_Anger.unity
     guid: 908300df0ec350844bdc31bebf6ab3d7
+  - enabled: 1
+    path: Assets/_GameFolder/Game Scenes/CL_Finaly.unity
+    guid: 0c94e2196ceee914aabad696b0a91d2e
   m_configObjects: {}

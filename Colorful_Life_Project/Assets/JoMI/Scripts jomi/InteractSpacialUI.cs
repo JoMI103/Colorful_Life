@@ -23,7 +23,7 @@ public class InteractSpacialUI : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = _mainCamera.WorldToScreenPoint(_target.position + offset);
+        //transform.position = _mainCamera.WorldToScreenPoint(_target.position + offset);
     }
 
 }

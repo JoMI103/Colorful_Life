@@ -14,6 +14,7 @@ public class CopyPosition : MonoBehaviour
 
     private void Awake()
     {
+        TransformToCopy = SceneInstances.Instance.PlayerContext.transform;
         if (TargetTransform == null) TargetTransform = gameObject.transform;
     }
 
